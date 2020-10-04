@@ -3,8 +3,7 @@
    */
   const saveButton = document.getElementById('saveButton');
   /**
-   * To initialize the Editor, create a new instance with configuration 
-object
+   * To initialize the Editor, create a new instance with configuration object
    * @see docs/installation.md for mode details
    */
   var editor = new EditorJS({
@@ -22,8 +21,7 @@ object
         }
       },
       /**
-       * Each Tool is a Plugin. Pass them via 'class' option with 
-necessary settings {@link docs/tools.md}
+       * Each Tool is a Plugin. Pass them via 'class' option with necessary settings {@link docs/tools.md}
        */
       header: {
         class: Header,
@@ -78,23 +76,17 @@ necessary settings {@link docs/tools.md}
       },
     },
     /**
-     * To provide localization of the editor.js you need to provide 
-'i18n' option with 'messages' dictionary:
+     * To provide localization of the editor.js you need to provide 'i18n' option with 'messages' dictionary:
      *
-     * 1. At the 'ui' section of 'messages' there are translations for 
-the internal editor.js UI elements.
+     * 1. At the 'ui' section of 'messages' there are translations for the internal editor.js UI elements.
      * You can create or find/download a dictionary for your language
      *
-     * 2. As long as tools list is a user-specific thing (we do not know 
-which tools you use and under which names),
+     * 2. As long as tools list is a user-specific thing (we do not know which tools you use and under which names),
      * so we can't provide a ready-to-use tool names dictionary.
-     * There is a 'toolNames' section for that reason. Put translations 
-for the names of your tools there.
+     * There is a 'toolNames' section for that reason. Put translations for the names of your tools there.
      *
-     * 3. Also, the UI of the tools you use is also invisible to 
-editor.js core.
-     * To pass translations for specific tools (that supports I18n API), 
-there are 'tools' and 'blockTunes' section.
+     * 3. Also, the UI of the tools you use is also invisible to editor.js core.
+     * To pass translations for specific tools (that supports I18n API), there are 'tools' and 'blockTunes' section.
      * Pass dictionaries for specific plugins through them.
      */
     i18n: {
@@ -103,8 +95,7 @@ there are 'tools' and 'blockTunes' section.
        */
       messages: {
         /**
-         * Other below: translation of different UI components of the 
-editor.js core
+         * Other below: translation of different UI components of the editor.js core
          */
         "ui": {
           "blockTunes": {
