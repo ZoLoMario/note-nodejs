@@ -10,6 +10,9 @@ body {
 
 .ce-example {
   font-size: 16.2px;
+border-radius:8px;
+background:#bbbbbb3d;
+padding: 10px;
 }
 
 .ce-example__header {
