@@ -1,6 +1,6 @@
-<div class="col-md-4 mx-auto">
-  <div class="card text-center">
-    <div class="card-header">
+<div class="col-md-4 mx-auto px-0">
+  <div class="card">
+    <div class="card-header text-center">
       <h3>New Note</h3>
     </div>
     <div class="card-body">
@@ -16,6 +16,7 @@
             Save
           </button>
         </div>
+<div class="ce-example">
 	<div class="ce-example__content _ce-example__content--small">
       <div id="editorjs"></div>
 
@@ -23,6 +24,18 @@
         editor.save()
       </div>
     </div>
+</div>
+
+
+<div class="ce-example__output">
+      <pre class="ce-example__output-content" id="output"></pre>
+      <div class="ce-example__output-footer">
+        <a href="https://codex.so" style="font-weight: bold;">Made by 
+CodeX</a>
+      </div>
+</div>
+
+
 </form>
     </div>    
 </div>
@@ -242,7 +255,7 @@
           {
             type: 'image',
             data: {
-              url: 'assets/codex2x.png',
+              url: '/editor/assets/codex2x.png',
               caption: '',
               stretched: false,
               withBorder: true,

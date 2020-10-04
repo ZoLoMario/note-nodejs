@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
+<meta name="viewport" content="width=device-wwidth, initial-scale=1">
     <title>Notes App</title>
     <!-- BOOTSTRAP - BOOTSWATCH THEME - COSMOS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/materia/bootstrap.min.css">
@@ -9,13 +10,13 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <!-- CUSTOM CSS -->
     <link rel="stylesheet" href="/css/main.css">
-    <link href="editor/assets/demo.css" rel="stylesheet">
-  <script src="editor/ssets/json-preview.js"></script>
+    <link href="/editor/assets/demo.css" rel="stylesheet">
+  <script src="/editor/assets/json-preview.js"></script>
   </head>
   <body>
     {{> navigation }}
 
-    <main class="container p-5">
+    <main class="container pt-5">
       {{> messages }}
       {{> errors }}
       {{{ body }}}
