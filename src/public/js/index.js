@@ -1,6 +1,7 @@
   /**
    * Saving button
    */
+import EditorJs from '@editorjs/editorjs';
   const saveButton = document.getElementById('saveButton');
   /**
    * To initialize the Editor, create a new instance with configuration object
