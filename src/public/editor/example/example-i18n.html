@@ -1,8 +1,72 @@
+<!--
+  This page contains example of editor.js internalization.
+  See <script> section -> i18n property of the configuration object
+
+  \ (•◡•) /
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Editor.js 🤩🧦🤨 example</title>
+  <link href="https://fonts.googleapis.com/css?family=PT+Mono" rel="stylesheet">
+  <link href="assets/demo.css" rel="stylesheet">
+  <script src="assets/json-preview.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+<body>
+<div class="ce-example">
+  <div class="ce-example__header">
+    <a class="ce-example__header-logo" href="https://codex.so/editor">Editor.js 🤩🧦🤨</a>
+
+    <div class="ce-example__header-menu">
+      <a href="https://github.com/editor-js" target="_blank">Plugins</a>
+      <a href="https://editorjs.io/usage" target="_blank">Usage</a>
+      <a href="https://editorjs.io/configuration" target="_blank">Configuration</a>
+      <a href="https://editorjs.io/creating-a-block-tool" target="_blank">API</a>
+    </div>
+  </div>
+  <div class="ce-example__content _ce-example__content--small">
+    <div id="editorjs"></div>
+
+    <div class="ce-example__button" id="saveButton">
+      editor.save()
+    </div>
+  </div>
+  <div class="ce-example__output">
+    <pre class="ce-example__output-content" id="output"></pre>
+
+    <div class="ce-example__output-footer">
+      <a href="https://codex.so" style="font-weight: bold;">Made by CodeX</a>
+    </div>
+  </div>
+</div>
+
+<!-- Load Tools -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script><!-- Header -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script><!-- Image -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script><!-- Delimiter -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script><!-- List -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script><!-- Checklist -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script><!-- Quote -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/code@latest"></script><!-- Code -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script><!-- Embed -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/table@latest"></script><!-- Table -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script><!-- Link -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/warning@latest"></script><!-- Warning -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script><!-- Marker -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest"></script><!-- Inline Code -->
+
+<!-- Load Editor.js's Core -->
+<script src="../dist/editor.js"></script>
+
+<!-- Initialization -->
+<script>
   /**
    * Saving button
    */
-import EditorJs from '@editorjs/editorjs';
   const saveButton = document.getElementById('saveButton');
+
   /**
    * To initialize the Editor, create a new instance with configuration object
    * @see docs/installation.md for mode details
@@ -12,6 +76,7 @@ import EditorJs from '@editorjs/editorjs';
      * Wrapper of Editor
      */
     holder: 'editorjs',
+
     /**
      * Tools list
      */
@@ -32,19 +97,23 @@ import EditorJs from '@editorjs/editorjs';
         },
         shortcut: 'CMD+SHIFT+H'
       },
+
       /**
        * Or pass class directly without any configuration
        */
       image: ImageTool,
+
       list: {
         class: List,
         inlineToolbar: true,
         shortcut: 'CMD+SHIFT+L'
       },
+
       checklist: {
         class: Checklist,
         inlineToolbar: true,
       },
+
       quote: {
         class: Quote,
         inlineToolbar: true,
@@ -54,41 +123,50 @@ import EditorJs from '@editorjs/editorjs';
         },
         shortcut: 'CMD+SHIFT+O'
       },
+
       warning: Warning,
+
       marker: {
-        class: Marker,
+        class:  Marker,
         shortcut: 'CMD+SHIFT+M'
       },
+
       code: {
-        class: CodeTool,
+        class:  CodeTool,
         shortcut: 'CMD+SHIFT+C'
       },
+
       delimiter: Delimiter,
+
       inlineCode: {
         class: InlineCode,
         shortcut: 'CMD+SHIFT+C'
       },
+
       linkTool: LinkTool,
+
       embed: Embed,
+
       table: {
         class: Table,
         inlineToolbar: true,
         shortcut: 'CMD+ALT+T'
       },
+
     },
     /**
      * To provide localization of the editor.js you need to provide 'i18n' option with 'messages' dictionary:
      *
      * 1. At the 'ui' section of 'messages' there are translations for the internal editor.js UI elements.
-     * You can create or find/download a dictionary for your language
+     *   You can create or find/download a dictionary for your language
      *
      * 2. As long as tools list is a user-specific thing (we do not know which tools you use and under which names),
-     * so we can't provide a ready-to-use tool names dictionary.
-     * There is a 'toolNames' section for that reason. Put translations for the names of your tools there.
+     *    so we can't provide a ready-to-use tool names dictionary.
+     *    There is a 'toolNames' section for that reason. Put translations for the names of your tools there.
      *
      * 3. Also, the UI of the tools you use is also invisible to editor.js core.
-     * To pass translations for specific tools (that supports I18n API), there are 'tools' and 'blockTunes' section.
-     * Pass dictionaries for specific plugins through them.
+     *    To pass translations for specific tools (that supports I18n API), there are 'tools' and 'blockTunes' section.
+     *    Pass dictionaries for specific plugins through them.
      */
     i18n: {
       /**
@@ -116,6 +194,7 @@ import EditorJs from '@editorjs/editorjs';
             }
           }
         },
+
         /**
          * Section for translation Tool Names: both block and inline tools
          */
@@ -137,6 +216,7 @@ import EditorJs from '@editorjs/editorjs';
           "InlineCode": "Моноширинный",
           "Image": "Картинка"
         },
+
         /**
          * Section for passing translations to the external tools classes
          */
@@ -149,6 +229,7 @@ import EditorJs from '@editorjs/editorjs';
             "Title": "Название",
             "Message": "Сообщение",
           },
+
           /**
            * Link is the internal Inline Tool
            */
@@ -188,6 +269,7 @@ import EditorJs from '@editorjs/editorjs';
             "Unordered": "Маркированный",
           }
         },
+
         /**
          * Section allows to translate Block Tunes
          */
@@ -210,6 +292,7 @@ import EditorJs from '@editorjs/editorjs';
         },
       }
     },
+
     /**
      * Initial Editor data
      */
@@ -318,6 +401,7 @@ import EditorJs from '@editorjs/editorjs';
       saveButton.click();
     },
   });
+
   /**
    * Saving example
    */
@@ -326,3 +410,6 @@ import EditorJs from '@editorjs/editorjs';
       cPreview.show(savedData, document.getElementById("output"));
     });
   });
+</script>
+</body>
+</html>
