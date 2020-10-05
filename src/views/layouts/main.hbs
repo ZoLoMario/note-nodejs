@@ -19,15 +19,9 @@
     <main class="container pt-5">
       {{> messages }}
       {{> errors }}
-      {{{ body }}}
-    </main>
-
-    <!-- Scritps -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-	
-	 <!-- Load Tools -->
+	  
+	    <!-- load script -->
+	  	 <!-- Load Tools -->
 
   <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script><!-- Header -->
   <script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script><!-- Simple image -->
@@ -62,8 +56,7 @@
   <script>
 
 <!-- Cấu hình -->
-    var editor = new EditorJS({
-      tools: {
+var tool = {
 		 underline: Underline,
 		 raw: RawTool,
 		 alert: Alert,
@@ -128,10 +121,10 @@
           inlineToolbar: true,
           shortcut: 'CMD+ALT+T'
         },
-      },
+      };
 	  
-	  <!-- Phần dịch chức năng -->
-	  i18n: {
+	  	  <!-- Phần dịch chức năng -->
+	var il8n = {
       messages: {
         "ui": {
           "blockTunes": {
@@ -219,52 +212,23 @@
           }
         },
       }
-    },
-	<!-- Dữ liệu -->
-      data: {}
-    });
-	
-	editor.configuration.holder = "editorjs4";
-	editor.configuration.onReady = function(){
-        saveButton.click();
+    };
+	function editoronReady(){
 		new DragDrop(editor);
 		new Undo({ editor });
-      };
-	editor.configuration.onChange = function(){
-        console.log('something changed');
-      };
-    /**
-     * Saving example
-     */
-	const saveButton = document.getElementById('saveButton');
-	 
-    saveButton.addEventListener('click', function () {
-      editor.save().then((savedData) => {
-        cPreview.show(savedData, document.getElementById("output"));
-		var title = $('input[name="title"]').val();
-        $.ajax({
-              type : 'POST', //Sử dụng kiểu gửi dữ liệu POST
-              url : '/notes/new-note', //gửi dữ liệu sang trang data.php
-              data : {"title": title, "description":JSON.stringify(savedData)},//dữ liệu sẽ được gửi
-              success : function(data)  // Hàm thực thi khi nhận dữ liệu được từ server
-                        { 
-                           if(data == 'false') 
-                           {
-                             alert('Không có người dùng');
-                           }else{
-                             console.log('Gửi thành công' + JSON.stringify(savedData));
-							 console.log('Gửi thành công' + title);
-                           }
-                        }
-              });
-      });
-    });
+     };
 	
-	<!-- thêm code gửi dữ liệu khi nhấn nút -->
+	 </script> 
+	  <!-- load script -->
+	  
+	  
+      {{{ body }}}
+    </main>
 
+    <!-- Scritps -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 	
-  </script>
-
-
   </body>
 </html>

@@ -3,36 +3,71 @@
     <div class="card-header text-center">
       <h3>New Note</h3>
     </div>
-    <div class="card-body">
-      <form action="/notes/new-note" method="POST">
-        <div class="form-group">
-          <input type="text" name="title" class="form-control" placeholder="Title" autofocus/>
-        </div>
-        <div class="form-group">
-          <div class="ce-example">
-	<div class="ce-example__content _ce-example__content--small">
-      <div id="editorjs"  name="description"></div>
-    </div>
+		<div class="card-body">
+		  <form action="/notes/new-note" method="POST">
+			<div class="form-group">
+			  <input type="text" name="title" class="form-control" placeholder="Title" autofocus/>
+			</div>
+			<div class="form-group">
+				<div class="ce-example">
+					<div class="ce-example__content _ce-example__content--small">
+						<div id="editornote"  name="description" style="padding-bottom: 200px;"></div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+			  <button id="saveButton" class="btn btn-primary btn-block" type="submit" id="saveButton">
+				Save
+			  </button>
+			</div>
+			<div class="ce-example__output">
+				  <pre class="ce-example__output-content" id="output"></pre>
+				  <div class="ce-example__output-footer">
+					<a href="http://wotech.vn" style="font-weight: bold;">Made by DangKhoi</a>
+				  </div>
+			</div>
+		</form>
+		</div>    
+  </div>
 </div>
-        </div>
-        <div class="form-group">
-          <div id="saveButton" class="btn btn-primary btn-block" type="submit" id="saveButton">
-            Save
-          </div>
-        </div>
-
-
-
-<div class="ce-example__output">
-      <pre class="ce-example__output-content" id="output"></pre>
-      <div class="ce-example__output-footer">
-        <a href="http://wotech.vn" style="font-weight: bold;">Made by 
-DangKhoi</a>
-      </div>
-</div>
-
-</form>
-    </div>    
-</div>
-</div>
+ <script>
+ 	const saveButton = document.getElementById('saveButton');
+    var editor = new EditorJS({
+		holderId: 'editornote',
+		tools: tool,
+		i18n: il8n,
+		data: {},
+		onReady: function(){
+			editoronReady();
+			//saveButton.click();
+		},
+      onChange: function() {
+        console.log('something changed');
+      }
+	});
+</script>
+<script>
+	<!-- thêm code gửi dữ liệu khi nhấn nút -->	 
+    saveButton.addEventListener('click', function () {
+      editor.save().then((savedData) => {
+        cPreview.show(savedData, document.getElementById("output"));
+		var title = $('input[name="title"]').val();
+        $.ajax({
+              type : 'POST', //Sử dụng kiểu gửi dữ liệu POST
+              url : '/notes/new-note', //gửi dữ liệu sang trang data.php
+              data : {"title": title, "description":JSON.stringify(savedData)},//dữ liệu sẽ được gửi
+              success : function(data)  // Hàm thực thi khi nhận dữ liệu được từ server
+                        { 
+                           if(data == 'false') 
+                           {
+                             alert('Không có người dùng');
+                           }else{
+                             console.log('Gửi thành công' + JSON.stringify(savedData));
+							 console.log('Gửi thành công' + title);
+                           }
+                        }
+              });
+      });
+    });
+  </script>
 
