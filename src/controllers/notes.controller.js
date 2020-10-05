@@ -9,6 +9,8 @@ notesCtrl.renderNoteForm = (req, res) => {
 
 notesCtrl.createNewNote = async (req, res) => {
   const { title, description } = req.body;
+  console.log("title : " + title);
+   console.log("description : " + description);
   const errors = [];
   if (!title) {
     errors.push({ text: "Please Write a Title." });

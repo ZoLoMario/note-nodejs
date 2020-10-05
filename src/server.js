@@ -16,6 +16,11 @@ const app = express();
 require("./config/passport");
 createAdminUser();
 
+// thêm thư viện phân tích body dạng json
+const bodyParse = require('body-parser');
+app.use(bodyParse.json());
+app.use(bodyParse.urlencoded({ extended: false }))
+
 // settings
 app.set("port", process.env.PORT || 4000);
 app.set("views", path.join(__dirname, "views"));
@@ -32,7 +37,6 @@ app.set("view engine", ".hbs");
 
 // middlewares
 app.use(morgan("dev"));
-app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
 const MongoStore = connectMongo(session);
 app.use(
