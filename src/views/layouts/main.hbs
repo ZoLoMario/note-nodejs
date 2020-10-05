@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-wwidth, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Notes App</title>
     <!-- BOOTSTRAP - BOOTSWATCH THEME - COSMOS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/materia/bootstrap.min.css">
@@ -23,8 +23,248 @@
     </main>
 
     <!-- Scritps -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	
+	 <!-- Load Tools -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script><!-- Header -->
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script><!-- Simple image -->
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script><!-- Delimiter -->
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script><!-- List -->
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script><!-- Checklist -->
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script><!-- Quote -->
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/code@latest"></script><!-- Code -->
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script><!-- Embed -->
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/table@latest"></script><!-- Table -->
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script><!-- Link -->
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/warning@latest"></script><!-- Warning -->
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script><!-- Marker -->
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest"></script><!-- Inline Code --> 
+ <!-- Tool tự thêm  -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/underline@latest"></script><!-- Underline -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/raw@latest"></script><!-- raw HTML code -->
+<script src="https://cdn.jsdelivr.net/npm/editorjs-alert@latest"></script><!-- Alert messages -->
+<script src="https://cdn.jsdelivr.net/npm/editorjs-header-with-anchor@latest"></script><!-- Heading anchor -->
+<script src="https://cdn.jsdelivr.net/npm/editorjs-paragraph-with-alignment@latest"></script><!-- Tool alignment -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/attaches@latest"></script><!-- Attaches Tool --> 
+<script src="https://cdn.jsdelivr.net/npm/editorjs-github-gist-plugin@latest"></script><!-- Github Gist --> 
+<script src="https://cdn.jsdelivr.net/npm/editorjs-social-post-plugin@latest"></script><!-- Social Post --> 
+<script src="https://cdn.jsdelivr.net/npm/editorjs-drag-drop@latest"></script><!-- Drag/Drop --> 
+<script src="https://cdn.jsdelivr.net/npm/editorjs-undo@latest"></script><!-- Undo --> 
+
+  <!-- Load Editor.js's Core -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+
+ 
+  <!-- Initialization -->
+  <script>
+
+<!-- Cấu hình -->
+    var editor = new EditorJS({
+      tools: {
+		 underline: Underline,
+		 raw: RawTool,
+		 alert: Alert,
+		 attaches: {
+		  class: AttachesTool,
+		  config: {
+			endpoint: 'http://localhost:8008/uploadFile'
+		  }
+		},
+		gist: Gist,
+		socialPost: SocialPost,
+		paragraph: {
+        config: {
+          placeholder: "Enter something"
+        }
+      },
+        header: {
+          class: Header,
+          inlineToolbar: ['link'],
+          config: {
+            placeholder: 'Header'
+          },
+          shortcut: 'CMD+SHIFT+H'
+        },
+        image: SimpleImage,
+        list: {
+          class: List,
+          inlineToolbar: true,
+          shortcut: 'CMD+SHIFT+L'
+        },
+        checklist: {
+          class: Checklist,
+          inlineToolbar: true,
+        },
+        quote: {
+          class: Quote,
+          inlineToolbar: true,
+          config: {
+            quotePlaceholder: 'Enter a quote',
+            captionPlaceholder: 'Quote\'s author',
+          },
+          shortcut: 'CMD+SHIFT+O'
+        },
+        warning: Warning,
+        marker: {
+          class:  Marker,
+          shortcut: 'CMD+SHIFT+M'
+        },
+        code: {
+          class:  CodeTool,
+          shortcut: 'CMD+SHIFT+C'
+        },
+        delimiter: Delimiter,
+        inlineCode: {
+          class: InlineCode,
+          shortcut: 'CMD+SHIFT+C'
+        },
+        linkTool: LinkTool,
+        embed: Embed,
+        table: {
+          class: Table,
+          inlineToolbar: true,
+          shortcut: 'CMD+ALT+T'
+        },
+      },
+	  
+	  <!-- Phần dịch chức năng -->
+	  i18n: {
+      messages: {
+        "ui": {
+          "blockTunes": {
+            "toggler": {
+              "Click to tune": "Bấm để điều chỉnh",
+              "or drag to move": "hoặc kéo để di chuyển"
+            },
+          },
+          "inlineToolbar": {
+            "converter": {
+              "Convert to": "Chuyển đổi sang"
+            }
+          },
+          "toolbar": {
+            "toolbox": {
+              "Add": "Thêm"
+            }
+          }
+        },
+        "toolNames": {
+          "Text": "Параграф",
+          "Heading": "Заголовок",
+          "List": "Danh sách",
+          "Warning": "Примечание",
+          "Checklist": "Чеклист",
+          "Quote": "Цитата",
+          "Code": "Код",
+          "Delimiter": "Разделитель",
+          "Raw HTML": "HTML-фрагмент",
+          "Table": "Bảng",
+          "Link": "Ссылка",
+          "Marker": "Маркер",
+          "Bold": "Полужирный",
+          "Italic": "Курсив",
+          "InlineCode": "Моноширинный",
+          "Image": "Ảnh"
+        },
+        "tools": {
+          "warning": {
+            "Title": "Название",
+            "Message": "Сообщение",
+          },
+          "link": {
+            "Add a link": "Вставьте ссылку"
+          },
+          "stub": {
+            'The block can not be displayed correctly.': 'Блок не может быть отображен'
+          },
+          "image": {
+            "Caption": "Подпись",
+            "Select an Image": "Выберите файл",
+            "With border": "Добавить рамку",
+            "Stretch image": "Растянуть",
+            "With background": "Добавить подложку",
+          },
+          "code": {
+            "Enter a code": "Код",
+          },
+          "linkTool": {
+            "Link": "Ссылка",
+            "Couldn't fetch the link data": "Не удалось получить данные",
+            "Couldn't get this link data, try the other one": "Не удалось получить данные по ссылке, попробуйте другую",
+            "Wrong response format from the server": "Неполадки на сервере",
+          },
+          "header": {
+            "Header": "Заголовок",
+          },
+          "paragraph": {
+            "Enter something": "Введите текст"
+          },
+          "list": {
+            "Ordered": "Нумерованный",
+            "Unordered": "Маркированный",
+          }
+        },
+        "blockTunes": {
+          "delete": {
+            "Delete": "Удалить"
+          },
+          "moveUp": {
+            "Move up": "Переместить вверх"
+          },
+          "moveDown": {
+            "Move down": "Переместить вниз"
+          }
+        },
+      }
+    },
+	<!-- Dữ liệu -->
+      data: {}
+    });
+	
+	editor.configuration.holder = "editorjs4";
+	editor.configuration.onReady = function(){
+        saveButton.click();
+		new DragDrop(editor);
+		new Undo({ editor });
+      };
+	editor.configuration.onChange = function(){
+        console.log('something changed');
+      };
+    /**
+     * Saving example
+     */
+	const saveButton = document.getElementById('saveButton');
+	 
+    saveButton.addEventListener('click', function () {
+      editor.save().then((savedData) => {
+        cPreview.show(savedData, document.getElementById("output"));
+		var title = $('input[name="title"]').val();
+        $.ajax({
+              type : 'POST', //Sử dụng kiểu gửi dữ liệu POST
+              url : '/notes/new-note', //gửi dữ liệu sang trang data.php
+              data : {"title": title, "description":JSON.stringify(savedData)},//dữ liệu sẽ được gửi
+              success : function(data)  // Hàm thực thi khi nhận dữ liệu được từ server
+                        { 
+                           if(data == 'false') 
+                           {
+                             alert('Không có người dùng');
+                           }else{
+                             console.log('Gửi thành công' + JSON.stringify(savedData));
+							 console.log('Gửi thành công' + title);
+                           }
+                        }
+              });
+      });
+    });
+	
+	<!-- thêm code gửi dữ liệu khi nhấn nút -->
+
+	
+  </script>
+
+
   </body>
 </html>
