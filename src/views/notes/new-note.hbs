@@ -16,6 +16,11 @@
 				</div>
 			</div>
 			<div class="form-group">
+			  <input id="tagInput" type="text" name="tag" class="form-control" placeholder="Tag"/>
+			</div>
+			<div id="taglist">
+			</div>
+			<div class="form-group">
 			  <button id="saveButton" class="btn btn-primary btn-block" type="submit" id="saveButton">
 				Save
 			  </button>
@@ -30,6 +35,15 @@
 		</div>    
   </div>
 </div>
+<script>
+	<!-- Xử lí tag Khi nhập liệu -->
+	const tagInput = document.getElementById('tagInput');
+	tagInput.onkeypress = function(oPEvt) {
+    if (oEvent.charCode) {
+      console.log('hihoha');
+    };
+
+</script>
  <script>
  	const saveButton = document.getElementById('saveButton');
     var editor = new EditorJS({
