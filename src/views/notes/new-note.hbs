@@ -38,11 +38,24 @@
 <script>
 	<!-- Xử lí tag Khi nhập liệu -->
 	const tagInput = document.getElementById('tagInput');
-	tagInput.onkeypress = function(oPEvt) {
-    if (oEvent.charCode) {
+	tagInput.onkeydown = function(Event) {
+    if (Event.keyCode == 32 ) {
       console.log('hihoha');
-    };
-
+    }};
+	tagInput.onkeydown = function(oaEvent) {
+      console.log(oaEvent.keyCode);
+   };
+tagInput.addEventListener("keyup", event => {
+    if(event.key !== "A") console.log("enterere"); // Use `.key` instead.
+    console.log(event.key);
+console.log(event.which);	// Things you want to do.
+    event.preventDefault(); // No need to `return false;`.
+});
+tagInput.onkeypress=function(e){
+    if(e.keyCode==66){
+       console.log("cgfds");
+    }
+};
 </script>
  <script>
  	const saveButton = document.getElementById('saveButton');
