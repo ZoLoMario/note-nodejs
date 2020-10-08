@@ -16,9 +16,20 @@
 				</div>
 			</div>
 			<div class="form-group">
-			  <input id="tagInput" type="text" name="tag" class="form-control" placeholder="Tag"/>
+			 <div class="input-group custom-search">
+   <input id="tagadd" type="text" class="form-control custom-search-input" placeholder="Tag can them">
+   <div id="tagbutton" class="btn btn-outline-primary custom-search-botton" type="botton">Thêm</div>  
+ </div>
 			</div>
-			<div id="taglist">
+			<div class="form-group">
+			<div class="post" id="taglist">
+			<ul class="tags">
+        	<li>
+				<a href="#">tag<span href="#">X</span></a>
+			</li>
+            <li><a href="#">tag name<span href="#">X</span></a></li>
+        </ul> 
+			</div>
 			</div>
 			<div class="form-group">
 			  <button id="saveButton" class="btn btn-primary btn-block" type="submit" id="saveButton">
@@ -36,8 +47,34 @@
   </div>
 </div>
 <script>
+	<!-- thêm code xử lí tag -->	
+	var taglist = [];
+	console.log("tao taglist");	
+    document.getElementById('tagbutton').addEventListener('click', function () {
+		var tag = $('#tagadd').val();
+		$('.tags').append('<li><a href="#">' + tag + '<span href="#">X</span></a></li>');
+		console.log(taglist);
+		taglist.push(tag);
+		console.log("them taglist");
+        $.ajax({
+              type : 'POST', //Sử dụng kiểu gửi dữ liệu POST
+              url : '/tags/create-tag', //gửi dữ liệu sang trang data.php
+              data : {"tagadd": tag},//dữ liệu sẽ được gửi
+              success : function(data)  // Hàm thực thi khi nhận dữ liệu được từ server
+                        { 
+                           if(data == 'false') 
+                           {
+                             alert('Không lỗi gửi tag');
+                           }else{
+							 console.log('Gửi thành công' + data);
+                           }
+                        }
+              });
+      });
+  </script>
+<script>
 	<!-- Xử lí tag Khi nhập liệu -->
-	const tagInput = document.getElementById('tagInput');
+	const tagInput = document.getElementById('tagadd');
 	tagInput.onkeydown = function(Event) {
     if (Event.keyCode == 32 ) {
       console.log('hihoha');
@@ -82,7 +119,7 @@ tagInput.onkeypress=function(e){
         $.ajax({
               type : 'POST', //Sử dụng kiểu gửi dữ liệu POST
               url : '/notes/new-note', //gửi dữ liệu sang trang data.php
-              data : {"title": title, "description":JSON.stringify(savedData)},//dữ liệu sẽ được gửi
+              data : {"title": title, "description":JSON.stringify(savedData),"tag":taglist},//dữ liệu sẽ được gửi
               success : function(data)  // Hàm thực thi khi nhận dữ liệu được từ server
                         { 
                            if(data == 'false') 
