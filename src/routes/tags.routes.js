@@ -4,7 +4,7 @@ const router = express.Router();
 // Controller
 const {
   createTag,
-  findTag,
+ // findTag,
   deleteTag,
   renderTags
 } = require("../controllers/tags.controller");

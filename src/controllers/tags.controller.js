@@ -5,18 +5,15 @@ const Tag = require("../models/Tag");
 
 tagsCtrl.createTag = async (req, res) => {
   const tagadd = req.body.tagadd;
-  console.log("create tag : " + tagadd);
   const errors = [];
   if (!tagadd) {
     errors.push({ text: "Please Write a Tag." });
   };
   if (errors.length > 0) {
-    res.send( {
-      errors,
-      tagadd
-    });
+    res.send( errors );
   } else {
-    const newTag = new Tag({tagadd});
+    const newTag = new Tag();
+	newTag.tag = tagadd
     await newTag.save();
     req.flash("success_msg", "Tag Added Successfully");
     res.send("Thêm Tag thành công");
