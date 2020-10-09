@@ -5,7 +5,7 @@ const TagSchema = new Schema(
     tag: {
       type: String,
       required: true
-    },
+    }
   },
   {
     timestamps: true
