@@ -16,8 +16,7 @@ tagsCtrl.createTag = async (req, res) => {
       tagadd
     });
   } else {
-    const newTag = new Tag(tagadd);
-    newTag.user = req.user.id;
+    const newTag = new Tag({tagadd});
     await newTag.save();
     req.flash("success_msg", "Tag Added Successfully");
     res.send("Thêm Tag thành công");
