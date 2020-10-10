@@ -3,7 +3,8 @@
 let mongo = {
   // Setting the connection string will only give access to that database
   // to see more databases you need to set mongodb.admin to true or add databases to the mongodb.auth list
-  connectionString: process.env.ME_CONFIG_MONGODB_SERVER ? '' : process.env.ME_CONFIG_MONGODB_URL,
+  connectionString:'mongodb://root:khoi1312@localhost:27017/admin' ,
+  //process.env.ME_CONFIG_MONGODB_SERVER ? '' : process.env.ME_CONFIG_MONGODB_URL
 };
 
 // Accesing Bluemix variable to get MongoDB info
@@ -17,7 +18,7 @@ if (process.env.VCAP_SERVICES) {
 
 const basicAuthUsername = 'ME_CONFIG_BASICAUTH_USERNAME';
 const basicAuthPassword = 'ME_CONFIG_BASICAUTH_PASSWORD';
-const adminUsername = 'ME_CONFIG_MONGODB_ADMINUSERNAME';
+const adminUsername =  'ME_CONFIG_MONGODB_ADMINUSERNAME';
 const adminPassword = 'ME_CONFIG_MONGODB_ADMINPASSWORD';
 const dbAuthUsername = 'ME_CONFIG_MONGODB_AUTH_USERNAME';
 const dbAuthPassword = 'ME_CONFIG_MONGODB_AUTH_PASSWORD';
@@ -85,7 +86,7 @@ const sslCAFromEnv = getBinaryFileEnv(sslCA);
 module.exports = {
   mongodb: {
     // if a connection string options such as server/port/etc are ignored
-    connectionString: mongo.connectionString || getConnectionStringFromEnvVariables(),
+   connectionString: mongo.connectionString || getConnectionStringFromEnvVariables(),
 
     connectionOptions: {
       // ssl: connect to the server using secure SSL
@@ -107,9 +108,10 @@ module.exports = {
     // set admin to true if you want to turn on admin features
     // if admin is true, the auth list below will be ignored
     // if admin is true, you will need to enter an admin username/password below (if it is needed)
-    admin: process.env.ME_CONFIG_MONGODB_ENABLE_ADMIN ?
-      process.env.ME_CONFIG_MONGODB_ENABLE_ADMIN.toLowerCase() === 'true' :
-      false,
+    admin: true, 
+//process.env.ME_CONFIG_MONGODB_ENABLE_ADMIN ?
+  //    process.env.ME_CONFIG_MONGODB_ENABLE_ADMIN.toLowerCase() === 'true' :
+    //  false,
 
 
     // whitelist: hide all databases except the ones in this list  (empty list for no whitelist)
@@ -124,7 +126,7 @@ module.exports = {
     baseUrl: process.env.ME_CONFIG_SITE_BASEURL || '/',
     cookieKeyName: 'mongo-express',
     cookieSecret: process.env.ME_CONFIG_SITE_COOKIESECRET || 'cookiesecret',
-    host: process.env.VCAP_APP_HOST || 'localhost',
+    host: '192.168.1.9' // process.env.VCAP_APP_HOST || ' 'localhost',
     port: process.env.VCAP_APP_PORT || 8081,
     requestSizeLimit: process.env.ME_CONFIG_REQUEST_SIZE || '50mb',
     sessionSecret: process.env.ME_CONFIG_SITE_SESSIONSECRET || 'sessionsecret',
@@ -135,12 +137,12 @@ module.exports = {
 
   // set useBasicAuth to true if you want to authenticate mongo-express logins
   // if admin is false, the basicAuthInfo list below will be ignored
-  // this will be true unless ME_CONFIG_BASICAUTH_USERNAME is set and is the empty string
+  // this will be true unless ME_CONFIG_BruASICAUTH_USERNAME is set and is the empty string
   useBasicAuth: getFileEnv(basicAuthUsername) !== '',
 
   basicAuth: {
     username: getFileEnv(basicAuthUsername) || 'root',
-    password: getFileEnv(basicAuthPassword) || 'Khoi1312@',
+    password: getFileEnv(basicAuthPassword) || 'khoi1312',
   },
 
   options: {
