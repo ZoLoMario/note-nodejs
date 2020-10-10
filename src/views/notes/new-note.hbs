@@ -49,27 +49,38 @@
 <script>
 	<!-- thêm code xử lí tag -->	
 	var taglist = [];
-	console.log("tao taglist");	
+		
     document.getElementById('tagbutton').addEventListener('click', function () {
-		var tag = $('#tagadd').val();
-		$('.tags').append('<li><a href="#">' + tag + '<span href="#">X</span></a></li>');
 		console.log(taglist);
-		taglist.push(tag);
-		console.log("them taglist");
-        $.ajax({
+		var tag = $('#tagadd').val();
+		const refindTaglist = taglist.find(obj => {
+				return obj.tag == tag
+			});
+		console.log("tao taglist");
+		if(refindTaglist === undefined ) {
+		$.ajax({
               type : 'POST', //Sử dụng kiểu gửi dữ liệu POST
               url : '/tags/create-tag', //gửi dữ liệu sang trang data.php
               data : {"tagadd": tag},//dữ liệu sẽ được gửi
               success : function(data)  // Hàm thực thi khi nhận dữ liệu được từ server
                         { 
-                           if(data == 'false') 
+                           if(data.status == 'already') 
                            {
-                             alert('Không lỗi gửi tag');
+                             console.log("Đã tồn tại trên server " +  data.content.tag);
                            }else{
-							 console.log('Gửi thành công' + data);
-                           }
+								console.log('Tạo mới' + data);	
+                           };
+						   $('.tags').append('<li><a href="#">' + data.content.tag + '<span href="#">X</span></a></li>');
+						   		console.log(taglist);
+								console.log(data.content)
+								taglist.push(data.content);
+								console.log("them taglist");
+								console.log(taglist);
                         }
               });
+		}else{
+				console.log('đã thêm ' + tag + ' khong them lai');	
+            };
       });
   </script>
 <script>
