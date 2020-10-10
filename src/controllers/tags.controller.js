@@ -12,11 +12,27 @@ tagsCtrl.createTag = async (req, res) => {
   if (errors.length > 0) {
     res.send( errors );
   } else {
-    const newTag = new Tag();
-	newTag.tag = tagadd
-    await newTag.save();
-    req.flash("success_msg", "Tag Added Successfully");
-    res.send("Thêm Tag thành công");
+	  const nameTag = await Tag.findOne({ tag: tagadd });
+    if (nameTag) {
+      req.flash("error_msg", "The Tag is already in use." + nameTag.tag);
+	  const sendTag = {
+		  status:'already',
+		  content: nameTag
+	  };
+	  console.log(sendTag);
+      res.send(sendTag);
+    } else {
+		const newTag = new Tag();
+		newTag.tag = tagadd;
+		const newTags = await newTag.save();
+		const sendTag = {
+		  status:'create',
+		  content: newTags
+		};
+		console.log(newTags);
+		req.flash("success_msg", "Tag Added Successfully");
+		res.send(newTags);
+    }
   }
 };
 
