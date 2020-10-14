@@ -10,6 +10,7 @@ const NoteSchema = new Schema(
       type: String,
       required: true
     },
+    tag: [String],
     user: {
       type: String,
       required: true
