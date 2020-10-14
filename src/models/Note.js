@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const Tag = require("./Tag");
 
 const NoteSchema = new Schema(
   {
@@ -10,7 +11,7 @@ const NoteSchema = new Schema(
       type: String,
       required: true
     },
-    tag: [String],
+    tag: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
     user: {
       type: String,
       required: true
