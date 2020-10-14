@@ -36,7 +36,8 @@ notesCtrl.createNewNote = async (req, res) => {
 notesCtrl.renderNotes = async (req, res) => {
   const notes = await Note.find({ user: req.user.id })
     .sort({ date: "desc" })
-    .lean();
+    .lean()
+	.populate('tag');
   res.render("notes/all-notes", { notes });
 };
 
