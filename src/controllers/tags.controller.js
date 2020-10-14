@@ -31,7 +31,7 @@ tagsCtrl.createTag = async (req, res) => {
 		};
 		console.log(newTags);
 		req.flash("success_msg", "Tag Added Successfully");
-		res.send(newTags);
+		res.send(sendTag);
     }
   }
 };
