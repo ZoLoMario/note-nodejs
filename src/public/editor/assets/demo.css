@@ -206,6 +206,7 @@ padding: 10px;
 	margin-bottom: 7px;
 	}	
 .tags a{
+	display:inline-flex;
 	margin-left:20px;
 	padding:0 5px 0 12px;
 	background:#0089e0;

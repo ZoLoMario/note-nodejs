@@ -49,6 +49,7 @@
 <script>
 	<!-- thêm code xử lí tag -->	
 	var taglist = [];
+	var taglistid = [];
 		
     document.getElementById('tagbutton').addEventListener('click', function () {
 		console.log(taglist);
@@ -73,8 +74,8 @@
 						   		console.log(taglist);
 								console.log(data.content)
 								taglist.push(data.content);
-								console.log("them taglist");
-								console.log(taglist);
+								taglistid.push(data.content._id);
+								console.log('taglistid ' + taglistid);
                         }
               });
 		}else{
@@ -129,7 +130,7 @@ tagInput.onkeypress=function(e){
         $.ajax({
               type : 'POST', //Sử dụng kiểu gửi dữ liệu POST
               url : '/notes/new-note', //gửi dữ liệu sang trang data.php
-              data : {"title": title, "description":JSON.stringify(savedData),"tag":taglist},//dữ liệu sẽ được gửi
+              data : {"title": title, "description":JSON.stringify(savedData),"tag":taglistid},//dữ liệu sẽ được gửi
               success : function(data)  // Hàm thực thi khi nhận dữ liệu được từ server
                         { 
                            if(data == 'false') 
