@@ -188,14 +188,13 @@ padding: 10px;
 	border-radius:5px;
 	width:auto;
 	margin-top:0px;
-  text-align:center;
 	}
 .tags{
-	float: left;
 	display: inline-block;
 	padding:0;
 	position:relative;
 	list-style:none;
+	margin-bottom: 0!important;
 	}	
 .tags li, .tags a{
 	float:left;
