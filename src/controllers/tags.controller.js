@@ -19,21 +19,31 @@ tagsCtrl.createTag = async (req, res) => {
 		  status:'already',
 		  content: nameTag
 	  };
-	  console.log(sendTag);
       res.send(sendTag);
     } else {
 		const newTag = new Tag();
+		console.log("await");
 		newTag.tag = tagadd;
 		const newTags = await newTag.save();
 		const sendTag = {
 		  status:'create',
 		  content: newTags
 		};
-		console.log(newTags);
 		req.flash("success_msg", "Tag Added Successfully");
 		res.send(sendTag);
     }
   }
+};
+
+tagsCtrl.updateNoteTag = (note) => {
+	note.tag.forEach(async (idtag) => {
+		await Tag.findById(idtag, function (err, doc) {
+			  if (err) { console.log(err) };
+			  doc.note.push(note._id);
+			  doc.save();
+			});
+			console.log("gan Note voi Tag update thành công");
+		});
 };
 
 tagsCtrl.renderTags = async (req, res) => {
