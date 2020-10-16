@@ -7,7 +7,7 @@ const TagSchema = new Schema(
       type: String,
       required: true
     },
-	tag: [{ type: Schema.Types.ObjectId, ref: 'Note' }]
+	note: [{ type: Schema.Types.ObjectId, ref: 'Note' }]
   },
   {
     timestamps: true

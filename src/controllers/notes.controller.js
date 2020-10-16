@@ -2,6 +2,12 @@ const notesCtrl = {};
 
 // Models
 const Note = require("../models/Note");
+const {
+  createTag,
+  updateNoteTag,
+  renderTags,
+  deleteTag
+} = require("./tags.controller");
 
 notesCtrl.renderNoteForm = (req, res) => {
   res.render("notes/new-note");
@@ -26,9 +32,8 @@ notesCtrl.createNewNote = async (req, res) => {
   } else {
     const newNote = new Note({ title, description, tag });
     newNote.user = req.user.id;
-	console.log(newNote);
     newNoteSa = await newNote.save();
-	console.log('newNoteSa ' + newNoteSa._id);
+	updateNoteTag(newNoteSa);
     req.flash("success_msg", "Note Added Successfully");
     res.redirect("/notes");
   }
@@ -53,7 +58,13 @@ notesCtrl.renderEditForm = async (req, res) => {
 
 notesCtrl.updateNote = async (req, res) => {
   const { title, description, tag } = req.body;
-  await Note.findByIdAndUpdate(req.params.id, { title, description, tag });
+  await Note.findByIdAndUpdate(req.params.id, { title, description, tag },{new:true}, function (err, doc) {
+	  if (err) { console.log(err) };
+		console.log(doc);
+		updateNoteTag(doc);
+	});
+	  
+
   req.flash("success_msg", "Note Updated Successfully");
   res.redirect("/notes");
 };

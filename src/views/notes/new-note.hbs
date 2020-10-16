@@ -66,10 +66,17 @@
                            }else{
 								console.log('Tạo mới' + data);	
                            };
+						   console.log('them tag');
 							$('.tags').append('<li ' + 'id=' + data.content._id + '><a href="#">' + data.content.tag + '</a>' + tagsvg + '</li>');
 							taglist.push(data.content);
 							taglistid.push(data.content._id);
-                        }
+                        },
+			error: function () {
+				console.log('error');
+			  },
+			  complete: function () {
+				console.log('complete');
+			  }
               });
 		}else{
 				console.log('đã thêm ' + tag + ' khong them lai');	
