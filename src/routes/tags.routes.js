@@ -6,7 +6,8 @@ const {
   createTag,
  // findTag,
   deleteTag,
-  renderTags
+  renderTags,
+  removeNoteTag
 } = require("../controllers/tags.controller");
 
 // Helpers
@@ -18,7 +19,10 @@ router.post("/tags/create-tag", isAuthenticated, createTag);
 // Get All Notes
 router.post("/tags", isAuthenticated, renderTags);
 
-// Delete Notes
+// Delete Tags
 router.delete("/tags/delete/:id", isAuthenticated, deleteTag);
+
+// Delete Note in Tag 
+router.post("/tags/removeNote", isAuthenticated, removeNoteTag);
 
 module.exports = router;

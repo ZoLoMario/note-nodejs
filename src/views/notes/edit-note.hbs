@@ -39,6 +39,8 @@
 			<script>
 				var taglist = [];
 				var taglistid = [];
+				var removeTaglist = [];
+				var nodeid = "{{note._id}}" ;
 			 </script>
 			{{# note.tag}}
             <li id="{{this._id}}"><a href="#"> {{this.tag}}</a>
@@ -120,6 +122,8 @@
 		};
 		console.log('taglistid ' + taglistid);
 		removeA(taglistid, ulele.id);
+		removeTaglist.push[ulele.id];
+		
 		console.log('taglistid ' + taglistid);
 		ulele.remove();
 	};
@@ -164,5 +168,21 @@ var blocks = data.blocks;
                         }
               });
       });
-    });
+	  removeTaglist.forEach(async (idtag) => {
+			  $.ajax({
+					type : 'POST', //Sử dụng kiểu gửi dữ liệu POST
+					url : '/tags/removeNote', //gửi dữ liệu sang trang data.php
+					data : {"tagid":  ulele.id,"noteid":  nodeid },//dữ liệu sẽ được gửi
+					success : function(data)  // Hàm thực thi khi nhận dữ liệu được từ server
+								{ 
+									 console.log("Xoa thanh cong" );
+									 console.log(data);
+								},
+					error: function(request,msg,error) {
+							console.log("Xoa lỗi " + error );
+						}
+					  });
+			});
+
+	});
   </script>

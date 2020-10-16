@@ -36,6 +36,9 @@ tagsCtrl.createTag = async (req, res) => {
 };
 
 tagsCtrl.updateNoteTag = (note) => {
+	if (note.tag === null ){
+	console.log("note này rỗng");
+	} else {
 	note.tag.forEach(async (idtag) => {
 		await Tag.findById(idtag, function (err, doc) {
 			  if (err) { console.log(err) };
@@ -44,7 +47,31 @@ tagsCtrl.updateNoteTag = (note) => {
 			});
 			console.log("gan Note voi Tag update thành công");
 		});
+	}
 };
+tagsCtrl.removeNoteTag = async (req, res) => {
+	const { tagid, noteid } = req.body;
+	await Tag.findById(tagid, function (err, doc) {
+			  if (err) { console.log(err) };
+			  function removeA(arr) {
+					var what, a = arguments, L = a.length, ax;
+					while (L > 1 && arr.length) {
+						what = a[--L];
+						while ((ax= arr.indexOf(what)) !== -1) {
+							arr.splice(ax, 1);
+						}
+					}
+					return arr;
+				};
+			  removeA(doc.note, noteid);
+			  doc.save();
+			  console.log("Xoa Note voi Tag thành công");
+			});
+			
+	req.flash("success_msg", "Thanh cong xoa note");
+	res.send("Thanh cong xoa note");
+};
+
 
 tagsCtrl.renderTags = async (req, res) => {
   const tags = await Note.find({ user: req.user.id })

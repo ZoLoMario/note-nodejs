@@ -63,8 +63,6 @@ notesCtrl.updateNote = async (req, res) => {
 		console.log(doc);
 		updateNoteTag(doc);
 	});
-	  
-
   req.flash("success_msg", "Note Updated Successfully");
   res.redirect("/notes");
 };
