@@ -44,19 +44,19 @@
  <!-- Tool tự thêm  -->
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/underline@latest"></script><!-- Underline -->
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/raw@latest"></script><!-- raw HTML code -->
-<script src="https://cdn.jsdelivr.net/npm/editorjs-alert@latest"></script><!-- Alert messages -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/editorjs-alert@latest"></script> --><!-- Alert messages -->
 <script src="https://cdn.jsdelivr.net/npm/editorjs-header-with-anchor@latest"></script><!-- Heading anchor -->
 <script src="https://cdn.jsdelivr.net/npm/editorjs-paragraph-with-alignment@latest"></script><!-- Tool alignment -->
-<script src="https://cdn.jsdelivr.net/npm/@editorjs/attaches@latest"></script><!-- Attaches Tool --> 
-<script src="https://cdn.jsdelivr.net/npm/editorjs-github-gist-plugin@latest"></script><!-- Github Gist --> 
-<script src="https://cdn.jsdelivr.net/npm/editorjs-social-post-plugin@latest"></script><!-- Social Post --> 
+<!-- <script src="https://cdn.jsdelivr.net/npm/@editorjs/attaches@latest"></script> --><!-- Attaches Tool --> 
+<!-- <script src="https://cdn.jsdelivr.net/npm/editorjs-github-gist-plugin@latest"></script> --><!-- Github Gist --> 
+<!-- <script src="https://cdn.jsdelivr.net/npm/editorjs-social-post-plugin@latest"></script> --><!-- Social Post --> 
 <script src="https://cdn.jsdelivr.net/npm/editorjs-drag-drop@latest"></script><!-- Drag/Drop --> 
 <script src="https://cdn.jsdelivr.net/npm/editorjs-undo@latest"></script><!-- Undo --> 
 
   <!-- Load Editor.js's Core -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
- --><script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@2.18.0/dist/editor.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+<!--  <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@2.18.0/dist/editor.min.js"></script>
+ -->
  
   <!-- Initialization -->
   <script>
@@ -65,15 +65,15 @@
 var tool = {
 		 underline: Underline,
 		 raw: RawTool,
-		 alert: Alert,
-		 attaches: {
-		  class: AttachesTool,
-		  config: {
-			endpoint: 'http://localhost:8008/uploadFile'
-		  }
-		},
-		gist: Gist,
-		socialPost: SocialPost,
+		//  alert: Alert,
+		//  attaches: {
+		//   class: AttachesTool,
+		// config: {
+		// endpoint: 'http://localhost:8008/uploadFile'
+		//   }
+		// },
+		// gist: Gist,
+		// socialPost: SocialPost,
 		paragraph: {
         config: {
           placeholder: "Enter something"
