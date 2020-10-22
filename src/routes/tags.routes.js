@@ -17,7 +17,7 @@ const { isAuthenticated } = require("../helpers/auth");
 router.post("/tags/create-tag", isAuthenticated, createTag);
 
 // Get All Notes
-router.post("/tags", isAuthenticated, renderTags);
+router.get("/tags", isAuthenticated, renderTags);
 
 // Delete Tags
 router.delete("/tags/delete/:id", isAuthenticated, deleteTag);
