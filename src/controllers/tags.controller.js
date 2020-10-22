@@ -42,9 +42,12 @@ tagsCtrl.updateNoteTag = (note) => {
 	note.tag.forEach(async (idtag) => {
 		await Tag.findById(idtag, function (err, doc) {
 			  if (err) { console.log(err) };
+			  if (doc.note.includes(note._id) === true){
+			  	console.log(note._id + " đã nằm trong danh sách các note của tag có id " + idtag)
+			  } else {
 			  doc.note.push(note._id);
 			  doc.save();
-			});
+			}});
 			console.log("gan Note voi Tag update thành công");
 		});
 	}
