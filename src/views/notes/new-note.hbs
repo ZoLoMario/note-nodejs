@@ -125,23 +125,21 @@ tagInput.onkeypress=function(e){
 };
 </script>
  <script>
- 	const saveButton = document.getElementById('saveButton');
+
     var editor = new EditorJS({
 		holderId: 'editornote',
 		tools: tool,
 		i18n: il8n,
 		data: {},
 		onReady: function(){
-			editoronReady();
+		editoronReady();
 			//saveButton.click();
-		},
-      onChange: function() {
-        console.log('something changed');
-      }
+		}
 	});
 </script>
 <script>
-	<!-- thêm code gửi dữ liệu khi nhấn nút -->	 
+	<!-- thêm code gửi dữ liệu khi nhấn nút -->
+	const saveButton = document.getElementById('saveButton');
     saveButton.addEventListener('click', function () {
     	var status = new Boolean(true);
       editor.save().then((savedData) => {
@@ -161,6 +159,7 @@ tagInput.onkeypress=function(e){
                            	if(data.loi == "101" ){
                            		alert("Có lỗi xảy ra");
                            		console.log(data.errors);
+                           		window.location = "/notes/add"
                            	} else {
                              window.location = "/notes";
 							 console.log('Gửi thành công' + title);
