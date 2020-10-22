@@ -12,6 +12,10 @@ const NoteSchema = new Schema(
       required: true
     },
     tag: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
+    status: {
+      type: Boolean,
+      require: false
+    },
     user: {
       type: String,
       required: true

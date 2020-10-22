@@ -14,33 +14,29 @@ notesCtrl.renderNoteForm = (req, res) => {
 };
 
 notesCtrl.createNewNote = async (req, res) => {
-  const { title, description, tag } = req.body;
+  const { title, description, tag, status } = req.body;
+  console.log(req.body);
   const errors = [];
   if (!title) {
     errors.push({ text: "Please Write a Title." });
   }
-  if (!description) {
+  console.log(!description);
+  if (JSON.parse(description).blocks.length == 0) {
     errors.push({ text: "Please Write a Description" });
   }
   if (errors.length > 0) {
-    res.render("notes/new-note", {
-      errors,
-      title,
-      description,
-	  tag,
-    });
+    res.send({"loi":"101","errors":errors});
   } else {
-    const newNote = new Note({ title, description, tag });
+    const newNote = new Note({ title, description, tag, status });
     newNote.user = req.user.id;
     newNoteSa = await newNote.save();
-	updateNoteTag(newNoteSa);
+    updateNoteTag(newNoteSa);
     req.flash("success_msg", "Note Added Successfully");
-    res.redirect("/notes");
   }
 };
 
 notesCtrl.renderNotes = async (req, res) => {
-  const notes = await Note.find({ user: req.user.id })
+  const notes = await Note.find({ user: req.user.id, status: true })
     .sort({ date: "desc" })
     .lean()
 	.populate('tag');
