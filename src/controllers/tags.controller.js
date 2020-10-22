@@ -77,10 +77,11 @@ tagsCtrl.removeNoteTag = async (req, res) => {
 
 
 tagsCtrl.renderTags = async (req, res) => {
-  const tags = await Note.find({ user: req.user.id })
+  const tags = await Tag.find({})
     .sort({ date: "desc" })
     .lean();
   res.send(tags);
+  res.render("tag/all-tags", { tags });
 };
 
 tagsCtrl.deleteTag = async (req, res) => {
