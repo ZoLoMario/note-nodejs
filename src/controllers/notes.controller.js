@@ -25,6 +25,7 @@ notesCtrl.createNewNote = async (req, res) => {
     errors.push({ text: "Please Write a Description" });
   }
   if (errors.length > 0) {
+    res.status(200);
     res.send({"loi":"101","errors":errors});
   } else {
     const newNote = new Note({ title, description, tag, status });
@@ -32,6 +33,8 @@ notesCtrl.createNewNote = async (req, res) => {
     newNoteSa = await newNote.save();
     updateNoteTag(newNoteSa);
     req.flash("success_msg", "Note Added Successfully");
+    res.status(200);
+    res.send({"status":"200","content":"123"});
   }
 };
 
@@ -39,7 +42,7 @@ notesCtrl.renderNotes = async (req, res) => {
   const notes = await Note.find({ user: req.user.id, status: true })
     .sort({ date: "desc" })
     .lean()
-	.populate('tag');
+	 .populate('tag');
   res.render("notes/all-notes", { notes });
 };
 
