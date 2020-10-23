@@ -1,6 +1,12 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/tags">Tags</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{name}}</li>
+  </ol>
+</nav>
 <div class="card-columns">
 <!-- <div class="row"> -->
-  {{#each notes}}
+  {{#notes}}
   <!-- <div class="col-md-3"> -->
     <div class="card my-3">
       <div class="card-body">
@@ -58,5 +64,5 @@
       <a href="/notes/add" class="btn btn-success btn-block">Create One!</a>
     </div>
   </div>
-  {{/each}}
+  {{/notes}}
 </div>

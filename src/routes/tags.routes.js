@@ -7,6 +7,7 @@ const {
  // findTag,
   deleteTag,
   renderTags,
+  renderTagsID,
   removeNoteTag
 } = require("../controllers/tags.controller");
 
@@ -14,15 +15,14 @@ const {
 const { isAuthenticated } = require("../helpers/auth");
 
 // New Note
-router.post("/tags/create-tag", isAuthenticated, createTag);
+router.post("/tag/create-tag", isAuthenticated, createTag);
 
 // Get All Notes
 router.get("/tags", isAuthenticated, renderTags);
-
+router.get("/tag/:id", isAuthenticated, renderTagsID);
 // Delete Tags
-router.delete("/tags/delete/:id", isAuthenticated, deleteTag);
-
+router.delete("/tag/delete/:id", isAuthenticated, deleteTag);
 // Delete Note in Tag 
-router.post("/tags/removeNote", isAuthenticated, removeNoteTag);
+router.post("/tag/removeNote", isAuthenticated, removeNoteTag);
 
 module.exports = router;

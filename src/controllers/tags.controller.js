@@ -2,6 +2,7 @@ const tagsCtrl = {};
 
 // Models
 const Tag = require("../models/Tag");
+const Note = require("../models/Note");
 
 tagsCtrl.createTag = async (req, res) => {
   const tagadd = req.body.tagadd;
@@ -34,6 +35,8 @@ tagsCtrl.createTag = async (req, res) => {
     }
   }
 };
+
+
 
 tagsCtrl.updateNoteTag = (note) => {
 	if (note.tag === null ){
@@ -75,19 +78,35 @@ tagsCtrl.removeNoteTag = async (req, res) => {
 	res.send("Thanh cong xoa note");
 };
 
+tagsCtrl.renderTagsID = async (req, res) => {
+  const notes = await Note.find({tag: { "$in" : [req.params.id] }})
+    .sort({ date: "desc" })
+    .lean()
+    .populate('tag');
+    var name = this.tagstoID(req.params.id);
+  //res.send(notes);
+  res.render("tag/idtag", {"name":name ,"notes":notes });
+};
 
 tagsCtrl.renderTags = async (req, res) => {
   const tags = await Tag.find({})
     .sort({ date: "desc" })
-    .lean();
-  res.send(tags);
+    .lean()
+    .populate('note');
+    console.log(tags);
   res.render("tag/all-tags", { tags });
 };
 
+tagsCtrl.tagstoID = async (id) => {
+  const tags = await Tag.findById({"_id":id})
+  return tags ;
+};
+
 tagsCtrl.deleteTag = async (req, res) => {
-  await Note.findByIdAndDelete(req.params.id);
+  await Tag.findByIdAndDelete(req.params.id);
   req.flash("success_msg", "Tag Deleted Successfully");
-  res.send("Tag Deleted Successfully");
+  //res.send("Tag Deleted Successfully");
+  res.redirect("/tags");
 };
 
 module.exports = tagsCtrl;

@@ -56,7 +56,7 @@
 		if(refindTaglist === undefined ) {
 		$.ajax({
               type : 'POST', //Sử dụng kiểu gửi dữ liệu POST
-              url : '/tags/create-tag', //gửi dữ liệu sang trang data.php
+              url : '/tag/create-tag', //gửi dữ liệu sang trang data.php
               data : {"tagadd": tag},//dữ liệu sẽ được gửi
               success : function(data)  // Hàm thực thi khi nhận dữ liệu được từ server
                         { 
@@ -161,8 +161,9 @@ tagInput.onkeypress=function(e){
                            		console.log(data.errors);
                            		window.location = "/notes/add"
                            	} else {
-                             window.location = "/notes";
-							 console.log('Gửi thành công' + title);
+                           	alert("Về Note");
+                           	console.log('Gửi thành công' + title);
+							 window.location = "/notes";
                            }}
                         }
               });
