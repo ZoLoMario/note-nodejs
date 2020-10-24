@@ -12,6 +12,10 @@ const NoteSchema = new Schema(
       required: true
     },
     tag: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
+    tagAction: {
+      type:Array,
+      require:false
+    },
     status: {
       type: Boolean,
       require: false

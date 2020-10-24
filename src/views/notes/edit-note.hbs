@@ -51,6 +51,7 @@
 			<script>
 				console.log("{{this.tag}}");
 				taglistid.push("{{this._id}}");
+				taglist.push("{{this.tag}}");
 			 </script>
 			</li>
 			{{/note.tag}}
@@ -75,18 +76,26 @@
   </div>
 </div>
  <script>
-		<!-- thêm code xử lí tag -->	
+	//phần hoạt động local thêm code xử lí tag 
+	//hàm xử lý hoạt động thêm tag
 
-	var tagsvg = '<svg onclick="myFunction(this)" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">' + '<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>' + '<path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>' + '</svg>'
+	var tagAction = [];
+	function getTimeClient() {
+	  var d = new Date();
+	  var n = d.getTime();
+	  return n;
+		}
     document.getElementById('tagbutton').addEventListener('click', function () {
-		var tag = $('#tagadd').val();
-		const refindTaglist = taglist.find(obj => {
-				return obj.tag == tag
-			});
-		if(refindTaglist === undefined ) {
+    	var tagsvg = '<svg onclick="myFunction(this)" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">' + '<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>' + '<path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>' + '</svg>';
+			var tag = $('#tagadd').val();
+			tagAction.push({"location":"edit","name":"add","tag":tag, "timeClient":getTimeClient()});
+			console.log('tagAction ' + JSON.stringify(tagAction));
+		//gửi nhận dữ liệu lên server
+		console.log('tagList ' + JSON.stringify(taglist));
+		if(!(taglist.includes(tag))) {
 		$.ajax({
               type : 'POST', //Sử dụng kiểu gửi dữ liệu POST
-              url : '/tags/create-tag', //gửi dữ liệu sang trang data.php
+              url : '/tag/create-tag', //gửi dữ liệu sang trang data.php
               data : {"tagadd": tag},//dữ liệu sẽ được gửi
               success : function(data)  // Hàm thực thi khi nhận dữ liệu được từ server
                         { 
@@ -97,7 +106,7 @@
 								console.log('Tạo mới' + data);	
                            };
 							$('.tags').append('<li ' + 'id=' + data.content._id + '><a href="#">' + data.content.tag + '</a>' + tagsvg + '</li>');
-							taglist.push(data.content);
+							taglist.push(data.content.tag);
 							taglistid.push(data.content._id);
 							console.log('tag ID ' + taglistid);
                         }
@@ -107,9 +116,13 @@
             };
 		$('#tagadd').val('');
       });
+
+    //hàm xử lý hoạt động xóa tag
 	function myFunction(obj) {
 		console.log(obj.parentElement.id);
 		var ulele = obj.parentElement
+
+		// hàm dùng để xóa phần tử trong mảng
 		function removeA(arr) {
 			var what, a = arguments, L = a.length, ax;
 			while (L > 1 && arr.length) {
@@ -120,11 +133,23 @@
 			}
 			return arr;
 		};
-		console.log('taglistid ' + taglistid);
+
+		//lấy tên Tag bị xóa
+		var nametag;
+		ulele.childNodes.forEach( 
+  			function(currentValue) { 
+  				if(currentValue.nodeName == "A"){
+	  				nametag = (currentValue.childNodes[0]);
+	  				}
+  			}
+		);
+		console.log(nametag);
+		tagAction.push({"location":"edit","name":"remove","tag":nametag.nodeValue.trim(),"timeClient":getTimeClient()});
+		console.log('tagAction ' + JSON.stringify(tagAction));
+		//Xóa phần tử trong mảng ID
 		removeA(taglistid, ulele.id);
+		//Thêm vảo mảng đã xóa
 		removeTaglist.push[ulele.id];
-		
-		console.log('taglistid ' + taglistid);
 		ulele.remove();
 	};
 </script>
@@ -146,6 +171,8 @@ var blocks = data.blocks;
       }
 	});
 </script>
+
+
 <script>
 	<!-- thêm code gửi dữ liệu khi nhấn nút -->	 
     saveButton.addEventListener('click', function () {
@@ -155,7 +182,7 @@ var blocks = data.blocks;
         $.ajax({
               type : 'PUT', //Sử dụng kiểu gửi dữ liệu POST
               url : '/notes/edit-note/{{note._id}}', //gửi dữ liệu sang trang data.php
-              data : {"title": title, "description":JSON.stringify(savedData),"tag":taglistid},//dữ liệu sẽ được gửi
+              data : {"title": title, "description":JSON.stringify(savedData),"tag":taglistid,"tagAction":tagAction},//dữ liệu sẽ được gửi
               success : function(data)  // Hàm thực thi khi nhận dữ liệu được từ server
                         { 
                            if(data == 'false') 
@@ -171,7 +198,7 @@ var blocks = data.blocks;
 	  removeTaglist.forEach(async (idtag) => {
 			  $.ajax({
 					type : 'POST', //Sử dụng kiểu gửi dữ liệu POST
-					url : '/tags/removeNote', //gửi dữ liệu sang trang data.php
+					url : '/tag/removeNote', //gửi dữ liệu sang trang data.php
 					data : {"tagid":  ulele.id,"noteid":  nodeid },//dữ liệu sẽ được gửi
 					success : function(data)  // Hàm thực thi khi nhận dữ liệu được từ server
 								{ 

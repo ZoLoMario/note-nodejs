@@ -15,7 +15,7 @@ tagsCtrl.createTag = async (req, res) => {
   } else {
 	  const nameTag = await Tag.findOne({ tag: tagadd });
     if (nameTag) {
-      req.flash("error_msg", "The Tag is already in use." + nameTag.tag);
+      // req.flash("error_msg", "The Tag is already in use." + nameTag.tag);
 	  const sendTag = {
 		  status:'already',
 		  content: nameTag
@@ -30,13 +30,11 @@ tagsCtrl.createTag = async (req, res) => {
 		  status:'create',
 		  content: newTags
 		};
-		req.flash("success_msg", "Tag Added Successfully");
+		//req.flash("success_msg", "Tag Added Successfully");
 		res.send(sendTag);
     }
   }
 };
-
-
 
 tagsCtrl.updateNoteTag = (note) => {
 	if (note.tag === null ){

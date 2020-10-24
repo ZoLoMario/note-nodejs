@@ -14,7 +14,7 @@ notesCtrl.renderNoteForm = (req, res) => {
 };
 
 notesCtrl.createNewNote = async (req, res) => {
-  const { title, description, tag, status } = req.body;
+  const { title, description, tag, tagAction, status } = req.body;
   console.log(req.body);
   const errors = [];
   if (!title) {
@@ -28,7 +28,7 @@ notesCtrl.createNewNote = async (req, res) => {
     res.status(200);
     res.send({"loi":"101","errors":errors});
   } else {
-    const newNote = new Note({ title, description, tag, status });
+    const newNote = new Note({ title, description, tag, tagAction, status });
     newNote.user = req.user.id;
     newNoteSa = await newNote.save();
     updateNoteTag(newNoteSa);
@@ -56,10 +56,17 @@ notesCtrl.renderEditForm = async (req, res) => {
 };
 
 notesCtrl.updateNote = async (req, res) => {
-  const { title, description, tag } = req.body;
-  await Note.findByIdAndUpdate(req.params.id, { title, description, tag },{new:true}, function (err, doc) {
+  const { title, description, tag, tagAction } = req.body;
+  const noteid = await Note.findById(req.params.id)
+  console.log(tagAction);
+  console.log(noteid.tagAction);
+  tagActionFin = tagAction.concat(noteid.tagAction);
+  console.log("tagActionfin " + tagActionFin);
+  var objUpdate = { "title":title, "description":description, "tag":tag , "tagAction":tagActionFin };
+  console.log(objUpdate);
+  await Note.findByIdAndUpdate(req.params.id, objUpdate,{new:true}, function (err, doc) {
 	  if (err) { console.log(err) };
-		console.log(doc);
+    console.log(doc)
 		updateNoteTag(doc);
 	});
   req.flash("success_msg", "Note Updated Successfully");
