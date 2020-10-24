@@ -78,14 +78,26 @@ tagsCtrl.removeNoteTag = async (req, res) => {
 	res.send("Thanh cong xoa note");
 };
 
-tagsCtrl.renderTagsID = async (req, res) => {
+tagsCtrl.idtoTag = async (id) => {
+  const tags = await Tag.findById({"_id":id})
+  return tags ;
+};
+
+tagsCtrl.renderTagsID = async function (req, res) {
+	try {
   const notes = await Note.find({tag: { "$in" : [req.params.id] }})
     .sort({ date: "desc" })
     .lean()
     .populate('tag');
-    var name = this.tagstoID(req.params.id);
+    var name = await tagsCtrl.idtoTag(req.params.id);
+
+    console.log(name.tag);
   //res.send(notes);
-  res.render("tag/idtag", {"name":name ,"notes":notes });
+  res.render("tag/idtag", {"name":name.tag ,"notes":notes });
+   }
+        catch(error) {
+            console.log(error);
+        }  
 };
 
 tagsCtrl.renderTags = async (req, res) => {
@@ -97,10 +109,7 @@ tagsCtrl.renderTags = async (req, res) => {
   res.render("tag/all-tags", { tags });
 };
 
-tagsCtrl.tagstoID = async (id) => {
-  const tags = await Tag.findById({"_id":id})
-  return tags ;
-};
+
 
 tagsCtrl.deleteTag = async (req, res) => {
   await Tag.findByIdAndDelete(req.params.id);
