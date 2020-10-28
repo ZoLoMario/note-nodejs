@@ -13,7 +13,7 @@
       <h3>Edit Note</h3>
     </div>
     <div class="card-body">
-      <form action="/notes/edit-note/{{note._id}}?_method=PUT" method="POST">
+      <div>
         <input type="hidden" name="_method" value="PUT">
         <div class="form-group">
           <input type="text" name="title" class="form-control" value="{{note.title}}"/>
@@ -71,7 +71,7 @@
 				  </div>
 			</div>
 
-      </form>
+      </div>
     </div>
   </div>
 </div>
@@ -170,8 +170,7 @@ var blocks = data.blocks;
         console.log('something changed');
       }
 	});
-</script>
-
+</script>=
 
 <script>
 	<!-- thêm code gửi dữ liệu khi nhấn nút -->	 
@@ -190,7 +189,7 @@ var blocks = data.blocks;
                              alert('Không có người dùng');
                            }else{
                              window.location = "/notes";
-							 console.log('Gửi thành công' + title);
+							 			console.log('Gửi thành công' + title);
                            }
                         }
               });
@@ -202,9 +201,22 @@ var blocks = data.blocks;
 					data : {"tagid":  ulele.id,"noteid":  nodeid },//dữ liệu sẽ được gửi
 					success : function(data)  // Hàm thực thi khi nhận dữ liệu được từ server
 								{ 
-									 console.log("Xoa thanh cong" );
 									 console.log(data);
-								},
+                           if(data == 'false') 
+                           {
+                             alert('Không có người dùng');
+                           }else{
+                           	if(data.loi == "101" ){
+                           		alert("Có lỗi xảy ra");
+                           		console.log(data.errors);
+                           		window.location = "/notes/add"
+                           	} else {
+                           	alert("Về Note");
+                           	console.log('Gửi thành công' + title);
+							 			window.location = "/notes";
+								}}},
+
+
 					error: function(request,msg,error) {
 							console.log("Xoa lỗi " + error );
 						}
