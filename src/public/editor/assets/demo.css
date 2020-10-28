@@ -258,3 +258,20 @@ padding: 10px;
 	color: white;
 	text-decoration: none;
 	}
+
+
+ 
+  .search {
+    margin-top: 10px;
+    padding: 10px;
+    background: saddlebrown;
+    border-radius: 5px;
+
+  }
+  .search input {
+ /*   margin-top: 20px;*/
+  }
+  .search i.fas.fa-search {
+    color: white;
+    margin: 0 20px 0 10px
+}

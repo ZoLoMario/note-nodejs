@@ -8,7 +8,8 @@ const {
   renderNotes,
   renderEditForm,
   updateNote,
-  deleteNote
+  deleteNote,
+  searchNote
 } = require("../controllers/notes.controller");
 
 // Helpers
@@ -29,5 +30,8 @@ router.put("/notes/edit-note/:id", isAuthenticated, updateNote);
 
 // Delete Notes
 router.delete("/notes/delete/:id", isAuthenticated, deleteNote);
+
+// Search Notes
+router.post("/search.php", isAuthenticated, searchNote);
 
 module.exports = router;
