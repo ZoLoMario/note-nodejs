@@ -88,4 +88,11 @@ notesCtrl.deleteNote = async (req, res) => {
   res.redirect("/notes");
 };
 
+notesCtrl.searchNote = async(req, res) => {
+  const search = req.body.search;
+  console.log("thuc hien tim kiem " + search );
+  res.status(200);
+  res.send({"status":"200","content":"123"});
+};
+
 module.exports = notesCtrl;
