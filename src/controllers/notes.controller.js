@@ -13,6 +13,8 @@ notesCtrl.renderNoteForm = (req, res) => {
   res.render("notes/new-note");
 };
 
+
+//tao note moi
 notesCtrl.createNewNote = async (req, res) => {
   const { title, description, tag, tagAction, status } = req.body;
   console.log(req.body);
@@ -55,12 +57,18 @@ notesCtrl.renderEditForm = async (req, res) => {
   res.render("notes/edit-note", { note });
 };
 
+
+//ham update thong tin note
 notesCtrl.updateNote = async (req, res) => {
   const { title, description, tag, tagAction } = req.body;
   const noteid = await Note.findById(req.params.id)
   console.log(tagAction);
+  if (tagAction) {
   console.log(noteid.tagAction);
-  tagActionFin = tagAction.concat(noteid.tagAction);
+  tagActionFin = tagAction.concat(noteid.tagAction); } else {
+  tagActionFin = noteid.tagAction;
+   console.log(tagActionFin);
+  }
   console.log("tagActionfin " + tagActionFin);
   var objUpdate = { "title":title, "description":description, "tag":tag , "tagAction":tagActionFin };
   console.log(objUpdate);
@@ -70,6 +78,7 @@ notesCtrl.updateNote = async (req, res) => {
 		updateNoteTag(doc);
 	});
   req.flash("success_msg", "Note Updated Successfully");
+  res.status(200);
   res.redirect("/notes");
 };
 
