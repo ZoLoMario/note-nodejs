@@ -42,9 +42,10 @@ notesCtrl.createNewNote = async (req, res) => {
 
 notesCtrl.renderNotes = async (req, res) => {
   const notes = await Note.find({ user: req.user.id, status: true })
-    .sort({ date: "desc" })
+    .sort({  createdAt: "desc" })
     .lean()
-	 .populate('tag');
+	 .populate('tag')
+   .limit(10);
   res.render("notes/all-notes", { notes });
 };
 
@@ -62,19 +63,15 @@ notesCtrl.renderEditForm = async (req, res) => {
 notesCtrl.updateNote = async (req, res) => {
   const { title, description, tag, tagAction } = req.body;
   const noteid = await Note.findById(req.params.id)
-  console.log(tagAction);
   if (tagAction) {
-  console.log(noteid.tagAction);
   tagActionFin = tagAction.concat(noteid.tagAction); } else {
   tagActionFin = noteid.tagAction;
-   console.log(tagActionFin);
   }
   console.log("tagActionfin " + tagActionFin);
   var objUpdate = { "title":title, "description":description, "tag":tag , "tagAction":tagActionFin };
   console.log(objUpdate);
   await Note.findByIdAndUpdate(req.params.id, objUpdate,{new:true}, function (err, doc) {
 	  if (err) { console.log(err) };
-    console.log(doc)
 		updateNoteTag(doc);
 	});
   req.flash("success_msg", "Note Updated Successfully");

@@ -88,8 +88,6 @@ tagsCtrl.renderTagsID = async function (req, res) {
     .lean()
     .populate('tag');
     var name = await tagsCtrl.idtoTag(req.params.id);
-
-    console.log(name.tag);
   //res.send(notes);
   res.render("tag/idtag", {"name":name.tag ,"notes":notes });
    }
@@ -103,11 +101,8 @@ tagsCtrl.renderTags = async (req, res) => {
     .sort({ date: "desc" })
     .lean()
     .populate('note');
-    console.log(tags);
   res.render("tag/all-tags", { tags });
 };
-
-
 
 tagsCtrl.deleteTag = async (req, res) => {
   await Tag.findByIdAndDelete(req.params.id);
