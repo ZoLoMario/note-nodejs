@@ -7,7 +7,11 @@ const TagSchema = new Schema(
       type: String,
       required: true
     },
-	note: [{ type: Schema.Types.ObjectId, ref: 'Note' }]
+	note: [{ type: Schema.Types.ObjectId, ref: 'Note' }],
+  group:{
+      type: String,
+      required: false
+  }
   },
   {
     timestamps: true
