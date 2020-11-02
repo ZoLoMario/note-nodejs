@@ -1,0 +1,13 @@
+Phương án khả năng là không sử dụng cgroup để nhóm các đối tượng ta sẽ sử dụng ngày để nhsom các đối tượng sau đó sử dụng timeline để biểu diễn đối tượng
+Tạo một trang lịch chức các sự kiện sau đó các lịch đó chưa các note., các note sẽ được đánh dấu dựa vào nngafy cuối cùn để sửa
+Chế tạo máy bay koong người lái
+
+Cần phải có cách thức lưu trữ lịch và note
+Phương án lịch sẽ được tính từ ngày khởi tạo note đầu tiên và lịch sẽ được tính hết năm mình sử dụng
+Bắt đầu ngày 31/12 lại tinh lích cho 1 năm nữa
+
+cái đầu tiên là truy vấn theo ngày tháng, dữ liệu sẽ load hằng tháng khi muốn xem lại nó sẽ load theo ngày tháng
+Cần chế độ chủ đề 
+
+các bước làm là thiết kế giao diện sau đó code phần javscript gửi dữ liệu
+Phần code trên server nhận dữ liệu xử lí dữ liệu gửi về client
