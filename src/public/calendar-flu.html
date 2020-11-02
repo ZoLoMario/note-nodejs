@@ -1,0 +1,1141 @@
+<html lang="en"><head>
+
+  <meta charset="UTF-8">
+  <title>CodePen - Simple Calendar</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css">
+  
+<style>
+@font-face {
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Lato Light Italic'), local('Lato-LightItalic'), url(https://fonts.gstatic.com/s/lato/v17/S6u_w4BMUTPHjxsI9w2_Gwfo.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 900;
+  src: local('Lato Black Italic'), local('Lato-BlackItalic'), url(https://fonts.gstatic.com/s/lato/v17/S6u_w4BMUTPHjxsI3wi_Gwfo.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'), url(https://fonts.gstatic.com/s/lato/v17/S6u9w4BMUTPHh7USSwiPHA.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Lato Black'), local('Lato-Black'), url(https://fonts.gstatic.com/s/lato/v17/S6u9w4BMUTPHh50XSwiPHA.ttf) format('truetype');
+}
+.txt__normal {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+}
+.txt__normal--it {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+.txt__bold {
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+}
+.txt__bold--it {
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
+.txt__awesome {
+  font: normal normal normal 14px/1 FontAwesome;
+}
+/* VARIABLES ================================================*/
+/* RESPONSIVE ================================================*/
+/* ===========================================================*/
+body {
+  position: realative;
+  height: 100%;
+}
+body.overlay:before {
+  position: fixed;
+  content: '';
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+}
+html {
+  height: 100%;
+  background: #003567;
+  color: #ffffff;
+  font-size: 13px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+}
+.wrapper {
+  position: relative;
+  max-width: 1280px;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+/* UTILITY ===========================================================*/
+.u-border-box {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.u-transition {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.u-transition.long {
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.u-transition.elastic {
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -webkit-transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.resetDefaultApparence {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  border-radius: 0px;
+  padding: 0;
+  border-width: 0;
+  resize: none;
+}
+.resetDefaultApparence::-ms-expand {
+  display: none;
+}
+/* STYLE ===========================================================*/
+header {
+  position: fixed;
+  height: 80px;
+  width: 100%;
+  z-index: 50;
+  background: #003567;
+}
+header > .wrapper {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+          align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  color: #ffffff;
+  letter-spacing: 2px;
+  font-size: 13px;
+}
+header > .wrapper a {
+  color: #ffffff;
+  text-decoration: none;
+  margin-left: 10px;
+}
+.c-monthyear {
+  display: -webkit-box;
+  display: flex;
+}
+.c-month {
+  position: relative;
+  height: 80px;
+  line-height: 80px;
+}
+.c-month #c-paginator {
+  position: relative;
+  width: 200px;
+  display: block;
+  height: 80px;
+  line-height: 80px;
+  text-align: center;
+  overflow: hidden;
+}
+.c-month #c-paginator .c-paginator__month {
+  position: absolute;
+  width: 200px;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+.c-month #c-paginator .c-paginator__month:nth-child(1) {
+  left: 0;
+}
+.c-month #c-paginator .c-paginator__month:nth-child(2) {
+  left: 200px;
+}
+.c-month #c-paginator .c-paginator__month:nth-child(3) {
+  left: 400px;
+}
+.c-month #c-paginator .c-paginator__month:nth-child(4) {
+  left: 600px;
+}
+.c-month #c-paginator .c-paginator__month:nth-child(5) {
+  left: 800px;
+}
+.c-month #c-paginator .c-paginator__month:nth-child(6) {
+  left: 1000px;
+}
+.c-month #c-paginator .c-paginator__month:nth-child(7) {
+  left: 1200px;
+}
+.c-month #c-paginator .c-paginator__month:nth-child(8) {
+  left: 1400px;
+}
+.c-month #c-paginator .c-paginator__month:nth-child(9) {
+  left: 1600px;
+}
+.c-month #c-paginator .c-paginator__month:nth-child(10) {
+  left: 1800px;
+}
+.c-month #c-paginator .c-paginator__month:nth-child(11) {
+  left: 2000px;
+}
+.c-month #c-paginator .c-paginator__month:nth-child(12) {
+  left: 2200px;
+}
+.c-month .prev,
+.c-month .next {
+  position: absolute;
+  display: block;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 9px 12px;
+  background-color: #004b8f;
+  cursor: pointer;
+  z-index: 10;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  transform: translatey(-50%);
+  -webkit-transform: translatey(-50%);
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.c-month .prev.long,
+.c-month .next.long {
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.c-month .prev.elastic,
+.c-month .next.elastic {
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -webkit-transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.c-month .prev {
+  left: 0;
+}
+.c-month .prev:hover {
+  padding: 9px 10px;
+  background-color: #0055a4;
+}
+.c-month .next {
+  right: 0;
+}
+.c-month .next:hover {
+  padding: 9px 14px;
+  background-color: #0055a4;
+}
+.c-paginator__year {
+  height: 80px;
+  line-height: 80px;
+  padding: 0 20px;
+}
+.o-btn {
+  display: inline-block;
+  padding: 0 10px;
+  line-height: 30px;
+  height: 30px;
+  background-color: #004b8f;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.o-btn.long {
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.o-btn.elastic {
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -webkit-transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.o-btn span {
+  margin-left: 10px;
+}
+.o-btn:hover {
+  background-color: #0055a4;
+}
+.c-calendar {
+  padding-top: 80px;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+}
+.c-calendar__style {
+  background-color: #00407b;
+  margin: 20px;
+  padding: 10px;
+  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.18);
+  -webkit-box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.18);
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+}
+.c-cal__container {
+  position: relative;
+  width: calc(100% - 300px);
+  height: 0;
+  padding-bottom: 65%;
+  overflow: hidden;
+}
+.c-main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.c-main-01 {
+  left: 0;
+}
+.c-main-02 {
+  left: 100%;
+}
+.c-main-03 {
+  left: 200%;
+}
+.c-main-04 {
+  left: 300%;
+}
+.c-main-05 {
+  left: 400%;
+}
+.c-main-06 {
+  left: 500%;
+}
+.c-main-07 {
+  left: 600%;
+}
+.c-main-08 {
+  left: 700%;
+}
+.c-main-09 {
+  left: 800%;
+}
+.c-main-10 {
+  left: 900%;
+}
+.c-main-11 {
+  left: 1000%;
+}
+.c-main-12 {
+  left: 1100%;
+}
+.c-cal__row {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: start;
+          justify-content: flex-start;
+}
+.c-cal__col {
+  width: calc(100% / 7);
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.c-cal__cel {
+  position: relative;
+  width: calc(100% / 7);
+  text-align: center;
+  cursor: pointer;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.c-cal__cel p {
+  position: absolute;
+  margin: 0;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  background: #004585;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.c-cal__cel::before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+.c-cal__cel:nth-child(1) p {
+  background: rgba(215, 16, 15, 0.2);
+}
+.c-cal__cel:nth-child(7) p {
+  background: #003b71;
+}
+.c-cal__cel:hover {
+  background-color: #004b8f !important;
+}
+.c-cal__cel:hover p {
+  background: #003b71 !important;
+}
+.c-cal__cel.isSelected {
+  background-color: #004b8f;
+}
+.c-cal__cel.isSelected p {
+  background: #003b71;
+}
+.c-cal__cel.isToday {
+  background-color: rgba(245, 113, 112, 0.2);
+}
+.c-cal__cel.isToday p {
+  background: rgba(245, 113, 112, 0.4);
+}
+.c-cal__cel.other_month {
+  color: rgba(255, 255, 255, 0.2);
+}
+.event:before {
+  position: absolute;
+  content: '';
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-color: #F5F5F5;
+  z-index: 10;
+  padding: 0;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  transform: translate(-50%, calc(50% + 20px/2));
+  -webkit-transform: translate(-50%, calc(50% + 20px/2));
+}
+.event--birthday:before {
+  background-color: #FACC2E;
+}
+.event--festivity:before {
+  background-color: #10DDC2;
+}
+.event--important:before {
+  background-color: #F57170;
+}
+.c-aside {
+  width: 300px;
+  padding: 20px;
+}
+.c-aside__day {
+  font-size: 28px;
+  margin: 50px 0;
+}
+.c-aside__day .c-aside__num {
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+}
+.c-aside__event {
+  position: relative;
+  padding-left: 20px;
+  margin: 20px 0;
+}
+.c-aside__event:before {
+  position: absolute;
+  display: block;
+  content: '';
+  width: 16px;
+  height: 16px;
+  left: 0;
+  background-color: #F5F5F5;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+}
+.c-aside__event--birthday:before {
+  background-color: #FACC2E;
+}
+.c-aside__event--festivity:before {
+  background-color: #10DDC2;
+}
+.c-aside__event--important:before {
+  background-color: #F57170;
+}
+.c-event__creator {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  max-width: 500px;
+  max-height: 470px;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  padding: 20px;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  transform: translate(-50%, -50%) scale(0.9);
+  -webkit-transform: translate(-50%, -50%) scale(0.9);
+}
+.c-event__creator.long {
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.c-event__creator.elastic {
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -webkit-transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.c-event__creator form {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  -webkit-box-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
+}
+.c-event__creator.isVisible {
+  transform: translate(-50%, -50%) scale(1);
+  -webkit-transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  visibility: visible;
+}
+input,
+textarea,
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  border-radius: 0px;
+  padding: 0;
+  border-width: 0;
+  resize: none;
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+input::-ms-expand,
+textarea::-ms-expand,
+select::-ms-expand {
+  display: none;
+}
+input {
+  height: 40px;
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+</head>
+
+<body translate="no">
+  <script>
+  // fill the month table with column headings
+function day_title(day_name) {
+    document.write("<div class='c-cal__col'>" + day_name + "</div>");
+  }
+  // fills the month table with numbers
+function fill_table(month, month_length, indexMonth) {
+    day = 1;
+    // begin the new month table
+    document.write("<div class='c-main c-main-" + indexMonth + "'>");
+    //document.write("<b>"+month+" "+year+"</b>")
+
+    // column headings
+    document.write("<div class='c-cal__row'>");
+    day_title("CN");
+    day_title("Hai");
+    day_title("Ba");
+    day_title("Tư");
+    day_title("Năm");
+    day_title("Sáu");
+    day_title("Bẩy");
+    document.write("</div>");
+
+    // pad cells before first day of month
+    document.write("<div class='c-cal__row'>");
+    for (var i = 1; i < start_day; i++) {
+      if (start_day > 7) {
+      } else {
+        document.write("<div class='c-cal__cel'></div>");
+      }
+    }
+
+    // fill the first week of days
+    for (var i = start_day; i < 8; i++) {
+      document.write(
+        "<div data-day='2017-" +
+          indexMonth +
+          "-0" +
+          day +
+          "'class='c-cal__cel'><p>" +
+          day +
+          "</p></div>"
+      );
+      day++;
+    }
+    document.write("</div>");
+    // fill the remaining weeks
+    while (day <= month_length) {
+      document.write("<div class='c-cal__row'>");
+      for (var i = 1; i <= 7 && day <= month_length; i++) {
+        if (day >= 1 && day <= 9) {
+          document.write(
+            "<div data-day='2017-" +
+              indexMonth +
+              "-0" +
+              day +
+              "'class='c-cal__cel'><p>" +
+              day +
+              "</p></div>"
+          );
+          day++;
+        } else {
+          document.write(
+            "<div data-day='2017-" +
+              indexMonth +
+              "-" +
+              day +
+              "' class='c-cal__cel'><p>" +
+              day +
+              "</p></div>"
+          );
+          day++;
+        }
+      }
+      document.write("</div>");
+      // the first day of the next month
+      start_day = i;
+    }
+
+    document.write("</div>");
+  }
+</script>
+<header>
+  <div class="wrapper">
+    <div class="c-monthyear">
+    <div class="c-month">
+        <span id="prev" class="prev fa fa-angle-left" aria-hidden="true"></span>
+        <div id="c-paginator">
+          <span class="c-paginator__month" style="left: -1000%;">JANUARY</span>
+          <span class="c-paginator__month" style="left: -900%;">FEBRUARY</span>
+          <span class="c-paginator__month" style="left: -800%;">MARCH</span>
+          <span class="c-paginator__month" style="left: -700%;">APRIL</span>
+          <span class="c-paginator__month" style="left: -600%;">MAY</span>
+          <span class="c-paginator__month" style="left: -500%;">JUNE</span>
+          <span class="c-paginator__month" style="left: -400%;">JULY</span>
+          <span class="c-paginator__month" style="left: -300%;">AUGUST</span>
+          <span class="c-paginator__month" style="left: -200%;">SEPTEMBER</span>
+          <span class="c-paginator__month" style="left: -100%;">OCTOBER</span>
+          <span class="c-paginator__month" style="left: 0%;">NOVEMBER</span>
+          <span class="c-paginator__month" style="left: 100%;">DECEMBER</span>
+        </div>
+        <span id="next" class="next fa fa-angle-right" aria-hidden="true"></span>
+      </div>
+      <span class="c-paginator__year">2017</span>
+    </div>
+    <div class="c-sort">
+      <a class="o-btn c-today__btn" href="javascript:;">TODAY</a>
+    </div>
+  </div>
+</header>
+<div class="wrapper">
+  <div class="c-calendar">
+    <div class="c-calendar__style c-aside">
+      <a class="c-add o-btn js-event__add" href="javascript:;">add event <span class="fa fa-plus"></span></a>
+      <div class="c-aside__day">
+        <span class="c-aside__num">20</span> <span class="c-aside__month">November</span>
+      </div>
+      <div class="c-aside__eventList">
+      </div>
+    </div>
+    <div class="c-cal__container c-calendar__style">
+      <script>
+      
+      // CAHNGE the below variable to the CURRENT YEAR
+      year = 2020;
+
+      // first day of the week of the new year
+      today = new Date("January 1, " + year);
+      start_day = today.getDay() + 1;
+      fill_table("January", 31, "01");
+      fill_table("February", 28, "02");
+      fill_table("March", 31, "03");
+      fill_table("April", 30, "04");
+      fill_table("May", 31, "05");
+      fill_table("June", 30, "06");
+      fill_table("July", 31, "07");
+      fill_table("August", 31, "08");
+      fill_table("September", 30, "09");
+      fill_table("October", 31, "10");
+      fill_table("November", 30, "11");
+      fill_table("December", 31, "12");
+      </script>
+      <div class="c-main c-main-01" style="left: -1000%;">
+        <div class="c-cal__row">
+          <div class="c-cal__col">Sun</div>
+          <div class="c-cal__col">Mon</div>
+<div class="c-cal__col">Tue</div>
+<div class="c-cal__col">Wed</div>
+<div class="c-cal__col">Thu</div>
+<div class="c-cal__col">Fri</div>
+<div class="c-cal__col">Sat</div>
+</div>
+<div class="c-cal__row"><div data-day="2017-01-01" class="c-cal__cel"><p>1</p></div>
+<div data-day="2017-01-02" class="c-cal__cel"><p>2</p></div>
+<div data-day="2017-01-03" class="c-cal__cel"><p>3</p></div>
+<div data-day="2017-01-04" class="c-cal__cel"><p>4</p></div>
+<div data-day="2017-01-05" class="c-cal__cel"><p>5</p></div>
+<div data-day="2017-01-06" class="c-cal__cel"><p>6</p></div>
+<div data-day="2017-01-07" class="c-cal__cel"><p>7</p></div></div>
+<div class="c-cal__row"><div data-day="2017-01-08" class="c-cal__cel"><p>8</p></div>
+<div data-day="2017-01-09" class="c-cal__cel"><p>9</p></div>
+<div data-day="2017-01-10" class="c-cal__cel"><p>10</p></div>
+<div data-day="2017-01-11" class="c-cal__cel"><p>11</p></div>
+<div data-day="2017-01-12" class="c-cal__cel"><p>12</p></div>
+<div data-day="2017-01-13" class="c-cal__cel"><p>13</p></div>
+<div data-day="2017-01-14" class="c-cal__cel"><p>14</p></div></div>
+<div class="c-cal__row"><div data-day="2017-01-15" class="c-cal__cel"><p>15</p></div>
+<div data-day="2017-01-16" class="c-cal__cel"><p>16</p></div>
+<div data-day="2017-01-17" class="c-cal__cel"><p>17</p></div>
+<div data-day="2017-01-18" class="c-cal__cel"><p>18</p></div>
+<div data-day="2017-01-19" class="c-cal__cel"><p>19</p></div>
+<div data-day="2017-01-20" class="c-cal__cel"><p>20</p></div>
+<div data-day="2017-01-21" class="c-cal__cel"><p>21</p></div></div>
+<div class="c-cal__row"><div data-day="2017-01-22" class="c-cal__cel"><p>22</p></div>
+<div data-day="2017-01-23" class="c-cal__cel"><p>23</p></div>
+<div data-day="2017-01-24" class="c-cal__cel"><p>24</p></div>
+<div data-day="2017-01-25" class="c-cal__cel"><p>25</p></div>
+<div data-day="2017-01-26" class="c-cal__cel"><p>26</p></div>
+<div data-day="2017-01-27" class="c-cal__cel"><p>27</p></div>
+<div data-day="2017-01-28" class="c-cal__cel"><p>28</p></div></div>
+<div class="c-cal__row"><div data-day="2017-01-29" class="c-cal__cel"><p>29</p></div>
+<div data-day="2017-01-30" class="c-cal__cel"><p>30</p></div>
+<div data-day="2017-01-31" class="c-cal__cel"><p>31</p></div></div></div>
+<div class="c-main c-main-02" style="left: -900%;">
+  <div class="c-cal__row"><div class="c-cal__col">Sun</div>
+<div class="c-cal__col">Mon</div>
+<div class="c-cal__col">Tue</div>
+<div class="c-cal__col">Wed</div>
+<div class="c-cal__col">Thu</div>
+<div class="c-cal__col">Fri</div>
+<div class="c-cal__col">Sat</div></div>
+<div class="c-cal__row"><div class="c-cal__cel"></div>
+<div class="c-cal__cel"></div>
+<div class="c-cal__cel"></div>
+<div data-day="2017-02-01" class="c-cal__cel"><p>1</p></div>
+<div data-day="2017-02-02" class="c-cal__cel"><p>2</p></div>
+<div data-day="2017-02-03" class="c-cal__cel"><p>3</p></div>
+<div data-day="2017-02-04" class="c-cal__cel"><p>4</p></div></div>
+<div class="c-cal__row"><div data-day="2017-02-05" class="c-cal__cel"><p>5</p></div>
+<div data-day="2017-02-06" class="c-cal__cel"><p>6</p></div>
+<div data-day="2017-02-07" class="c-cal__cel"><p>7</p></div>
+<div data-day="2017-02-08" class="c-cal__cel"><p>8</p></div>
+<div data-day="2017-02-09" class="c-cal__cel"><p>9</p></div>
+<div data-day="2017-02-10" class="c-cal__cel"><p>10</p></div>
+<div data-day="2017-02-11" class="c-cal__cel"><p>11</p></div></div>
+<div class="c-cal__row"><div data-day="2017-02-12" class="c-cal__cel"><p>12</p></div>
+<div data-day="2017-02-13" class="c-cal__cel"><p>13</p></div>
+<div data-day="2017-02-14" class="c-cal__cel"><p>14</p></div>
+<div data-day="2017-02-15" class="c-cal__cel"><p>15</p></div>
+<div data-day="2017-02-16" class="c-cal__cel"><p>16</p></div>
+<div data-day="2017-02-17" class="c-cal__cel"><p>17</p></div>
+<div data-day="2017-02-18" class="c-cal__cel"><p>18</p></div></div>
+<div class="c-cal__row"><div data-day="2017-02-19" class="c-cal__cel"><p>19</p></div>
+<div data-day="2017-02-20" class="c-cal__cel"><p>20</p></div>
+<div data-day="2017-02-21" class="c-cal__cel"><p>21</p></div>
+<div data-day="2017-02-22" class="c-cal__cel"><p>22</p></div>
+<div data-day="2017-02-23" class="c-cal__cel"><p>23</p></div>
+<div data-day="2017-02-24" class="c-cal__cel"><p>24</p></div>
+<div data-day="2017-02-25" class="c-cal__cel"><p>25</p></div></div>
+<div class="c-cal__row"><div data-day="2017-02-26" class="c-cal__cel"><p>26</p></div>
+<div data-day="2017-02-27" class="c-cal__cel"><p>27</p></div>
+<div data-day="2017-02-28" class="c-cal__cel"><p>28</p></div></div></div>
+<div class="c-main c-main-12" style="left: 100.002%;"><div class="c-cal__row"><div class="c-cal__col">Sun</div>
+<div class="c-cal__col">Mon</div>
+<div class="c-cal__col">Tue</div>
+<div class="c-cal__col">Wed</div>
+<div class="c-cal__col">Thu</div>
+<div class="c-cal__col">Fri</div>
+<div class="c-cal__col">Sat</div></div>
+<div class="c-cal__row"><div class="c-cal__cel"></div>
+<div class="c-cal__cel"></div>
+<div class="c-cal__cel"></div>
+<div class="c-cal__cel"></div>
+<div class="c-cal__cel"></div>
+<div data-day="2017-12-01" class="c-cal__cel"><p>1</p></div>
+<div data-day="2017-12-02" class="c-cal__cel"><p>2</p></div></div>
+<div class="c-cal__row"><div data-day="2017-12-03" class="c-cal__cel"><p>3</p></div>
+<div data-day="2017-12-04" class="c-cal__cel"><p>4</p></div>
+<div data-day="2017-12-05" class="c-cal__cel"><p>5</p></div>
+<div data-day="2017-12-06" class="c-cal__cel"><p>6</p></div>
+<div data-day="2017-12-07" class="c-cal__cel"><p>7</p></div>
+<div data-day="2017-12-08" class="c-cal__cel"><p>8</p></div>
+<div data-day="2017-12-09" class="c-cal__cel"><p>9</p></div></div>
+<div class="c-cal__row"><div data-day="2017-12-10" class="c-cal__cel"><p>10</p></div>
+<div data-day="2017-12-11" class="c-cal__cel"><p>11</p></div>
+<div data-day="2017-12-12" class="c-cal__cel"><p>12</p></div>
+<div data-day="2017-12-13" class="c-cal__cel"><p>13</p></div>
+<div data-day="2017-12-14" class="c-cal__cel"><p>14</p></div>
+<div data-day="2017-12-15" class="c-cal__cel"><p>15</p></div>
+<div data-day="2017-12-16" class="c-cal__cel"><p>16</p></div></div>
+<div class="c-cal__row"><div data-day="2017-12-17" class="c-cal__cel"><p>17</p></div>
+<div data-day="2017-12-18" class="c-cal__cel"><p>18</p></div>
+<div data-day="2017-12-19" class="c-cal__cel"><p>19</p></div>
+<div data-day="2017-12-20" class="c-cal__cel"><p>20</p></div>
+<div data-day="2017-12-21" class="c-cal__cel"><p>21</p></div>
+<div data-day="2017-12-22" class="c-cal__cel"><p>22</p></div>
+<div data-day="2017-12-23" class="c-cal__cel"><p>23</p></div></div>
+<div class="c-cal__row"><div data-day="2017-12-24" class="c-cal__cel"><p>24</p></div>
+<div data-day="2017-12-25" class="c-cal__cel event event--festivity" data-name="MERRY CHRISTMAS" data-notes="A lot of gift!!!!"><p>25</p></div>
+<div data-day="2017-12-26" class="c-cal__cel"><p>26</p></div>
+<div data-day="2017-12-27" class="c-cal__cel"><p>27</p></div>
+<div data-day="2017-12-28" class="c-cal__cel"><p>28</p></div>
+<div data-day="2017-12-29" class="c-cal__cel"><p>29</p></div>
+<div data-day="2017-12-30" class="c-cal__cel"><p>30</p></div></div>
+<div class="c-cal__row"><div data-day="2017-12-31" class="c-cal__cel"><p>31</p></div></div></div>
+    </div>
+  </div>
+
+  <div class="c-event__creator c-calendar__style js-event__creator">
+    <a href="javascript:;" class="o-btn js-event__close">CLOSE <span class="fa fa-close"></span></a>
+    <form id="addEvent">
+      <input placeholder="Event name" type="text" name="name">
+      <input type="date" name="date">
+      <textarea placeholder="Notes" name="notes" cols="30" rows="10"></textarea>
+      <select name="tags">
+          <option value="event">event</option>
+          <option value="important">important</option>
+          <option value="birthday">birthday</option>
+          <option value="festivity">festivity</option>
+        </select>
+    </form>
+    <br>
+    <a href="javascript:;" class="o-btn js-event__save">SAVE <span class="fa fa-save"></span></a>
+  </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.cycle2/2.1.6/jquery.cycle2.core.min.js"></script>
+  
+      <script id="rendered-js">
+//global variables
+var monthEl = $(".c-main");
+var dataCel = $(".c-cal__cel");
+var dateObj = new Date();
+var month = dateObj.getUTCMonth() + 1;
+var day = dateObj.getUTCDate();
+var year = dateObj.getUTCFullYear();
+var monthText = [
+"January",
+"February",
+"March",
+"April",
+"May",
+"June",
+"July",
+"August",
+"September",
+"October",
+"November",
+"December"];
+
+var indexMonth = month;
+var todayBtn = $(".c-today__btn");
+var addBtn = $(".js-event__add");
+var saveBtn = $(".js-event__save");
+var closeBtn = $(".js-event__close");
+var winCreator = $(".js-event__creator");
+var inputDate = $(this).data();
+today = year + "-" + month + "-" + day;
+
+
+// ------ set default events -------
+function defaultEvents(dataDay, dataName, dataNotes, classTag) {
+  var date = $('*[data-day=' + dataDay + ']');
+  date.attr("data-name", dataName);
+  date.attr("data-notes", dataNotes);
+  date.addClass("event");
+  date.addClass("event--" + classTag);
+}
+
+defaultEvents(today, 'YEAH!', 'Today is your day', 'important');
+defaultEvents('2017-12-25', 'MERRY CHRISTMAS', 'A lot of gift!!!!', 'festivity');
+defaultEvents('2017-05-04', "LUCA'S BIRTHDAY", 'Another gifts...?', 'birthday');
+defaultEvents('2017-03-03', "MY LADY'S BIRTHDAY", 'A lot of money to spent!!!!', 'birthday');
+
+
+// ------ functions control -------
+
+//button of the current day
+todayBtn.on("click", function () {
+  if (month < indexMonth) {
+    var step = indexMonth % month;
+    movePrev(step, true);
+  } else if (month > indexMonth) {
+    var step = month - indexMonth;
+    moveNext(step, true);
+  }
+});
+
+//higlight the cel of current day
+dataCel.each(function () {
+  if ($(this).data("day") === today) {
+    $(this).addClass("isToday");
+    fillEventSidebar($(this));
+  }
+});
+
+//window event creator
+addBtn.on("click", function () {
+  winCreator.addClass("isVisible");
+  $("body").addClass("overlay");
+  dataCel.each(function () {
+    if ($(this).hasClass("isSelected")) {
+      today = $(this).data("day");
+      document.querySelector('input[type="date"]').value = today;
+    } else {
+      document.querySelector('input[type="date"]').value = today;
+    }
+  });
+});
+closeBtn.on("click", function () {
+  winCreator.removeClass("isVisible");
+  $("body").removeClass("overlay");
+});
+saveBtn.on("click", function () {
+  var inputName = $("input[name=name]").val();
+  var inputDate = $("input[name=date]").val();
+  var inputNotes = $("textarea[name=notes]").val();
+  var inputTag = $("select[name=tags]").
+  find(":selected").
+  text();
+
+  dataCel.each(function () {
+    if ($(this).data("day") === inputDate) {
+      if (inputName != null) {
+        $(this).attr("data-name", inputName);
+      }
+      if (inputNotes != null) {
+        $(this).attr("data-notes", inputNotes);
+      }
+      $(this).addClass("event");
+      if (inputTag != null) {
+        $(this).addClass("event--" + inputTag);
+      }
+      fillEventSidebar($(this));
+    }
+  });
+
+  winCreator.removeClass("isVisible");
+  $("body").removeClass("overlay");
+  $("#addEvent")[0].reset();
+});
+
+//fill sidebar event info
+function fillEventSidebar(self) {
+  $(".c-aside__event").remove();
+  var thisName = self.attr("data-name");
+  var thisNotes = self.attr("data-notes");
+  var thisImportant = self.hasClass("event--important");
+  var thisBirthday = self.hasClass("event--birthday");
+  var thisFestivity = self.hasClass("event--festivity");
+  var thisEvent = self.hasClass("event");
+
+  switch (true) {
+    case thisImportant:
+      $(".c-aside__eventList").append(
+      "<p class='c-aside__event c-aside__event--important'>" +
+      thisName +
+      " <span> • " +
+      thisNotes +
+      "</span></p>");
+
+      break;
+    case thisBirthday:
+      $(".c-aside__eventList").append(
+      "<p class='c-aside__event c-aside__event--birthday'>" +
+      thisName +
+      " <span> • " +
+      thisNotes +
+      "</span></p>");
+
+      break;
+    case thisFestivity:
+      $(".c-aside__eventList").append(
+      "<p class='c-aside__event c-aside__event--festivity'>" +
+      thisName +
+      " <span> • " +
+      thisNotes +
+      "</span></p>");
+
+      break;
+    case thisEvent:
+      $(".c-aside__eventList").append(
+      "<p class='c-aside__event'>" +
+      thisName +
+      " <span> • " +
+      thisNotes +
+      "</span></p>");
+
+      break;}
+
+};
+dataCel.on("click", function () {
+  var thisEl = $(this);
+  var thisDay = $(this).
+  attr("data-day").
+  slice(8);
+  var thisMonth = $(this).
+  attr("data-day").
+  slice(5, 7);
+
+  fillEventSidebar($(this));
+
+  $(".c-aside__num").text(thisDay);
+  $(".c-aside__month").text(monthText[thisMonth - 1]);
+
+  dataCel.removeClass("isSelected");
+  thisEl.addClass("isSelected");
+
+});
+
+//function for move the months
+function moveNext(fakeClick, indexNext) {
+  for (var i = 0; i < fakeClick; i++) {if (window.CP.shouldStopExecution(0)) break;
+    $(".c-main").css({
+      left: "-=100%" });
+
+    $(".c-paginator__month").css({
+      left: "-=100%" });
+
+    switch (true) {
+      case indexNext:
+        indexMonth += 1;
+        break;}
+
+  }window.CP.exitedLoop(0);
+}
+function movePrev(fakeClick, indexPrev) {
+  for (var i = 0; i < fakeClick; i++) {if (window.CP.shouldStopExecution(1)) break;
+    $(".c-main").css({
+      left: "+=100%" });
+
+    $(".c-paginator__month").css({
+      left: "+=100%" });
+
+    switch (true) {
+      case indexPrev:
+        indexMonth -= 1;
+        break;}
+
+  }window.CP.exitedLoop(1);
+}
+
+//months paginator
+function buttonsPaginator(buttonId, mainClass, monthClass, next, prev) {
+  switch (true) {
+    case next:
+      $(buttonId).on("click", function () {
+        if (indexMonth >= 2) {
+          $(mainClass).css({
+            left: "+=100%" });
+
+          $(monthClass).css({
+            left: "+=100%" });
+
+          indexMonth -= 1;
+        }
+        return indexMonth;
+      });
+      break;
+    case prev:
+      $(buttonId).on("click", function () {
+        if (indexMonth <= 11) {
+          $(mainClass).css({
+            left: "-=100%" });
+
+          $(monthClass).css({
+            left: "-=100%" });
+
+          indexMonth += 1;
+        }
+        return indexMonth;
+      });
+      break;}
+
+}
+
+buttonsPaginator("#next", monthEl, ".c-paginator__month", false, true);
+buttonsPaginator("#prev", monthEl, ".c-paginator__month", true, false);
+
+//launch function to set the current month
+moveNext(indexMonth - 1, false);
+
+//fill the sidebar with current day
+$(".c-aside__num").text(day);
+$(".c-aside__month").text(monthText[month - 1]);
+//# sourceURL=pen.js
+    </script>
+
+  
+
+
+
+
+ 
+</body></html>
