@@ -1,0 +1,1249 @@
+<html lang="en"><head>
+
+  <meta charset="UTF-8">
+  
+<link rel="apple-touch-icon" type="image/png" href="https://static.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+<meta name="apple-mobile-web-app-title" content="CodePen">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+
+<link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111">
+
+
+  <title>CodePen - Sudoku</title>
+  <meta name="viewport" content="width=device-width, initial-scale=0.5">
+  
+  
+  
+<style>
+html {
+  position: relative;
+}
+
+body {
+  background-color: #e5ecf3;
+  padding: 50px;
+}
+
+h1 {
+  text-align: center;
+  color: #497696;
+}
+
+.sudoku {
+  height: 60%;
+}
+
+table {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  text-align: center;
+  border-spacing: none;
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+}
+
+td {
+  border: 2px solid #38702d;
+  padding: 0;
+}
+
+td td {
+  border: 1px solid #457c00;
+  width: 50px;
+  height: 50px;
+  font-weight: bold;
+  font-size: 1.4em;
+  color: darkred;
+  z-index: 100;
+}
+
+.nums {
+  text-align: center;
+  height: 30px;
+  margin-bottom: 50px;
+  display: none;
+}
+
+.orig {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  font-size: 1.25em;
+  border: 2px solid #9999ee;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  //font-weight: bold;
+}
+
+.orig p {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+/*   z-index: 1; */
+}
+
+.btn {
+  width: 60px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 3px solid #497696;
+  margin: 0 auto;
+  text-align: center;
+  color: darkred;
+  cursor: pointer;
+}
+
+.btn:active {
+  background-color: #de4c35;
+  color: #497696;
+}
+
+#start {
+  width: 120px;
+}
+
+.target {
+  transition: 0.2s linear;
+  -webkit-transition: 0.2s linear;
+  ms-transition: 0.2s linear;
+  moztransition: 0.2s linear;
+}
+
+
+/*//settings*/
+
+.settings {
+  position: absolute;
+  /*width: 40%;*/
+  top: -625px;
+  left: 20%;
+  right: 20%;
+  border: 10px solid lightgrey;
+  border-radius: 100px;
+  padding: 40px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #00876b;
+  transition: 0.5s linear;
+  z-index: 10;
+}
+
+.settings h2 {
+  color: darkorange;
+}
+
+.settings h2,
+.settings h4,
+.settings h3 {
+  text-align: center;
+}
+
+.settings h4 {
+  color: darkgrey;
+}
+
+.settings legend {
+  color: #beffee;
+  border: 1px solid;
+  padding: 0 10px;
+}
+
+.settings fieldset {
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 40px;
+  border: 1px solid yellow;
+}
+
+.settings  label {
+  float: left;
+  width: 80px;
+  color: #ffff00;
+}
+.settings .setThree label {
+  width: 175px;
+  color: MISTYROSE;
+  font-weight: bold;
+}
+.settings .setThree input {
+  font-size: 1em;
+}
+
+.settings #min {
+  margin-bottom: 0;
+  color: darkgrey;
+  cursor: pointer;
+}
+
+.settings #min:hover {
+  color: orange;
+}
+
+.keypad {
+  visibility: hidden;
+  position: absolute;
+  width: 200px;
+  left: 45%;
+  top: 5%;
+  border: 5px solid grey;
+  text-align: center;
+  background: lightgreen;
+  border-radius: 5px;
+}
+
+.keypad div {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  margin: 0px;
+  border: 1px solid lightgreen;
+  line-height: 60px;
+  font-size: 3em;
+  background: #74a4c0;
+  cursor: pointer;
+  color: yellow;
+}
+
+.keypad .close {
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 2px solid orange;
+  line-height: 20px;
+  font-size: 20px;
+  color: tomato;
+  right: 0;
+  top: -18px;
+  background-color: steelblue;
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no" style="border: none;">
+  <div class="settings" style="top: -629.156px;">
+
+  <h2>Settings</h2>
+  <h4>Settings will apply next game</h4>
+
+  <div class="setOne">
+    <fieldset class="difficulty">
+      <legend>Difficulty</legend>
+
+      <p>
+        <label for="easy">Easy:</label>
+        <input type="radio" name="difficulty" id="easy" value="easy">
+      </p>
+      <p>
+        <label for="medium">Medium:</label>
+        <input type="radio" name="difficulty" id="medium" value="medium" checked="checked">
+      </p>
+      <p>
+        <label for="hard">Hard:</label>
+        <input type="radio" name="difficulty" id="hard" value="hard">
+      </p>
+
+    </fieldset>
+
+  </div>
+  <div class="setTwo">
+    <fieldset class="display">
+      <legend>Display</legend>
+      <h6>under developement</h6>
+      <p>
+        <label for="desktop">Desktop:</label>
+        <input type="radio" name="display" id="desktop" value="desktop">
+      </p>
+      <p>
+        <label for="mobile">Mobile:</label>
+        <input type="radio" name="display" id="mobile" value="mobile" checked="checked">
+      </p>
+
+    </fieldset>
+  </div>
+  <div class="setThree">
+    <fieldset class="misc">
+      <legend>Misc</legend>
+      <label for="restart" id="restartLabel">Warn Before Restarting?</label>
+      <input type="checkbox" name="restart" id="makeSure">
+    </fieldset>
+  </div>
+  <h3 id="min" class="topBar minimized">MENU</h3>
+</div>
+
+
+<h1 style="color: rgb(73, 118, 150);">Sudoku</h1>
+
+<div class="sudoku">
+  <table id="main" style="width: 470px; height: 470px;">
+    <tbody><tr>
+      <td>
+        <table>
+          <tbody><tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target noDrop" draggable="true" style="color: black;">9</td>
+            <td class="target" draggable="true"> </td>
+          </tr>
+          <tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+          </tr>
+          <tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+          </tr>
+        </tbody></table>
+      </td>
+      <td>
+        <table>
+          <tbody><tr>
+            <td class="target noDrop" draggable="true" style="color: black;">4</td>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+          </tr>
+          <tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+          </tr>
+          <tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+          </tr>
+        </tbody></table>
+      </td>
+      <td>
+        <table>
+          <tbody><tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+          </tr>
+          <tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+          </tr>
+          <tr>
+            <td class="target noDrop" draggable="true" style="color: black;">4</td>
+            <td class="target" draggable="true"> </td>
+            <td class="target noDrop" draggable="true" style="color: black;">9</td>
+          </tr>
+        </tbody></table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <table>
+          <tbody><tr>
+            <td class="target noDrop" draggable="true" style="color: black;">5</td>
+            <td class="target" draggable="true"> </td>
+            <td class="target noDrop" draggable="true" style="color: black;">7</td>
+          </tr>
+          <tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+          </tr>
+          <tr>
+            <td class="target noDrop" draggable="true" style="color: black;">3</td>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+          </tr>
+        </tbody></table>
+      </td>
+      <td>
+        <table>
+          <tbody><tr>
+            <td class="target noDrop" draggable="true" style="color: black;">8</td>
+            <td class="target" draggable="true"> </td>
+            <td class="target noDrop" draggable="true" style="color: black;">9</td>
+          </tr>
+          <tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+          </tr>
+          <tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+            <td class="target noDrop" draggable="true" style="color: black;">5</td>
+          </tr>
+        </tbody></table>
+      </td>
+      <td>
+        <table>
+          <tbody><tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target noDrop" draggable="true" style="color: black;">2</td>
+            <td class="target noDrop" draggable="true" style="color: black;">4</td>
+          </tr>
+          <tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+          </tr>
+          <tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+            <td class="target noDrop" draggable="true" style="color: black;">1</td>
+          </tr>
+        </tbody></table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <table>
+          <tbody><tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+          </tr>
+          <tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+          </tr>
+          <tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target noDrop" draggable="true" style="color: black;">5</td>
+            <td class="target noDrop" draggable="true" style="color: black;">3</td>
+          </tr>
+        </tbody></table>
+      </td>
+      <td>
+        <table>
+          <tbody><tr>
+            <td class="target noDrop" draggable="true" style="color: black;">9</td>
+            <td class="target" draggable="true"> </td>
+            <td class="target noDrop" draggable="true" style="color: black;">3</td>
+          </tr>
+          <tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+            <td class="target noDrop" draggable="true" style="color: black;">6</td>
+          </tr>
+          <tr>
+            <td class="target noDrop" draggable="true" style="color: black;">1</td>
+            <td class="target" draggable="true"> </td>
+            <td class="target noDrop" draggable="true" style="color: black;">4</td>
+          </tr>
+        </tbody></table>
+      </td>
+      <td>
+        <table>
+          <tbody><tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target noDrop" draggable="true" style="color: black;">4</td>
+            <td class="target noDrop" draggable="true" style="color: black;">5</td>
+          </tr>
+          <tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+          </tr>
+          <tr>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+            <td class="target" draggable="true"> </td>
+          </tr>
+        </tbody></table>
+      </td>
+    </tr>
+  </tbody></table>
+</div>
+
+<div class="nums desktop">
+  <div class="orig" draggable="true">
+    <p>1</p>
+  </div>
+  <div class="orig" draggable="true">
+    <p>2</p>
+  </div>
+  <div class="orig" draggable="true">
+    <p>3</p>
+  </div>
+  <div class="orig" draggable="true">
+    <p>4</p>
+  </div>
+  <div class="orig" draggable="true">
+    <p>5</p>
+  </div>
+  <div class="orig" draggable="true">
+    <p>6</p>
+  </div>
+  <div class="orig" draggable="true">
+    <p>7</p>
+  </div>
+  <div class="orig" draggable="true">
+    <p>8</p>
+  </div>
+  <div class="orig" draggable="true">
+    <p>9</p>
+  </div>
+</div>
+<br>
+<p class="btn">Check</p>
+<br>
+<p class="btn" id="start" style="color: black;">New Puzzle</p>
+
+<div class="keypad">
+  <div class="close">X</div>
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+  <div>6</div>
+  <div>7</div>
+  <div>8</div>
+  <div>9</div>
+</div>
+    <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+
+  
+  
+ <script id="rendered-js">
+(function hideVars() {
+
+  var settings = document.getElementsByClassName('settings')[0],
+  minimize = document.getElementById('min'),
+  difficultyLevelRadios = document.getElementsByTagName('input'),
+  difficultyLevel;
+
+  //difficultu settings
+  (function () {
+    function setLevel(el, level) {
+      el.onclick = function () {
+        if (el.checked) {
+          difficultyLevel = level;
+        }
+      };
+    }
+    setLevel(difficultyLevelRadios[0], 4);
+    setLevel(difficultyLevelRadios[1], 3);
+    setLevel(difficultyLevelRadios[2], 2);
+  })();
+
+  //display and restart
+  (function () {
+    var desktop = difficultyLevelRadios[3],
+    mobile = difficultyLevelRadios[4],
+    desktopThings = document.getElementsByClassName('desktop'),
+    mobileThings,
+    makeSure = document.getElementById('makeSure'),
+    restartLabel = document.getElementById('restartLabel');
+    desktop.onclick = function () {
+      if (desktop.checked) {
+        console.log('desktop');
+        for (var i = 0; i < desktopThings.length; i++) {
+          desktopThings[i].style.display = 'block';
+        }
+      };
+    };
+    mobile.onclick = function () {
+      if (mobile.checked) {
+        console.log('mobile');
+        for (var i = 0; i < desktopThings.length; i++) {
+          desktopThings[i].style.display = 'none';
+        }
+      };
+    };
+    makeSure.onclick = function () {
+      if (makeSure.checked) {
+        restartLabel.style.color = '#ffff00';
+      } else {
+        restartLabel.style.color = 'orange';
+      }
+    };
+  })();
+  minimize.onclick = function () {
+    if (minimize.classList.contains('minimized')) {
+      settings.style.top = '0';
+      minimize.innerHTML = 'HIDE';
+    } else {
+      settings.style.top = -settings.getBoundingClientRect().height + 38 + 'px';
+      minimize.innerHTML = 'MENU';
+    }
+    minimize.classList.toggle('minimized');
+  };
+
+  var board;
+  var startNew = document.getElementsByClassName('btn')[1],
+  checkBtn = document.getElementsByClassName('btn')[0];
+
+  (function () {
+    fillTheBoarWithAValidSudoku();
+  })();
+
+  startNew.onclick = function () {
+    if (document.getElementById('makeSure').checked) {
+      var makeSure = window.confirm('Are you sure you\'d like to restart?');
+      if (!makeSure) {
+        return;
+      }
+    }
+    document.getElementsByTagName('h1')[0].innerHTML = "Sudoku";
+    fillTheBoarWithAValidSudoku();
+  };
+  checkBtn.onclick = function () {
+    var tmOut = 1500;
+    if (checkBoard(viruateBoardBasedOnUI(board))) {
+      tmOut = 600;
+      document.body.style.border = '20px solid red';
+      document.getElementsByTagName('h1')[0].style.color = 'red';
+    } else {
+      document.body.style.border = '20px solid green';
+      document.getElementsByTagName('h1')[0].style.color = 'green';
+      checkBoardForFinalWin();
+    }
+    window.setTimeout(function () {
+      document.body.style.border = 'none';
+      document.getElementsByTagName('h1')[0].style.color = '#497696';
+    }, tmOut);
+  };
+
+  function fillTheBoarWithAValidSudoku() {
+    var success;
+    while (!(success = initGame())) {
+      initGame();
+    }
+  }
+
+  function initGame() {
+    startNew.style.color = 'red';
+    document.getElementsByTagName('h1')[0].innerText = 'Sudoku';
+    document.getElementsByTagName('h1')[0].style.color = '#497696';
+    board = initSudokuBoard();
+    var success = board.fillAttempt(board);
+    board.eraseMost(difficultyLevel);
+    initiateOrResetDragDrop();
+    board.popDom();
+    return success;
+  }
+
+  function initSudokuBoard() {
+    var board = new Sudoku();
+    initX(board.board);
+    initY(board.board);
+    initBoxes(board.board);
+    board.connectDom();
+    afterResize(); //makes the height and width of the boxes the same
+    board.print();
+    return board;
+  }
+
+  //==================================
+  ////////////////////////////////////////////////////////////////////////
+  function Sudoku() {
+    var board = [],
+    that = this;
+    (function () {
+      function Pos(origPos) {
+        this.x;
+        this.y;
+        this.availableNums = shuffleArr([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+        this.origPos = origPos;
+        this.boxId = '';
+        this.val = ' ';
+        this.dom;
+        this.pruneNums = pruneNums;
+      }
+      for (var i = 0; i < 81; i++) {
+        board[i] = new Pos(i);
+      };
+    })();
+
+    this.xLines = initX(board);
+    this.yLines = initY(board);
+    this.boxes = initBoxes(board);
+    this.board = board;
+
+    this.clearBoard = function () {
+      for (var i = 0; i < that.board.length; i++) {
+        that.board[i].val = ' ';
+      };
+    };
+
+    this.fillAttempt = createRndmSudoku;
+
+    this.domSingle = function (num, pos) {
+      that.board[pos].val = num;
+      that.board[pos].dom.innerText = num;
+    };
+    this.connectDom = function () {
+      var sudBoard = document.getElementById('main'),
+      boxes = sudBoard.getElementsByTagName('table'),
+      domBoxes = [],
+      cells;
+
+      for (var i = 0; i < 9; i++) {
+        cells = boxes[i].getElementsByTagName('td');
+        domBoxes.push([]);
+        for (var j = 0; j < 9; j++) {
+          domBoxes[i].push(cells[j]);
+          that.boxes[i][j].dom = domBoxes[i][j];
+          that.boxes[i][j].dom.innerText = ' ';
+        };
+      };
+    };
+
+    this.eraseMost = function (level) {
+      var boardSpot;
+      level = level || 3;
+
+      for (var i = 0; i < 81; i++) {
+        boardSpot = that.board[i];
+        //resettng from previous round
+        if (boardSpot.dom.classList.contains('noDrop')) {
+          boardSpot.dom.classList.remove('noDrop');
+          boardSpot.dom.style.color = 'darkred';
+          //boardSpot.dom.style.fontSize = 'initial';
+        };
+        if (Math.floor(Math.random() * 10) + 1 > level) {
+          boardSpot.val = ' ';
+          //will need a better place in code for this iffy
+          (function dblClkErase(j) {
+            boardSpot.dom.addEventListener('dblclick', function () {
+              that.board[j].dom.innerHTML = ' ';
+            });
+          })(i);
+        } else {
+          boardSpot.dom.style.color = 'black';
+          //boardSpot.dom.style.fontSize = '1.2em'
+          boardSpot.dom.classList.add('noDrop');
+        }
+      };
+    };
+
+    this.print = function () {
+      console.log('\n------------------------------------------------------');
+      that.xLines.forEach(function (each) {
+        var str = '';
+        each.forEach(function (e) {
+          if ((e.x == 3 || e.x == 6) && e.y == 8) {
+            console.log(' ');
+          };
+          str += e.val + '   ';
+          if ((e.y + 1) % 3 == 0) {
+            str += ' ';
+          };
+        });
+        console.log(str);
+      });
+      console.log('\n');
+    };
+    this.popDom = function () {
+      for (var i = 0; i < 81; i++) {
+        that.board[i].dom.innerHTML = that.board[i].val;
+      };
+    };
+  } // end Sudoku
+  //////////////////////////////////////////////////////////////
+
+  //BOARD SPLITTER FUNCTIONS
+  function initX(board) {
+    var xLines = [];
+    for (var i = 0; i < 9; i++) {
+      xLines.push([]);
+      for (var j = 0; j < 9; j++) {
+        xLines[i].push(board[j + i * 9]);
+        board[j + i * 9].x = i;
+        board[j + i * 9].y = j;
+      }
+    };
+    return xLines;
+  }
+
+  function initY(board) {
+    var yLines = [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    []];
+    //[]*9
+    for (var i = 0; i < 9; i++) {
+      for (var j = 0; j < 9; j++) {
+        yLines[j].push(board[j + i * 9]);
+      }
+    };
+    return yLines;
+  }
+
+  function initBoxes(board) {
+    var trio1,
+    trio2,
+    boxes = [];
+
+    for (var i = 0; i < 9; i++) {
+      boxes.push([]);
+    }
+
+    for (i = 0; i < 9; i++) {
+      if (i < 3) {
+        trio1 = 0;
+      } else if (i < 6) {
+        trio1 = 3;
+      } else {
+        trio1 = 6;
+      }
+      for (var j = 0; j < 9; j++) {
+        if (j < 3) {
+          trio2 = 0;
+        } else if (j < 6) {
+          trio2 = 1;
+        } else {
+          trio2 = 2;
+        }
+        board[j + 9 * i].boxId = trio1 + trio2;
+        boxes[trio1 + trio2].push(board[j + 9 * i]);
+      }
+    }
+    return boxes;
+  }
+  //====================================
+
+  //BOARD CHECKER FUNCTIONS
+  function checkLineForDbl(line) {
+    return line.some(function (e, i) {
+      if (e.val == ' ') {
+        return false;
+      };
+      return line.some(function (v, j) {
+        return e.val == v.val && i !== j;
+      });
+    });
+  }
+
+  function checkBoard(board) {
+    return board.xLines.some(function (xLine) {
+      return checkLineForDbl(xLine);
+    }) || board.yLines.some(function (yLine) {
+      return checkLineForDbl(yLine);
+    }) || board.boxes.some(function (box) {
+      return checkLineForDbl(box);
+    });
+  }
+
+  //====================================
+
+  //random helper funcs
+
+  function shuffleArr(arr) {
+    var newArr = [],
+    lngth = arr.length,
+    rnd;
+    for (var i = 0; i < lngth; i++) {
+      rnd = Math.floor(Math.random() * arr.length);
+      newArr.push(arr.splice(rnd, 1)[0]);
+    };
+    return newArr;
+  }
+
+  //===================================
+
+  function possibleNums(line) {
+    var nums = [];
+    for (var i = 1; i < 10; i++) {
+      test = line.every(function (e) {
+        return e.val != i;
+      });
+      if (test) {
+        nums.push(i);
+      };
+    };
+    return nums;
+  }
+
+  //where the magic happens
+  function createRndmSudoku(board) {
+    function fillLine(line, nums) {
+      nums ? nums = shuffleArr(nums) : nums = shuffleArr([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+      for (var i = 0; i < line.length; i++) {
+        line[i].val = nums[i];
+      };
+    } //end fillLine
+
+    var time = new Date().getTime() / 1000; //to see how long it takes to generate the board :)
+    var test;
+    var safetyCount = 0;
+
+    //first 2 of each box are random, third a bit more calculated
+    for (var i = 0; i < 8; i++) {
+      for (var j = 0; j < 100; j++) {
+        //if it's the 3rd line of the boxes - there are alot less options (3 possible numebr for each box)
+        if (i == 2 || i == 5) {
+          fillLine([board.xLines[i][0], board.xLines[i][1], board.xLines[i][2]], possibleNums(board.boxes[board.xLines[i][0].boxId]));
+          fillLine([board.xLines[i][3], board.xLines[i][4], board.xLines[i][5]], possibleNums(board.boxes[board.xLines[i][3].boxId]));
+          fillLine([board.xLines[i][6], board.xLines[i][7], board.xLines[i][8]], possibleNums(board.boxes[board.xLines[i][6].boxId]));
+        } else if (i > 5) {//once we have filled most of the board we can take the y-axis into account and eliminate many numbers
+          for (var v = 0; v < board.xLines[i].length; v++) {
+            board.xLines[i][v].pruneNums(board, board.xLines[i][v].origPos);
+            if (board.xLines[i][v].availableNums.length == 0) {
+              board.xLines[i].forEach(function (ech) {
+                ech.val = ' ';
+              });
+              i--;
+              break;
+            }
+            fillLine([board.xLines[i][v]], board.xLines[i][v].availableNums);
+          };
+        } else {//just brute force it//
+          fillLine(board.xLines[i]);
+        }
+        //check the board
+        if (!checkBoard(board)) {// if the line is solved then break the inner for loop
+          board.print();
+          console.log(i + 1 + ' out of 9');
+          break;
+        };
+        if (j == 99 && checkBoard(board)) {//if it fails try the line again
+          i--;
+          //break; (loop ends anyways so we don't need to break)
+        };
+      };
+      safetyCount++; //some combos are impossible and we will restart the whole thing
+      if (safetyCount > 100) {
+        console.log('mission failed :(');
+        document.getElementsByTagName('h1')[0].innerText = 'Error, please try again';
+        document.getElementsByTagName('h1')[0].style.color = 'red';
+        break;
+      };
+    };
+
+    //final line is forced by previous numbers- faster than randomely blasting it
+    for (var i = 0; i < 9; i++) {
+      for (var j = 1; j < 10; j++) {
+        test = board.yLines[i].every(function (e) {
+          return e.val != j;
+        });
+        if (test) {
+          board.yLines[i][8].val = String(j);
+        };
+      };
+    };
+
+    board.print();
+    console.log(new Date().getTime() / 1000 - time + ' seconds');
+    startNew.style.color = 'black';
+    return !checkBoard(board);
+  }
+
+  //==================================
+
+  //returns all possible nums for a given spot on the board
+  function pruneNums(board, origPos) {
+    board.board[origPos].availableNums = shuffleArr(possibleNums(board.yLines[board.board[origPos].y].concat(board.xLines[board.board[origPos].x], board.boxes[board.board[origPos].boxId])));
+  }
+
+  //create virtual board based on dom
+  function viruateBoardBasedOnUI(board) {
+    currentDomBoard = new Sudoku();
+
+    currentDomBoard.board = Object.create(board.board);
+    currentDomBoard.xLines = Object.create(board.xLines);
+    currentDomBoard.yLines = Object.create(board.yLines);
+    currentDomBoard.boxes = Object.create(board.boxes);
+
+    for (var i = 0; i < 81; i++) {
+      currentDomBoard.board[i].val = currentDomBoard.board[i].dom.innerHTML;
+    }
+
+    return currentDomBoard;
+  }
+
+  function checkBoardForFinalWin() {
+    //weed out non wins
+    for (var i = 0; i < 81; i++) {
+      if (board.board[i].val == ' ') {
+        return;
+      };
+    }
+
+    function rndRGB() {
+      return Math.floor(Math.random() * 255);
+    }
+
+    function yayIWon() {
+      document.body.style.backgroundColor = "rgb(" + rndRGB() + "," + rndRGB() + "," + rndRGB() + ")";
+    }
+
+    document.getElementsByTagName('h1')[0].innerHTML = "CONGRATULATIONS!!! You Win!!!";
+
+    var pleaseStop = window.setInterval(yayIWon, 500);
+    window.setTimeout(function () {
+      clearInterval(pleaseStop);
+      document.body.style.backgroundColor = "#e5ecf3";
+    }, 10000);
+  }
+
+  //=====================
+
+  //Lets allow for the dragging and dropping!!
+  function initiateOrResetDragDrop() {
+    var orig = document.getElementsByClassName('orig'),
+    target = document.getElementsByClassName('target');
+
+    for (var i = 0; i < orig.length; i++) {
+      (function (j) {
+
+        orig[j].addEventListener('dragstart', function (e) {
+          e.dataTransfer.setData('text', orig[j].firstElementChild.innerHTML);
+        });
+
+      })(i);
+    }
+    for (var i = 0; i < target.length; i++) {
+      (function (j) {
+
+        target[j].addEventListener('dragstart', function (e) {
+          e.dataTransfer.setData('text', target[j].innerHTML);
+        });
+
+      })(i);
+    }
+
+    //and some color while we drag (and drop)
+
+    for (var i = 0; i < target.length; i++) {
+      (function (j) {
+
+        target[j].addEventListener('dragenter', function (e) {
+          e.preventDefault();
+        });
+
+        target[j].addEventListener('dragover', function (e) {
+          e.preventDefault();
+          if (target[j].classList.contains('noDrop')) {
+            return;
+          };
+          target[j].style.backgroundColor = 'lightgreen';
+
+        });
+        target[j].addEventListener('dragleave', function (e) {
+          e.preventDefault();
+          if (target[j].classList.contains('noDrop')) {
+            return;
+          };
+          target[j].style.backgroundColor = '#e5ecf3';
+        });
+
+        target[j].addEventListener('drop', function (e) {
+          e.preventDefault();
+          if (target[j].classList.contains('noDrop')) {
+            return;
+          };
+          target[j].innerHTML = e.dataTransfer.getData('text');
+          target[j].style.backgroundColor = 'steelblue';
+          window.setTimeout(function () {
+            target[j].style.backgroundColor = '#e5ecf3';
+          }, 1200);
+        });
+
+      })(i);
+    }
+
+  }
+
+  //Style and optimizations
+
+  function afterResize() {
+    var mainTable = document.getElementById('main'),
+    gbcr = mainTable.getBoundingClientRect(),
+    pageBody = document.body.getBoundingClientRect().height;
+    // mainTable.style.height = pageBody / 1.2 + 'px';
+
+    if (gbcr.height >= pageBody) {mainTable.style.height = gbcr.height / 2 + 'px';}
+
+    if (gbcr.width > gbcr.height) {
+      for (var i = 0; i < 81; i++) {
+        mainTable.style.width = gbcr.height + 'px';
+      }
+    } else {
+      for (var i = 0; i < 81; i++) {
+        mainTable.style.height = gbcr.width + 'px';
+      }
+    }
+  }
+
+  window.onresize = function () {
+    afterResize();
+  };
+
+  //keypad for boxes
+  function addKeypadFunctionality() {
+    //if no keypad return
+    for (var i = 0; i < 81; i++) {
+      (function (j) {
+        var domSpot = board.board[j].dom,
+        eraseEvent = false;
+
+        domSpot.addEventListener('touchstart', function () {
+          if (domSpot.classList.contains('noDrop')) {
+            return;
+          }
+          var stillPressed = true;
+          domSpot.addEventListener('touchend', function () {
+            stillPressed = false;
+          });
+          window.setTimeout(function () {
+            if (stillPressed) {
+              domSpot.innerHTML = ' ';
+              eraseEvent = true;
+            }
+          }, 700);
+        });
+
+        domSpot.addEventListener('click', function () {
+          if (domSpot.classList.contains('noDrop') || document.getElementsByClassName('keypad').length > 1 || eraseEvent) {
+            eraseEvent = false;
+            return;
+          };
+          var spotCoor = domSpot.getBoundingClientRect();
+          var keypad = document.getElementsByClassName('keypad')[0].cloneNode(true);
+          var keypadCoor = document.getElementsByClassName('keypad')[0].getBoundingClientRect();
+          var keys;
+          var pX, pY;
+
+          document.body.appendChild(keypad);
+
+          keypad.style.visibility = 'visible';
+          pY = spotCoor.top - keypadCoor.height / 2 + spotCoor.height / 2 + document.body.scrollTop;
+          // if (pY > document.body.getBoundingClientRect().height) {pY = document.body.getBoundingClientRect().height - keypadCoor.height}
+          pX = spotCoor.left - keypadCoor.width / 2 + spotCoor.width / 2 + document.body.scrollLeft;
+          keypad.style.top = pY + 'px';
+          keypad.style.left = pX + 'px';
+
+          keys = keypad.getElementsByTagName('div'); //needs to be assigned here rather than at var declaration or breaks in ie
+          for (var v = 0; v < keys.length; v++) {
+
+            (function (x) {
+              keys[x].addEventListener('click', function () {
+                if (!keys[x].classList.contains('close')) {
+                  domSpot.innerHTML = keys[x].innerHTML;
+                  keyboardInputPosition = j;
+                }
+                keypad.parentNode.removeChild(keypad);
+              });
+            })(v);
+          };
+
+          keyboardInputPosition = j;
+        });
+      })(i);
+    }
+  }
+  addKeypadFunctionality();
+
+  //add keyboard functionality
+  var keyboardInputPosition = 0;
+  function changeKeyboardPosition(direction) {
+    var kip = keyboardInputPosition;
+    if (!direction) {return;}
+
+    board.board[kip].dom.style.backgroundColor = '#e5ecf3';
+    function returnNextPos(direction) {
+      //left
+      if (direction == 37) {
+        if (board.board[kip].y == 0 && board.board[kip].x == 0) {
+          kip = 80;
+        } else {
+          kip--;
+        }
+      };
+      //right
+      if (direction == 39) {
+        if (board.board[kip].y == 8 && board.board[kip].x == 8) {
+          kip = 0;
+        } else {
+          kip++;
+        }
+      };
+      //up
+      if (direction == 38) {
+        if (board.board[kip].x == 0) {
+          if (board.board[kip].y == 0) {
+            kip = 80;
+          } else {
+            kip += 71;
+          }
+        } else {
+          kip -= 9;
+        }
+      };
+      //down
+      if (direction == 40) {
+        if (board.board[kip].x == 8) {
+          if (board.board[kip].y == 8) {
+            kip = 0;
+          } else {
+            kip -= 71;
+          }
+        } else {
+          kip += 9;
+        }
+      };
+    }
+    returnNextPos(direction);
+    while (board.board[kip].dom.classList.contains('noDrop')) {
+      returnNextPos(direction);
+    }
+
+    board.board[kip].dom.style.backgroundColor = 'white';
+    keyboardInputPosition = kip;
+    window.setTimeout(function () {
+      board.board[kip].dom.style.backgroundColor = '#e5ecf3';
+    }, 1500);
+  }
+  document.addEventListener('keydown', function (e) {
+    var temp = e.keyCode ? e.keyCode : e.charCode ? e.charCode : e.which ? e.which : false;
+    temp = temp == 37 ? temp : temp == 38 ? temp : temp == 39 ? temp : temp == 40 ? temp : false;
+
+    if (temp) {e.preventDefault();}
+    changeKeyboardPosition(temp);
+  });
+
+  document.addEventListener('keypress', function (e) {
+    var temp = e.keyCode ? e.keyCode : e.charCode ? e.charCode : e.which ? e.which : false;
+    if (temp < 49 || temp > 57) {return;}
+    board.board[keyboardInputPosition].dom.innerHTML = temp - 48;
+  });
+
+  return console.log('No Cheating..');
+})();
+//# sourceURL=pen.js
+    </script>
+
+  
+
+
+
+
+ 
+</body></html>
