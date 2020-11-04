@@ -2,14 +2,16 @@ const router = require("express").Router();
 
 const {
  dayEvent,
- monthEvent,
+ getMonthEvent,
  renderNotesCa
 } = require("../controllers/calendar.controller");
 // Helpers
 const { isAuthenticated } = require("../helpers/auth");
 
-// Get event on month
-router.get("/cal/today", isAuthenticated, renderNotesCa);
+// render view calendar
+router.get("/cal", isAuthenticated, renderNotesCa);
+//Get data event month
+router.post("/cal/month", isAuthenticated, getMonthEvent);
 
 
 module.exports = router;

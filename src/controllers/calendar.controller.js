@@ -19,21 +19,23 @@ calendarCtrl.dayEvent = async (dateObj) => {
     	.lean();
   	return notes;
 };
-calendarCtrl.monthEvent = async (month) => {
-	var dateObj = new Date();
-	var month = dateObj.getUTCMonth() + 1;
-	var day = dateObj.getUTCDate();
-	var year = dateObj.getUTCFullYear();
-	today = year + "-" + month + "-" + day;
-	console.log(today);
-	const notes = await Note.find({ user: req.user.id, createdAt: {
-															    $gte: startOfDay(dateObj),
-															    $lte: endOfDay(dateObj)
-															  } 
-															})
-    	.sort({  createdAt: "desc" })
-    	.lean()
-  	return notes;
+calendarCtrl.getMonthEvent = async (req, res) => {
+	const { month } = req.body;
+	console.log(month);
+	// var dateObj = new Date();
+	// var month = dateObj.getUTCMonth() + 1;
+	// var day = dateObj.getUTCDate();
+	// var year = dateObj.getUTCFullYear();
+	// today = year + "-" + month + "-" + day;
+	// console.log(today);
+	// const notes = await Note.find({ user: req.user.id, createdAt: {
+	// 														    $gte: startOfDay(dateObj),
+	// 														    $lte: endOfDay(dateObj)
+	// 														  } 
+	// 														})
+ //    	.sort({  createdAt: "desc" })
+ //    	.lean()
+ //  	return notes;
 };
 calendarCtrl.renderNotesCa = (req, res) => {
 	console.log("reder");

@@ -21,9 +21,7 @@
   <div class="c-calendar">
       
   <div class="mobile-wrapper">
-
    <!--======= Header =======-->
-
    <header class="header">
       <div class="container">
          <span>Welcome Back!</span>
@@ -38,9 +36,7 @@
          </div>
       </div>
    </header>
-
    <!--======= Today =======-->
-
    <section class="today-box" id="today-box">
       <span class="abreadcrumb">Today</span>
       <h3 class="date-title">May 15, 2018</h3>
@@ -49,9 +45,7 @@
          <i class="ion ion-ios-add"></i>
       </div>
    </section>
-
    <!--======= Upcoming Events =======-->
-
    <section class="upcoming-events">
       <div class="container">
          <h3>
@@ -173,180 +167,12 @@
     <br>
     <a href="javascript:;" class="o-btn js-event__save">SAVE <span class="fa fa-save"></span></a>
   </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.cycle2/2.1.6/jquery.cycle2.core.min.js"></script>
-  
-      <script id="rendered-js">
-//global variables
-var monthEl = $(".c-main");
-var dataCel = $(".c-cal__cel");
-var dateObj = new Date();
-var month = dateObj.getUTCMonth() + 1;
-var day = dateObj.getUTCDate();
-var year = dateObj.getUTCFullYear();
 
-var indexMonth = month;
-var todayBtn = $(".c-today__btn");
-var addBtn = $(".js-event__add");
-var saveBtn = $(".js-event__save");
-var closeBtn = $(".js-event__close");
-var winCreator = $(".js-event__creator");
-var inputDate = $(this).data();
-today = year + "-" + month + "-" + day;
-console.log(today);
-
-// ------ set default events -------
-function defaultEvents(dataDay, dataName, dataNotes, classTag) {
-  var date = $('*[data-day=' + dataDay + ']');
-  date.attr("data-name", dataName);
-  date.attr("data-notes", dataNotes);
-  date.addClass("event");
-  date.addClass("event--" + classTag);
-}
-
-defaultEvents(today, 'YEAH!', 'Today is your day', 'important');
-defaultEvents('2017-12-25', 'MERRY CHRISTMAS', 'A lot of gift!!!!', 'festivity');
-defaultEvents('2017-05-04', "LUCA'S BIRTHDAY", 'Another gifts...?', 'birthday');
-defaultEvents('2017-03-03', "MY LADY'S BIRTHDAY", 'A lot of money to spent!!!!', 'birthday');
-
-
-// ------ functions control -------
-
-//button of the current day
-todayBtn.on("click", function () {
-  if (month < indexMonth) {
-    var step = indexMonth % month;
-    movePrev(step, true);
-  } else if (month > indexMonth) {
-    var step = month - indexMonth;
-    moveNext(step, true);
-  }
-});
-
-//higlight the cel of current day
-dataCel.each(function () {
-  if ($(this).data("day") === today) {
-    $(this).addClass("isToday");
-    fillEventSidebar($(this));
-  }
-});
-
-//window event creator
-addBtn.on("click", function () {
-  winCreator.addClass("isVisible");
-  $("body").addClass("overlay");
-  dataCel.each(function () {
-    if ($(this).hasClass("isSelected")) {
-      today = $(this).data("day");
-      document.querySelector('input[type="date"]').value = today;
-    } else {
-      document.querySelector('input[type="date"]').value = today;
-    }
-  });
-});
-closeBtn.on("click", function () {
-  winCreator.removeClass("isVisible");
-  $("body").removeClass("overlay");
-});
-saveBtn.on("click", function () {
-  var inputName = $("input[name=name]").val();
-  var inputDate = $("input[name=date]").val();
-  var inputNotes = $("textarea[name=notes]").val();
-  var inputTag = $("select[name=tags]").
-  find(":selected").
-  text();
-
-  dataCel.each(function () {
-    if ($(this).data("day") === inputDate) {
-      if (inputName != null) {
-        $(this).attr("data-name", inputName);
-      }
-      if (inputNotes != null) {
-        $(this).attr("data-notes", inputNotes);
-      }
-      $(this).addClass("event");
-      if (inputTag != null) {
-        $(this).addClass("event--" + inputTag);
-      }
-      fillEventSidebar($(this));
-    }
-  });
-
-  winCreator.removeClass("isVisible");
-  $("body").removeClass("overlay");
-  $("#addEvent")[0].reset();
-});
-
-//fill sidebar event info
-function fillEventSidebar(self) {
-  $(".c-aside__event").remove();
-  var thisName = self.attr("data-name");
-  var thisNotes = self.attr("data-notes");
-  var thisImportant = self.hasClass("event--important");
-  var thisBirthday = self.hasClass("event--birthday");
-  var thisFestivity = self.hasClass("event--festivity");
-  var thisEvent = self.hasClass("event");
-
-  switch (true) {
-    case thisImportant:
-      $(".c-aside__eventList").append(
-      "<p class='c-aside__event c-aside__event--important'>" +
-      thisName +
-      " <span> • " +
-      thisNotes +
-      "</span></p>");
-
-      break;
-    case thisBirthday:
-      $(".c-aside__eventList").append(
-      "<p class='c-aside__event c-aside__event--birthday'>" +
-      thisName +
-      " <span> • " +
-      thisNotes +
-      "</span></p>");
-
-      break;
-    case thisFestivity:
-      $(".c-aside__eventList").append(
-      "<p class='c-aside__event c-aside__event--festivity'>" +
-      thisName +
-      " <span> • " +
-      thisNotes +
-      "</span></p>");
-
-      break;
-    case thisEvent:
-      $(".c-aside__eventList").append(
-      "<p class='c-aside__event'>" +
-      thisName +
-      " <span> • " +
-      thisNotes +
-      "</span></p>");
-
-      break;}
-
-};
-dataCel.on("click", function () {
-  var thisEl = $(this);
-  var thisDay = $(this).
-  attr("data-day").
-  slice(8);
-  var thisMonth = $(this).
-  attr("data-day").
-  slice(5, 7);
-
-  fillEventSidebar($(this));
-
-  $(".c-aside__num").text(thisDay);
-
-  dataCel.removeClass("isSelected");
-  thisEl.addClass("isSelected");
-
-});
-
-//fill the sidebar with current day
-$(".c-aside__num").text(day);
-//# sourceURL=pen.js
-    </script>
- 
+ <script>
+   $.post( "/cal/month", {"month": "09.2020" })
+            .done(function( data ) {
+              alert( "thanh cong " + data );
+            });
+ </script>
 </div>
