@@ -426,39 +426,6 @@ a {
 .c-month #c-paginator .c-paginator__month:nth-child(1) {
   left: 0;
 }
-.c-month #c-paginator .c-paginator__month:nth-child(2) {
-  left: 200px;
-}
-.c-month #c-paginator .c-paginator__month:nth-child(3) {
-  left: 400px;
-}
-.c-month #c-paginator .c-paginator__month:nth-child(4) {
-  left: 600px;
-}
-.c-month #c-paginator .c-paginator__month:nth-child(5) {
-  left: 800px;
-}
-.c-month #c-paginator .c-paginator__month:nth-child(6) {
-  left: 1000px;
-}
-.c-month #c-paginator .c-paginator__month:nth-child(7) {
-  left: 1200px;
-}
-.c-month #c-paginator .c-paginator__month:nth-child(8) {
-  left: 1400px;
-}
-.c-month #c-paginator .c-paginator__month:nth-child(9) {
-  left: 1600px;
-}
-.c-month #c-paginator .c-paginator__month:nth-child(10) {
-  left: 1800px;
-}
-.c-month #c-paginator .c-paginator__month:nth-child(11) {
-  left: 2000px;
-}
-.c-month #c-paginator .c-paginator__month:nth-child(12) {
-  left: 2200px;
-}
 .c-month .prev,
 .c-month .next {
   position: absolute;
@@ -615,7 +582,7 @@ a {
   background-color: #97c5c2;
 }
 .c-cal__cel.isSelected p {
-  background: #003b71;
+  background: #dad6bc;
 }
 .c-cal__cel.isToday {
   background-color: rgba(245, 113, 112, 0.2);
