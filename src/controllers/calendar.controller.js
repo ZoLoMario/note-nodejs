@@ -26,13 +26,14 @@ calendarCtrl.getMonthEvent = async (req, res) => {
 		var totalEvent = [];
 		for(var i = 1; i < 10; i++) {
 		    var startDay = month +"/0" + i + "/" + year;
-		    if(i=9){ var endDay = month +"-10-" + year; } else {
+		    if(i==9){ var endDay = month +"-10-" + year; } else {
 		    	var endDay = month +"-0" + (i+1) + "-" + year;
-		    }
+		    };
 			console.log(startDay + " ngay dau thang 2 " + Date.parse(startDay));
 			var Datecc = new  Date(startDay);
 			console.log(startDay + " ngay " + Datecc.getDate());
 			console.log(endDay + " ngay cuối thang 2 " + Date.parse(endDay));
+			console.log(Date.parse(startDay)-Date.parse(endDay));
 			const notes = await Note.find({ user: req.user.id, createdAt: {
 															    $gte: Date.parse(startDay),
 															    $lte: Date.parse(endDay)
@@ -40,7 +41,7 @@ calendarCtrl.getMonthEvent = async (req, res) => {
 															});
 			console.log(notes.length)
 			totalEvent.push({"Day":startDay,"toEvent":notes.length,"Event":notes})
-		}
+		};
 		for(var i = 10; i < end; i++) {
 		    var startDay = month +"-" + i + "-" + year;
 			var endDay = month +"-" + (i+1) + "-" + year;
@@ -52,11 +53,13 @@ calendarCtrl.getMonthEvent = async (req, res) => {
 															  } 
 															});
 			console.log(notes.length)
+			console.log(Date.parse(startDay)-Date.parse(endDay));
 			totalEvent.push({"Day":startDay,"toEvent":notes.length,"Event":notes});
 		}
 			if (month!=12 ){
 			var startDay = month +"-" + end + "-" + year;
-			var endDay = (month + 1) +"-01-" + year;
+			var nextMonth = parseInt(month) + 1;
+			var endDay = nextMonth +"-01-" + year;
 			console.log(startDay + " ngay dau thang 2 " + Date.parse(startDay));
 			console.log(endDay + " ngay cuối thang 2 " + Date.parse(endDay));
 			const notes = await Note.find({ user: req.user.id, createdAt: {
@@ -68,7 +71,7 @@ calendarCtrl.getMonthEvent = async (req, res) => {
 			totalEvent.push({"Day":startDay,"toEvent":notes.length,"Event":notes});
 		}else{
 			var startDay = month +"-" + end + "-" + year;
-			var endDay = "01-01-" + (year+1);
+			var endDay = "01-01-" + (parseInt(year)+1);
 			console.log(startDay + " ngay dau thang 2 " + Date.parse(startDay));
 			console.log(endDay + " ngay cuối thang 2 " + Date.parse(endDay));
 			const notes = await Note.find({ user: req.user.id, createdAt: {
