@@ -1,4 +1,24 @@
 
+ <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+   <script>
+    var d = new Date();
+    var month = d.getUTCMonth() + 1;
+    var monthStr =  month + "-" + d.getUTCFullYear();
+    var monthISOStr = d.getUTCFullYear() + "-" + month;
+    var day = new Date(monthISOStr);
+    console.log(day.getDay());
+   $.post( "/cal/month", {"month": "10-2020"})
+            .done(function( data ) {
+              alert( "thanh cong " + data.length );
+              console.log(data);
+            });
+
+    // Xử lý dữ liệu render
+    var startHtml = '<div class="c-cal__row"' + '><div class="c-cal__col">CN</div><div class="c-cal__col">Hai</div><div class="c-cal__col">Ba</div><div class="c-cal__col">Tư</div><div class="c-cal__col">Năm</div><div class="c-cal__col">Sáu</div><div class="c-cal__col">Bẩy</div></div>';
+    if(day.getDay()==0){
+      weekone = '<div class="c-cal__row"><div data-day="" class="c-cal__cel"></div>';
+    }
+ </script>
 <div translate="no" style="margin-top: -3rem;">
 <div class="headerha">
   <div class="wrapper">
@@ -107,48 +127,58 @@
 </div>
     <div class="c-cal__container c-calendar__style">
       <div class="c-main">
-        <div class="c-cal__row">
-          <div class="c-cal__col">Sun</div>
-          <div class="c-cal__col">Mon</div>
-<div class="c-cal__col">Tue</div>
-<div class="c-cal__col">Wed</div>
-<div class="c-cal__col">Thu</div>
-<div class="c-cal__col">Fri</div>
-<div class="c-cal__col">Sat</div>
+<div class="c-cal__row">
+<div class="c-cal__col">CN</div>
+<div class="c-cal__col">Hai</div>
+<div class="c-cal__col">Ba</div>
+<div class="c-cal__col">Tư</div>
+<div class="c-cal__col">Năm</div>
+<div class="c-cal__col">Sáu</div>
+<div class="c-cal__col">Bẩy</div>
 </div>
-<div class="c-cal__row"><div data-day="2017-01-01" class="c-cal__cel"><p>1</p></div>
+<div class="c-cal__row">
+<div data-day="" class="c-cal__cel"></div>
 <div data-day="2017-01-02" class="c-cal__cel"><p>2</p></div>
 <div data-day="2017-01-03" class="c-cal__cel"><p>3</p></div>
 <div data-day="2017-01-04" class="c-cal__cel"><p>4</p></div>
 <div data-day="2017-01-05" class="c-cal__cel"><p>5</p></div>
 <div data-day="2017-01-06" class="c-cal__cel"><p>6</p></div>
-<div data-day="2017-01-07" class="c-cal__cel"><p>7</p></div></div>
-<div class="c-cal__row"><div data-day="2017-01-08" class="c-cal__cel"><p>8</p></div>
+<div data-day="2017-01-07" class="c-cal__cel"><p>7</p></div>
+</div>
+<div class="c-cal__row">
+<div data-day="2017-01-08" class="c-cal__cel"><p>8</p></div>
 <div data-day="2017-01-09" class="c-cal__cel"><p>9</p></div>
 <div data-day="2017-01-10" class="c-cal__cel"><p>10</p></div>
 <div data-day="2017-01-11" class="c-cal__cel"><p>11</p></div>
 <div data-day="2017-01-12" class="c-cal__cel"><p>12</p></div>
 <div data-day="2017-01-13" class="c-cal__cel"><p>13</p></div>
-<div data-day="2017-01-14" class="c-cal__cel"><p>14</p></div></div>
-<div class="c-cal__row"><div data-day="2017-01-15" class="c-cal__cel"><p>15</p></div>
+<div data-day="2017-01-14" class="c-cal__cel"><p>14</p></div>
+</div>
+<div class="c-cal__row">
+<div data-day="2017-01-15" class="c-cal__cel"><p>15</p></div>
 <div data-day="2017-01-16" class="c-cal__cel"><p>16</p></div>
 <div data-day="2017-01-17" class="c-cal__cel"><p>17</p></div>
 <div data-day="2017-01-18" class="c-cal__cel"><p>18</p></div>
 <div data-day="2017-01-19" class="c-cal__cel"><p>19</p></div>
 <div data-day="2017-01-20" class="c-cal__cel"><p>20</p></div>
-<div data-day="2017-01-21" class="c-cal__cel"><p>21</p></div></div>
-<div class="c-cal__row"><div data-day="2017-01-22" class="c-cal__cel"><p>22</p></div>
+<div data-day="2017-01-21" class="c-cal__cel"><p>21</p></div>
+</div>
+<div class="c-cal__row">
+<div data-day="2017-01-22" class="c-cal__cel"><p>22</p></div>
 <div data-day="2017-01-23" class="c-cal__cel"><p>23</p></div>
 <div data-day="2017-01-24" class="c-cal__cel"><p>24</p></div>
 <div data-day="2017-01-25" class="c-cal__cel"><p>25</p></div>
 <div data-day="2017-01-26" class="c-cal__cel"><p>26</p></div>
 <div data-day="2017-01-27" class="c-cal__cel"><p>27</p></div>
-<div data-day="2017-01-28" class="c-cal__cel"><p>28</p></div></div>
-<div class="c-cal__row"><div data-day="2017-01-29" class="c-cal__cel"><p>29</p></div>
+<div data-day="2017-01-28" class="c-cal__cel"><p>28</p></div>
+</div>
+<div class="c-cal__row">
+<div data-day="2017-01-29" class="c-cal__cel"><p>29</p></div>
 <div data-day="2017-01-30" class="c-cal__cel"><p>30</p></div>
-<div data-day="2017-01-31" class="c-cal__cel"><p>31</p></div></div></div>
-
-    </div>
+<div data-day="2017-01-31" class="c-cal__cel"><p>31</p></div>
+</div>
+      </div>
+</div>
   </div>
 
   <div class="c-event__creator c-calendar__style js-event__creator">
@@ -169,10 +199,5 @@
   </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.cycle2/2.1.6/jquery.cycle2.core.min.js"></script>
 
- <script>
-   $.post( "/cal/month", {"month": "12.2019"})
-            .done(function( data ) {
-              alert( "thanh cong " + data );
-            });
- </script>
+
 </div>
