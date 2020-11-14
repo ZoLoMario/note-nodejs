@@ -5,7 +5,19 @@
     <div class="card my-3">
       <div class="card-body">
         <h4 class="card-title d-flex justify-content-between align-items-center">
-          {{ title }} <a href="/notes/edit/{{_id}}"><i class="fas fa-edit"></i></a>
+          {{ title }} <a href="/notes/edit/{{_id}}"><div class="btn-group">
+  <button type="button" class="btn btn-danger">Action</button>
+  <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="#">Action</a>
+    <a class="dropdown-item" href="#">Another action</a>
+    <a class="dropdown-item" href="#">Something else here</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="#">Separated link</a>
+  </div>
+</div></a>
         </h4>
 		<div class="ce-example form-group">
 			<div class="ce-example__content _ce-example__content--small">
@@ -47,6 +59,11 @@
           <input type="hidden" name="_method" value="DELETE">
           <button type="submit" class="btn btn-danger btn-block btn-sm">Delete</button>
         </form>
+        <div class="card-body">
+        <p class="card-text" style="text-align: initial;font-weight: bolder;font-size: large;">
+        	{{ createdAt }}
+        </p>
+    </div>
       </div>
     </div>
   <!-- </div> -->
