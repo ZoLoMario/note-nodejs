@@ -6,15 +6,23 @@
     var monthISOStr = d.getUTCFullYear() + "-" + month;
     var day = new Date(monthISOStr);
     console.log(day.getDay());
-   $.post( "/cal/month", {"month": "10-2020"})
+    var eventData;
+   $.post("/cal/month", {"month": "10-2020"})
             .done(function( data ) {
               alert( "thanh cong " + data.length );
               console.log(data);
+              eventData = data;
             });
 
     // Xử lý dữ liệu render
     var startHtml = '<div class="c-cal__row"' + '><div class="c-cal__col">CN</div><div class="c-cal__col">Hai</div><div class="c-cal__col">Ba</div><div class="c-cal__col">Tư</div><div class="c-cal__col">Năm</div><div class="c-cal__col">Sáu</div><div class="c-cal__col">Bẩy</div></div>';
-    if(day.getDay()==0){
+    console.log(eventData[0].Day);
+    var startMonth = new Date(eventData[0].Day);
+    console.log(startMonth.getDay());
+    if(startMonth.getDay()==0){
+      for(var i = 0; i < eventData.length; i++){
+        
+      }
       weekone = '<div class="c-cal__row"><div data-day="" class="c-cal__cel"></div>';
     }
  </script>
