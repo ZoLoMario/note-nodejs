@@ -13,20 +13,21 @@
                 // Xử lý dữ liệu render
             var startHtml = '<div class="c-cal__row"' + '><div class="c-cal__col">CN</div><div class="c-cal__col">Hai</div><div class="c-cal__col">Ba</div><div class="c-cal__col">Tư</div><div class="c-cal__col">Năm</div><div class="c-cal__col">Sáu</div><div class="c-cal__col">Bẩy</div></div>';
             var startMonth = new Date(eventData[0].Day);
-            var start2Month = new Date(eventData[1].Day);
-            var timeOneDay = start2Month - startMonth;;
-            var start3Month = new Date(start2Month.getTime() + timeOneDay);
-            console.log("helo ngày 3 " + start3Month.getDate());
             console.log(startMonth.getDay());
-            var endWeekone = new Date(start2Month.getTime() + timeOneDay*(6-startMonth.getDay()));
-            console.log(endWeekone);
+            var listnoDay = '';
+            var noDay = '<div data-day="" class="c-cal__cel"></div>'
+            if(startMonth.getDay()!=0){
+            for(var i = 0; i < startMonth.getDay(); i++){
+              listnoDay = listnoDay + noDay;
+              };
+              console.log(listnoDay);
+              };
             //thực hiện chia tháng thành các tuần sau đó chia tuần thành các ngày riêng biệt trong tháng
-
-            if(startMonth.getDay()==0){
               for(var i = 0; i < eventData.length; i++){
+                if( i % 7 == 0 ){
+                  listnoDay = listnoDay + '<div class="c-cal__row">' + '<div class="c-cal__col">'
+                }
               }
-              weekone = '<div class="c-cal__row"><div data-day="" class="c-cal__cel"></div>';
-            }
             });
 
   
