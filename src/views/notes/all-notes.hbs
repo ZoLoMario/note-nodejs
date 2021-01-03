@@ -11,17 +11,62 @@
       <div class="modal-body">
         <div class="input-group">
         <div class="custom-file">
-          <input type="file" class="custom-file-input" id="customFile">
-          <label class="custom-file-label" for="customFile">Choose file</label>
+          <input type="file" class="custom-file-input" id="customFile" name="filedesp">
+          <label class="custom-file-label" for="customFile">Chojn file</label>
         </div>
          </div>
+         <div class="status alert alert-success"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Upload</button>
+        <button type="button" class="btn btn-primary" id="buttonupload">Upload</button>
       </div>
     </div>
   </div>
+
+<!-- Upload file xử dụng ajax -->
+<script>
+$('#buttonupload').on('click', function () {
+  // Lấy ra files
+        var file_data = $('#customFile').prop('files')[0];
+        // láy kiểu file
+        var type = file_data.type;
+        //Xét kiểu file được upload
+        var match = ["image/gif", "image/png", "image/jpg",];
+        //kiểm tra kiểu file
+        if (type == match[0] || type == match[1] || type == match[2]) {
+            //khởi tạo đối tượng form data
+            var form_data = new FormData();
+            //thêm files vào trong form data
+            form_data.append('filedesp', file_data);
+            //sử dụng ajax post
+            $.ajax({
+                url: '/file/upload', // gửi đến file upload.php 
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                success: function (res) {
+                  console.log(res);
+                    $('.status').text("thanh conng");
+                    $('#customFile').val('');
+                }
+            });
+        } else {
+            $('.status').text('Chỉ được upload file ảnh');
+            $('#customFile').val('');
+        }
+        //return false;
+    });
+
+
+</script>
+
+
+
+
 </div>
 <!-- <div class="row"> -->
   {{#each notes}}

@@ -8,6 +8,7 @@ const passport = require("passport");
 const morgan = require("morgan");
 const connectMongo = require("connect-mongo");
 const mongoose = require("mongoose");
+const multer = require("multer");
 
 const { createAdminUser } = require("./libs/createUser");
 
@@ -66,9 +67,10 @@ app.use(require("./routes/users.routes"));
 app.use(require("./routes/notes.routes"));
 app.use(require("./routes/tags.routes"));
 app.use(require("./routes/calendar.routes"));
+app.use(require("./routes/fileupload.routes"));
 // static files
 app.use(express.static(path.join(__dirname, "public")));
-
+app.use('/public/up', express.static(path.join(__dirname,'..','uploads')));
 app.use((req, res) => {
   res.render("404");
 });
