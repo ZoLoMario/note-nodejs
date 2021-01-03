@@ -1,37 +1,5 @@
- <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
-   <script>
-    var d = new Date();
-    var month = d.getUTCMonth() + 1;
-    var monthStr =  month + "-" + d.getUTCFullYear();
-    var monthISOStr = d.getUTCFullYear() + "-" + month;
-    var day = new Date(monthISOStr);
-    console.log(day.getDay());
-    $.post("/cal/month", {"month": "10-2020"})
-            .done(function( eventData ) {
-              alert( "thanh cong " + eventData.length );
-              console.log(eventData);
-                // Xử lý dữ liệu render
-            var startHtml = '<div class="c-cal__row"' + '><div class="c-cal__col">CN</div><div class="c-cal__col">Hai</div><div class="c-cal__col">Ba</div><div class="c-cal__col">Tư</div><div class="c-cal__col">Năm</div><div class="c-cal__col">Sáu</div><div class="c-cal__col">Bẩy</div></div>';
-            var startMonth = new Date(eventData[0].Day);
-            console.log(startMonth.getDay());
-            var listnoDay = '';
-            var noDay = '<div data-day="" class="c-cal__cel"></div>'
-            if(startMonth.getDay()!=0){
-            for(var i = 0; i < startMonth.getDay(); i++){
-              listnoDay = listnoDay + noDay;
-              };
-              console.log(listnoDay);
-              };
-            //thực hiện chia tháng thành các tuần sau đó chia tuần thành các ngày riêng biệt trong tháng
-              for(var i = 0; i < eventData.length; i++){
-                if( i % 7 == 0 ){
-                  listnoDay = listnoDay + '<div class="c-cal__row">' + '<div class="c-cal__col">'
-                }
-              }
-            });
 
-  
- </script>
+   
 <div translate="no" style="margin-top: -3rem;">
 <div class="headerha">
   <div class="wrapper">
@@ -45,21 +13,20 @@
       </div>
       <span class="c-paginator__year">2017</span>
     </div>
-    <div class="c-sort">
-      <a class="o-btn c-today__btn" href="javascript:;">TODAY</a>
-    </div>
+    <div style=" display: contents;" class="c-sort">
+    <input type="date" id="birthday" style="margin: 12px;border: 1px solid black;height: 30px">
+    <button class="btn btn-info o-btn c-today__btn" id="sendate" style="padding: 4px;">Check</button>
+  </div>
   </div>
 </div>
+
 <div class="wrapper">
   <div class="c-calendar">
-      
+     
   <div class="mobile-wrapper">
    <!--======= Header =======-->
    <header class="header">
       <div class="container">
-         <span>Welcome Back!</span>
-         <h1>Calendar Plan</h1>
-
          <div class="menu-toggle">
             <div>
                <span></span>
@@ -71,63 +38,20 @@
    </header>
    <!--======= Today =======-->
    <section class="today-box" id="today-box">
-      <span class="abreadcrumb">Today</span>
-      <h3 class="date-title">May 15, 2018</h3>
-
-      <div class="plus-icon">
-         <i class="ion ion-ios-add"></i>
-      </div>
+      <span class="abreadcrumb">Ngày</span>
+      <h3 class="date-title"></h3>
    </section>
    <!--======= Upcoming Events =======-->
    <section class="upcoming-events">
       <div class="container">
          <h3>
-            Lastest Events
-
+            Danh sách
          </h3>
          <div class="events-wrapper">
-            <div class="event">
-               <i class="ion ion-ios-flame hot"></i>
-               <h4 class="event__point">11:00 am</h4>
-               <span class="event__duration">in 30 minutes.</span>
-               <p class="event__description">
-                  Monday briefing with the team (...).
-               </p>
-            </div>
-            <div class="event">
-               <i class="ion ion-ios-flame done"></i>
-               <h4 class="event__point">12:00 pm</h4>
-               <span class="event__duration">in 1 hour.</span>
-               <p class="event__description">
-                  Lunch with Paul Mccartney @Burgers House!
-               </p>
-            </div>
-            <div class="event active">
-               <i class="ion ion-ios-radio-button-on icon-in-active-mode"></i>
-               <h4 class="event__point">14:00 pm</h4>
-               <p class="event__description">
-                  Meet clients from project.
-               </p>
-            </div>
-            <div class="event">
-               <i class="ion ion-ios-flame-outline upcoming"></i>
-               <h4 class="event__point">20:45 pm</h4>
-               <span class="event__duration">in 45 minutes.</span>
-               <p class="event__description">
-                  Watch sci-fi series.
-               </p>
-            </div>
-            <div class="event">
-               <i class="ion ion-ios-flame-outline upcoming"></i>
-               <h4 class="event__point">23:15 pm</h4>
-               <span class="event__duration">in 20 minutes.</span>
-               <p class="event__description">
-                  Customer dialog on Skype.
-               </p>
-            </div>
+            
          </div>
          <button class="add-event-button">
-            <span class="add-event-button__title"><a class="js-event__add" href="javascript:;">Add Event</a></span>
+            <span class="add-event-button__title"><a class="js-event__add" href="/notes/add">Thêm sự kiện hôm nay</a></span>
 
             <span class="add-event-button__icon">
                <i class="ion ion-ios-star-outline"></i>
@@ -140,77 +64,90 @@
 </div>
     <div class="c-cal__container c-calendar__style">
       <div class="c-main">
-<div class="c-cal__row">
-<div class="c-cal__col">CN</div>
-<div class="c-cal__col">Hai</div>
-<div class="c-cal__col">Ba</div>
-<div class="c-cal__col">Tư</div>
-<div class="c-cal__col">Năm</div>
-<div class="c-cal__col">Sáu</div>
-<div class="c-cal__col">Bẩy</div>
-</div>
-<div class="c-cal__row">
-<div data-day="" class="c-cal__cel"></div>
-<div data-day="2017-01-02" class="c-cal__cel"><p>2</p></div>
-<div data-day="2017-01-03" class="c-cal__cel"><p>3</p></div>
-<div data-day="2017-01-04" class="c-cal__cel"><p>4</p></div>
-<div data-day="2017-01-05" class="c-cal__cel"><p>5</p></div>
-<div data-day="2017-01-06" class="c-cal__cel"><p>6</p></div>
-<div data-day="2017-01-07" class="c-cal__cel"><p>7</p></div>
-</div>
-<div class="c-cal__row">
-<div data-day="2017-01-08" class="c-cal__cel"><p>8</p></div>
-<div data-day="2017-01-09" class="c-cal__cel"><p>9</p></div>
-<div data-day="2017-01-10" class="c-cal__cel"><p>10</p></div>
-<div data-day="2017-01-11" class="c-cal__cel"><p>11</p></div>
-<div data-day="2017-01-12" class="c-cal__cel"><p>12</p></div>
-<div data-day="2017-01-13" class="c-cal__cel"><p>13</p></div>
-<div data-day="2017-01-14" class="c-cal__cel"><p>14</p></div>
-</div>
-<div class="c-cal__row">
-<div data-day="2017-01-15" class="c-cal__cel"><p>15</p></div>
-<div data-day="2017-01-16" class="c-cal__cel"><p>16</p></div>
-<div data-day="2017-01-17" class="c-cal__cel"><p>17</p></div>
-<div data-day="2017-01-18" class="c-cal__cel"><p>18</p></div>
-<div data-day="2017-01-19" class="c-cal__cel"><p>19</p></div>
-<div data-day="2017-01-20" class="c-cal__cel"><p>20</p></div>
-<div data-day="2017-01-21" class="c-cal__cel"><p>21</p></div>
-</div>
-<div class="c-cal__row">
-<div data-day="2017-01-22" class="c-cal__cel"><p>22</p></div>
-<div data-day="2017-01-23" class="c-cal__cel"><p>23</p></div>
-<div data-day="2017-01-24" class="c-cal__cel"><p>24</p></div>
-<div data-day="2017-01-25" class="c-cal__cel"><p>25</p></div>
-<div data-day="2017-01-26" class="c-cal__cel"><p>26</p></div>
-<div data-day="2017-01-27" class="c-cal__cel"><p>27</p></div>
-<div data-day="2017-01-28" class="c-cal__cel"><p>28</p></div>
-</div>
-<div class="c-cal__row">
-<div data-day="2017-01-29" class="c-cal__cel"><p>29</p></div>
-<div data-day="2017-01-30" class="c-cal__cel"><p>30</p></div>
-<div data-day="2017-01-31" class="c-cal__cel"><p>31</p></div>
-</div>
       </div>
 </div>
   </div>
 
-  <div class="c-event__creator c-calendar__style js-event__creator">
-    <a href="javascript:;" class="o-btn js-event__close">CLOSE <span class="fa fa-close"></span></a>
-    <form id="addEvent">
-      <input placeholder="Event name" type="text" name="name">
-      <input type="date" name="date">
-      <textarea placeholder="Notes" name="notes" cols="30" rows="10"></textarea>
-      <select name="tags">
-          <option value="event">event</option>
-          <option value="important">important</option>
-          <option value="birthday">birthday</option>
-          <option value="festivity">festivity</option>
-        </select>
-    </form>
-    <br>
-    <a href="javascript:;" class="o-btn js-event__save">SAVE <span class="fa fa-save"></span></a>
-  </div>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.cycle2/2.1.6/jquery.cycle2.core.min.js"></script>
+<script>
+  $('#sendate').on('click', function() {
+    if(moment($('#birthday').val(), 'YYYY-MM-DD',true).isValid()){
+      var stringday = moment($('#birthday').val()).format('MM/DD/YYYY');
+      getDataDate(stringday);
+    }else{
+      alert("Vui lòng chọn ngày")
+    };
+  });
+  $(document).on('click','.c-cal__cel', function() {
+    //console.log($(this));
+    //console.log($(this).data('day'));
+  //console.log(moment($(this).data('day')));
+  //console.log(moment($(this).data('day')).format('MM-DD-YYYY'));
+    //$('#birthday').val().split("-");
+    var stringday = $(this).data('day').replaceAll("-","/");
+    //console.log(stringday);
+    getDataDate(stringday);
+  });
+  //var stringday = moment().format('MM/DD/YYYY');
+  var stringday = "10/23/2020"
+  getDataDate(stringday);
+  function getDataDate(date){
+    $.post("/cal/month", {"date": date})
+            .done(function( eventData ) {
+              //console.log(eventData);
+                // Xử lý dữ liệu render
+                // thêm thứ vào trong lịch
+            var startHtml = '<div class="c-cal__row"' + '><div class="c-cal__col">CN</div><div class="c-cal__col">Hai</div><div class="c-cal__col">Ba</div><div class="c-cal__col">Tư</div><div class="c-cal__col">Năm</div><div class="c-cal__col">Sáu</div><div class="c-cal__col">Bẩy</div></div><div class="c-cal__row">';
 
+            // xử lí ngà đầu không đúng thứ
+            //console.log((new Date(eventData[0].Day)).getDay());
+            var noDay = '<div data-day="" class="c-cal__cel"></div>';
+            var i = 0;
+             for(var i = 0; i < ((new Date(eventData[0].Day)).getDay());i++) {
+                startHtml = startHtml + noDay;
+              };
+
+            //thực hiện chia tháng thành các tuần sau đó chia tuần thành các ngày riêng biệt trong tháng
+              for(var i=0;i < eventData.length;i++){
+                //console.log(i);
+                if( (new Date(eventData[i].Day).getDay()) % 7 == 0 ){
+                  startHtml = startHtml + '</div><div class="c-cal__row"><div  class="c-cal__cel" data-day="' + eventData[i].Day.replaceAll("/","-") +'"><p>'+ (new Date(eventData[i].Day).getDate()) + '</p><span>' + eventData[i].toEvent + '</span></div>'
+                } else {
+                 //console.log(eventData[i]);
+                  startHtml = startHtml + '<div class="c-cal__cel" data-day="' + eventData[i].Day.replaceAll("/","-") +'"><p>'+ (new Date(eventData[i].Day).getDate()) + '</p><span>' + eventData[i].toEvent + '</span></div>'
+                };
+                
+            };
+
+            //xử lí cuối mảng
+            var endMonth = new Date(eventData[eventData.length - 1].Day);
+             for(var i = 0; i < (6 - endMonth.getDay()); i++){
+                startHtml = startHtml + noDay;
+              };
+             $('div.c-main').html(startHtml);
+
+            //xử lí sự kiện
+            function showEvent(stringdate){
+            var d = new Date(stringdate);
+            $('h3.date-title').html(moment(d).format('ddd DD/MM/YYYY'));
+         
+            const found = eventData.find(element => element.Day == stringdate);
+            var htmlEvent = "";
+            if(found){
+            $('.header div.container').html('<span>Bảng Ghi chú !</span><h1>Có ' + found.toEvent + ' ghi chú</h1>');
+              found.Event.forEach(function(item, index){
+                  htmlEvent = htmlEvent + '<div class="event"><i class="ion ion-ios-flame hot"></i><h4 class="event__point">'+ item.createdAt + '</h4><p class="event__description"><a href="/notes/edit/'+ item._id +'">'+ item.title +'</a></p></div>';
+              })}else{
+                $('.header div.container').html('<span>Bảng Ghi chú !</span><h1>Không có ghi chú</h1>');
+              };
+            
+            $('div.events-wrapper').html(htmlEvent);
+          };
+            showEvent(date);
+            });
+  };
+  
+</script>
 
 </div>

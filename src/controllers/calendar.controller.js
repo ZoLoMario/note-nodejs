@@ -21,18 +21,21 @@ calendarCtrl.dayEvent = async (dateObj) => {
   	return notes;
 };
 calendarCtrl.getMonthEvent = async (req, res) => {
-	const { month } = req.body;
-	console.log(month.split("-")[0]);
+	const { date } = req.body;
+	//console.log(req.body);
+	//console.log(date.split("/")[2]);
+	//console.log(date.split("/")[0] + "-" + date.split("/")[2]);
+	const  month = date.split("/")[0] + "-" + date.split("/")[2];
 	async function eventMonth(end,month,year){
-		console.log(month);
+		//console.log(month);
 		var totalEvent = [];
 		for(var i = 1; i < 10; i++) {
 		    var startDay = month +"/0" + i + "/" + year;
-		    console.log("startDay là  :" + startDay);
+		    //console.log("startDay là  :" + startDay);
 		    if(i==9){ var endDay = month +"/10/" + year; } else {
 		    	var endDay = month +"/0" + (i+1) + "/" + year;
 		    };
-			console.log(startDay + " ngay dau thang 2 " + Date.parse(startDay));
+			//console.log(startDay + " ngay dau thang 2 " + Date.parse(startDay));
 			var Datecc = new  Date(startDay);
 			//console.log(Date.parse(startDay)-Date.parse(endDay));
 			const notes = await Note.find({ user: req.user.id, createdAt: {
@@ -46,8 +49,8 @@ calendarCtrl.getMonthEvent = async (req, res) => {
 		for(var i = 10; i < end; i++) {
 		    var startDay = month +"/" + i + "/" + year;
 			var endDay = month +"/" + (i+1) + "/" + year;
-			console.log("startDay :" + startDay);
-			console.log("endDay :" + endDay);
+			//console.log("startDay :" + startDay);
+			//console.log("endDay :" + endDay);
 			const notes = await Note.find({ user: req.user.id, createdAt: {
 															    $gte: Date.parse(startDay),
 															    $lte: Date.parse(endDay)
@@ -93,13 +96,13 @@ calendarCtrl.getMonthEvent = async (req, res) => {
 		// console.log((month.split(".")[1]%400==0)||(month.split(".")[1]%4==0&&(month.split(".")[1]%100!=0)));
 		//xác định có phải năm nhuận không
 		if((month.split("-")[1]%400==0)||(month.split(".")[1]%4==0&&(month.split("-")[1]%100!=0))){
-			console.log('năm nay là năm nhuận có 29 ngày trong tháng 2');
+			//console.log('năm nay là năm nhuận có 29 ngày trong tháng 2');
 			eventMonth("29","02",month.split("-")[1])
 				.then(noteevent => { 
 				res.send(noteevent); 
 					});
 		} else {
-			console.log('năm nay là năm thường có 28 ngày trong tháng 2');
+			//console.log('năm nay là năm thường có 28 ngày trong tháng 2');
 			eventMonth("28","02",month.split("-")[1])
 				.then(noteevent => {
 				res.send(noteevent); 
@@ -107,13 +110,13 @@ calendarCtrl.getMonthEvent = async (req, res) => {
 		}
 	} else {
 		if (["04","06","09","11"].includes(month.split("-")[0])) {
-			console.log("tháng này có 30 ngày");
+			//console.log("tháng này có 30 ngày");
 			eventMonth("30",month.split("-")[0],month.split("-")[1])
 			.then(noteevent => { 
 				res.send(noteevent); 
 					});
 		} else {
-			console.log("tháng này có 31 ngày");
+			//console.log("tháng này có 31 ngày");
 			eventMonth("31",month.split("-")[0],month.split("-")[1])
 			.then(noteevent => { 
 				//console.log(noteevent);
@@ -127,7 +130,7 @@ calendarCtrl.getMonthEvent = async (req, res) => {
 };
 
 calendarCtrl.renderNotesCa = (req, res) => {
-	console.log("reder");
+	//console.log("reder");
   res.render('calendar/calendar');
 };
 

@@ -499,7 +499,7 @@ a {
   box-shadow:0px 10px 30px -10px #000;
   position: relative;
   width: calc(100% - 300px);
-  padding-bottom: 65%;
+  padding-bottom: 75%;
   overflow: hidden;
   color: black;
 }
@@ -747,7 +747,7 @@ input {
   /*---------*/
   width: 380px;
   min-height: 100%;
-  margin: auto;
+ /* margin: auto;*/
   padding: 10px 0 20px;
   border-radius: 10px;
   box-shadow: 0px 10px 30px -10px #000;
