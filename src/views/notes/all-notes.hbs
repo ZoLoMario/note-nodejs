@@ -1,4 +1,28 @@
 <div class="card-columns">
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" id="customFile">
+          <label class="custom-file-label" for="customFile">Choose file</label>
+        </div>
+         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Upload</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- <div class="row"> -->
   {{#each notes}}
   <!-- <div class="col-md-3"> -->
@@ -12,7 +36,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="/notes/edit/{{_id}}">Edit</a>
-              <a class="dropdown-item" href="/notes/add">Add A Note</a>
+              <a class="dropdown-item" data-toggle="modal" data-target="#exampleModalCenter" href="/notes/upload">Upload</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="/users/logout">Logout</a>
             </div>

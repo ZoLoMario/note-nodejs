@@ -21,6 +21,7 @@
     "method-override": "^3.0.0",
     "mongoose": "^5.10.5",
     "morgan": "^1.10.0",
+    "multer": "^1.4.2",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0"
   },
@@ -28,5 +29,16 @@
     "dotenv": "^8.2.0",
     "handlebars": "^4.7.6",
     "nodemon": "^2.0.4"
-  }
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZoLoMario/note-nodejs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ZoLoMario/note-nodejs/issues"
+  },
+  "homepage": "https://github.com/ZoLoMario/note-nodejs#readme"
 }
