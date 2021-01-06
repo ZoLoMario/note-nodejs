@@ -12,7 +12,7 @@
         <div class="input-group">
         <div class="custom-file">
           <input type="file" class="custom-file-input" id="customFile" name="filedesp">
-          <label class="custom-file-label" for="customFile">Chojn file</label>
+          <label class="custom-file-label" for="customFile">Chọn file</label>
         </div>
          </div>
          <div class="status alert alert-success"></div>
@@ -25,44 +25,9 @@
   </div>
 
 <!-- Upload file xử dụng ajax -->
-<script>
-$('#buttonupload').on('click', function () {
-  // Lấy ra files
-        var file_data = $('#customFile').prop('files')[0];
-        // láy kiểu file
-        var type = file_data.type;
-        //Xét kiểu file được upload
-        var match = ["image/gif", "image/png", "image/jpg",];
-        //kiểm tra kiểu file
-        if (type == match[0] || type == match[1] || type == match[2]) {
-            //khởi tạo đối tượng form data
-            var form_data = new FormData();
-            //thêm files vào trong form data
-            form_data.append('filedesp', file_data);
-            //sử dụng ajax post
-            $.ajax({
-                url: '/file/upload', // gửi đến file upload.php 
-                dataType: 'text',
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: form_data,
-                type: 'post',
-                success: function (res) {
-                  console.log(res);
-                    $('.status').text("thanh conng");
-                    $('#customFile').val('');
-                }
-            });
-        } else {
-            $('.status').text('Chỉ được upload file ảnh');
-            $('#customFile').val('');
-        }
-        //return false;
-    });
 
 
-</script>
+
 
 
 
@@ -80,8 +45,8 @@ $('#buttonupload').on('click', function () {
             <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/notes/edit/{{_id}}">Edit</a>
-              <a class="dropdown-item" data-toggle="modal" data-target="#exampleModalCenter" href="/notes/upload">Upload</a>
+              <a class="dropdown-item " id="linkedit" href="/notes/edit/{{_id}}">Edit</a>
+              <a class="dropdown-item uploadbut" data-toggle="modal" data-target="#exampleModalCenter" href="/notes/upload">Upload</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="/users/logout">Logout</a>
             </div>
@@ -146,3 +111,45 @@ $('#buttonupload').on('click', function () {
   </div>
   {{/each}}
 </div>
+<script>
+$('.uploadbut').on('click', function () {
+  $('#buttonupload').attr("data-id", ($('#linkedit').attr("href").split("/"))[3]);
+});
+
+$('#buttonupload').on('click', function () {
+  // Lấy ra files
+        var file_data = $('#customFile').prop('files')[0];
+        // láy kiểu file
+        var type = file_data.type;
+        //Xét kiểu file được upload
+        var match = ["image/gif", "image/png", "image/jpg",];
+        //kiểm tra kiểu file
+        if (type == match[0] || type == match[1] || type == match[2]) {
+            //khởi tạo đối tượng form data
+            var form_data = new FormData();
+            //thêm files vào trong form data
+            form_data.append('filedesp', file_data);
+            //sử dụng ajax post
+            $.ajax({
+                url: '/file/upload', // gửi đến file upload.php 
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                success: function (res) {
+                  console.log(res);
+                    $('.status').text("thanh conng");
+                    $('#customFile').val('');
+                }
+            });
+        } else {
+            $('.status').text('Chỉ được upload file ảnh');
+            $('#customFile').val('');
+        }
+        //return false;
+    });
+
+
+</script>
