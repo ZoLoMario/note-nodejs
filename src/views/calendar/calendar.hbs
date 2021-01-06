@@ -1,9 +1,14 @@
 
    
 <div translate="no" style="margin-top: -3rem;">
-<div class="headerha">
-  <div class="wrapper">
-    <div class="c-monthyear">
+
+
+<div class="container wrapper">
+
+
+  <div class="col-sm-12 col-md-12 col-xs-12 headerha">
+  <div class="row wrapper">
+    <div class="col-xs-12 col-md-6 c-monthyear">
     <div class="c-month">
         <span id="prev" class="prev fa fa-angle-left" aria-hidden="true"></span>
         <div id="c-paginator">
@@ -13,16 +18,17 @@
       </div>
       <span class="c-paginator__year">2017</span>
     </div>
-    <div style=" display: contents;" class="c-sort">
-    <input type="date" id="birthday" style="margin: 12px;border: 1px solid black;height: 30px">
+    <div class=" col-xs-12 col-md-6 c-sort" style=" display: flex;">
+    <input type="date" id="birthday">
     <button class="btn btn-info o-btn c-today__btn" id="sendate" style="padding: 4px;">Check</button>
   </div>
   </div>
 </div>
 
-<div class="wrapper">
-  <div class="c-calendar">
-     
+
+  <div class="row c-calendar">
+
+     <div class="col-sm-5 col-md-5 col-xs-12">
   <div class="mobile-wrapper">
    <!--======= Header =======-->
    <header class="header">
@@ -62,9 +68,12 @@
       </div>
    </section>
 </div>
+</div>
+<div class="col-sm-7 col-md-7 col-xs-12">
     <div class="c-cal__container c-calendar__style">
       <div class="c-main">
       </div>
+</div>
 </div>
   </div>
 

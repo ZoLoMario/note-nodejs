@@ -332,7 +332,7 @@ padding: 10px;
   max-width: 1280px;
   width: 100%;
   height: 100%;
-  margin: 10px auto;
+  margin-top: 15px;
   color: #ffffff
 }
 a {
@@ -374,7 +374,6 @@ a {
 .headerha {
   box-shadow: 0px 10px 30px -10px #000;
   border-radius: 5px;
-  height: 40px;
   width: 100%;
   z-index: 50;
   background: white;
@@ -386,7 +385,6 @@ a {
           justify-content: space-between;
   -webkit-box-align: center;
           align-items: center;
-  padding: 0 20px;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -475,20 +473,26 @@ a {
 .c-paginator__year {
   height: 40px;
   line-height: 40px;
-  padding: 0 20px;
 }
+
+
 .c-calendar {
-  display: -webkit-box;
   display: flex;
-  -webkit-box-pack: justify;
+/*  -webkit-box-pack: justify;
           justify-content: space-between;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-          flex-direction: row;
+*/          flex-direction: row;
 }
+@media all and (max-width: 576px) {
+   .c-calendar {
+      flex-direction: column-reverse;
+   }
+}
+
 .c-calendar__style {
+  margin-top: 15px;
   background-color: white;
-  margin: 0 20px;
   padding: 10px;
   box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.18);
   -webkit-box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.18);
@@ -496,10 +500,10 @@ a {
   -webkit-border-radius: 6px;
 }
 .c-cal__container {
+  z-index:51;
   box-shadow:0px 10px 30px -10px #000;
   position: relative;
-  width: calc(100% - 300px);
-  padding-bottom: 75%;
+  padding-bottom: 125%;
   overflow: hidden;
   color: black;
 }
@@ -546,14 +550,14 @@ a {
 .c-cal__cel p {
   position: absolute;
   font-size: 25px;
-  font-weight: bold;
+  /*font-weight: bold;*/
   margin: 0;
   top: 50%;
   left: 50%;
   width: 53px;
   height: 50px;
   line-height: 40px;
-  background: #e5fdff;
+/*  background: #e5fdff;*/
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
   border-radius: 50%;
@@ -567,10 +571,10 @@ a {
   padding-top: 100%;
 }
 .c-cal__cel:nth-child(1) p {
-  background: rgba(215, 16, 15, 0.2);
+  /*background: rgba(215, 16, 15, 0.2);*/
 }
 .c-cal__cel:nth-child(7) p {
-  background: #7eea7c;
+  backgrou/*nd: #7eea7c;*/
 }
 .c-cal__cel:hover {
   background-color: #dce3ecab !important;
@@ -733,29 +737,24 @@ input {
 
 /*Css box calendar*/
 
-.container {
-  width: 90%;
-  margin: auto;
-}
-
 .mobile-wrapper {
   background: #fff;
   /* relative with .today-box::before*/
-  z-index: 1;
+  z-index: 52;
   /*positive*/
   position: relative;
   /*---------*/
-  width: 380px;
+  /*width: 380px;*/
   min-height: 100%;
  /* margin: auto;*/
   padding: 10px 0 20px;
   border-radius: 10px;
   box-shadow: 0px 10px 30px -10px #000;
   overflow: hidden;
+  margin-top: 15px;
 }
 
 .header {
-  padding-bottom: 15px;
   margin-bottom: 40px;
 }
 .header .container {
