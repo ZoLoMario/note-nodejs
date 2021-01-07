@@ -10,17 +10,12 @@
   <div class="row wrapper">
     <div class="col-xs-12 col-md-6 c-monthyear">
     <div class="c-month">
-        <span id="prev" class="prev fa fa-angle-left" aria-hidden="true"></span>
-        <div id="c-paginator">
-          <span class="c-paginator__month">NOVEMBER</span>
-        </div>
-        <span id="next" class="next fa fa-angle-right" aria-hidden="true"></span>
-      </div>
-      <span class="c-paginator__year">2017</span>
+       NOVEMBER-2017
     </div>
-    <div class=" col-xs-12 col-md-6 c-sort" style=" display: flex;">
-    <input type="date" id="birthday">
-    <button class="btn btn-info o-btn c-today__btn" id="sendate" style="padding: 4px;">Check</button>
+  </div>
+    <div class=" col-xs-12 col-md-6 c-sort" style=" display: flex;align-items: center;">
+    <input class="form-control dateinput" type="date" id="birthday">
+    <button class="btn btn-info o-btn c-today__btn" id="sendate" style="padding: 7px;">Check</button>
   </div>
   </div>
 </div>
@@ -139,6 +134,7 @@
             //xử lí sự kiện
             function showEvent(stringdate){
             var d = new Date(stringdate);
+             $('.c-month').html(moment(d).format('ddd DD MMMM YYYY').toUpperCase());
             $('h3.date-title').html(moment(d).format('ddd DD/MM/YYYY'));
          
             const found = eventData.find(element => element.Day == stringdate);

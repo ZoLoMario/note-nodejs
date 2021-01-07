@@ -26,12 +26,6 @@
 
 <!-- Upload file xử dụng ajax -->
 
-
-
-
-
-
-
 </div>
 <!-- <div class="row"> -->
   {{#each notes}}
@@ -129,6 +123,10 @@ $('#buttonupload').on('click', function () {
             var form_data = new FormData();
             //thêm files vào trong form data
             form_data.append('filedesp', file_data);
+            form_data.append('idnote', $('#buttonupload').attr("data-id", ($('#linkedit').attr("href").split("/"))[3]));
+            for(var pair of form_data.entries()) {
+   console.log(pair[0]+ ', '+ pair[1]); 
+}
             //sử dụng ajax post
             $.ajax({
                 url: '/file/upload', // gửi đến file upload.php 
