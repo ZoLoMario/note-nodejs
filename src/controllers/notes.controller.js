@@ -17,7 +17,7 @@ notesCtrl.renderNoteForm = (req, res) => {
 //tao note moi
 notesCtrl.createNewNote = async (req, res) => {
   const { title, description, tag, tagAction, status } = req.body;
-  console.log(req.body);
+  //console.log(req.body);
   const errors = [];
   if (!title) {
     errors.push({ text: "Please Write a Title." });
