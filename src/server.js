@@ -20,7 +20,7 @@ createAdminUser();
 // thêm thư viện phân tích body dạng json
 const bodyParse = require('body-parser');
 app.use(bodyParse.json());
-app.use(bodyParse.urlencoded({ extended: false }))
+app.use(bodyParse.urlencoded({ extended: true }))
 
 // settings
 app.set("port", process.env.PORT || 4000);

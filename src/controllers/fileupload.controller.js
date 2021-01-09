@@ -34,6 +34,7 @@ fileuploadCtrl.uploadFile = (req, res) => {
 		  // Thực hiện upload file, truyền vào 2 biến req và res
 		    // Nếu có lỗi thì trả về lỗi cho client.
 		    // Ví dụ như upload một file không phải file ảnh theo như cấu hình của mình bên trên
+        console.log(req.body);
 		    multerUpload(req, res, (error) => {
 		    	if (error) {
 		      return res.send(`Error when trying to upload: ${error}`);
