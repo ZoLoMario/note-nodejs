@@ -130,8 +130,8 @@ $('#buttonupload').on('click', function () {
             //sử dụng ajax post
             $.ajax({
                 url: '/file/upload', // gửi đến file upload.php 
-                dataType: 'text',
                 cache: false,
+                enctype: 'multipart/form-data',
                 contentType: false,
                 processData: false,
                 data: form_data,
