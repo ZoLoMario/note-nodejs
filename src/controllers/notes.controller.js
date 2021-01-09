@@ -45,6 +45,7 @@ notesCtrl.renderNotes = async (req, res) => {
     .sort({  createdAt: "desc" })
     .lean()
 	 .populate('tag')
+   .populate('file')
    .limit(10);
   res.render("notes/all-notes", { notes });
 };
@@ -57,7 +58,6 @@ notesCtrl.renderEditForm = async (req, res) => {
   }
   res.render("notes/edit-note", { note });
 };
-
 
 //ham update thong tin note
 notesCtrl.updateNote = async (req, res) => {

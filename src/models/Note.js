@@ -16,6 +16,7 @@ const NoteSchema = new Schema(
       type:Array,
       require:false
     },
+    file: [{ type: Schema.Types.ObjectId, ref: 'Fileupload' }],
     status: {
       type: Boolean,
       require: false
