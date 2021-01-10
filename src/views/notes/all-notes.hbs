@@ -70,19 +70,23 @@
 				});
 				</script>
 		</div>
+    <div class="form-group">
+      <ul>
+    {{#file}}
+               <li><a target="_blank" rel="noopener noreferrer" href="/public/up/{{_id}}">{{oldname}}</a></li>
+    {{/file}}
+</ul>
+  </div>
 		  <!-- TAG -->
 		<div class="form-group">
 			<div class="post" id="taglist">
 				<ul class="tags">
 					{{#tag}}
-		            <li><a href="#">{{tag}}</a></li>
+		            <li><a href="/tag/{{_id}}">{{tag}}</a></li>
 					{{/tag}}
 				</ul> 
 			</div>
 		</div>
-		{{#file}}
-               <div><li>{{link}}</li></div>
-    {{/file}}
         <!-- DELETE REQUEST -->
         <form action="/notes/delete/{{_id}}?_method=DELETE" method="POST">
           <input type="hidden" name="_method" value="DELETE">
@@ -115,18 +119,14 @@ $('#buttonupload').on('click', function () {
         var file_data = $('#customFile').prop('files')[0];
         // láy kiểu file
         var type = file_data.type;
-        //Xét kiểu file được upload
-        var match = ["image/gif", "image/png", "image/jpg",];
-        //kiểm tra kiểu file
-        if (type == match[0] || type == match[1] || type == match[2]) {
             //khởi tạo đối tượng form data
             var form_data = new FormData();
             //thêm files vào trong form data
             form_data.append('filedesp', file_data);
             form_data.append('idnote', $('#buttonupload').attr("data-id"));
-            for(var pair of form_data.entries()) {
-   console.log(pair[0]+ ', '+ pair[1]); 
-}
+//             for(var pair of form_data.entries()) {
+//    console.log(pair[0]+ ', '+ pair[1]); 
+// }
             //sử dụng ajax post
             $.ajax({
                 url: '/file/upload', // gửi đến file upload.php 
@@ -142,10 +142,6 @@ $('#buttonupload').on('click', function () {
                     $('#customFile').val('');
                 }
             });
-        } else {
-            $('.status').text('Chỉ được upload file ảnh');
-            $('#customFile').val('');
-        }
         //return false;
     });
 

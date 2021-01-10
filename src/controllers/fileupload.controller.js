@@ -1,6 +1,8 @@
 const fileuploadCtrl = {};
 const multer = require("multer");
 let path = require("path");
+const bcrypt = require("bcryptjs");
+
 // Khởi tạo biến cấu hình cho việc lưu trữ file upload
 let diskStorage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -8,16 +10,18 @@ let diskStorage = multer.diskStorage({
     callback(null, "uploads");
   },
   limits: { fileSize: 1000000 },
-  filename: (req, file, callback) => {
+  filename: async (req, file, callback) => {
     // ở đây các bạn có thể làm bất kỳ điều gì với cái file nhé.
     // Mình ví dụ chỉ cho phép tải lên các loại ảnh png & jpg
-    let math = ["image/png", "image/jpeg"];
-    if (math.indexOf(file.mimetype) === -1) {
-      let errorMess = `The file <strong>${file.originalname}</strong> is invalid. Only allowed to upload image jpeg or png.`;
-      return callback(errorMess, null);
-    }
+    // let math = ["image/png", "image/jpeg"];
+    // if (math.indexOf(file.mimetype) === -1) {
+      // let errorMess = `The file <strong>${file.originalname}</strong> is invalid. Only allowed to upload image jpeg or png.`;
+      // return callback(errorMess, null);
+    // }
+    const salt = await bcrypt.genSalt(10);
+    let bcryptname = await bcrypt.hash("wofile", salt);
+    let filename = `${Date.now()}` + `${require('crypto').createHash('md5').update(bcryptname).digest('hex')}`;
     // Tên của file thì mình nối thêm một cái nhãn thời gian để đảm bảo không bị trùng.
-    let filename = `${Date.now()}-wonote-${file.originalname}`;
     callback(null, filename);
   }
 });
@@ -29,6 +33,7 @@ let diskStorage = multer.diskStorage({
 // Models
 const Fileupload = require("../models/Fileupload");
 const Note = require("../models/Note");
+const fs = require('fs');
 //const  multerUpload = require("../config/multer");
 fileuploadCtrl.uploadFile = (req, res) => {
 	let multerUpload = multer({storage: diskStorage}).single('filedesp');
@@ -57,7 +62,7 @@ fileuploadCtrl.uploadFile = (req, res) => {
 		    res.send({"link":'http://'+ req.hostname +':4000/public/up/'+ req.file.filename});
 		 });
 	};
-  fileuploadCtrl.createFileOb = async (fileOb) => {
+fileuploadCtrl.createFileOb = async (fileOb) => {
     const newFileOb = new Fileupload();
     newFileOb.name = fileOb.filename;
     newFileOb.path = fileOb.path;
@@ -67,8 +72,33 @@ fileuploadCtrl.uploadFile = (req, res) => {
     newFileOb.user = fileOb.user;
     newFileOb.note = [fileOb.note];
     newFileOb.encoding = fileOb.encoding;
+    // newFileOb.link = "/public/up/" + fileOb.filename;
     const newFileObsave = await newFileOb.save();
     return newFileObsave;
 };
+fileuploadCtrl.getFile = async (req, res) => {
+  const file = await Fileupload.findById(req.params.id).lean();
+  if ( file.user != req.user.id) {
+    return res.send("không xác thực");
+  } else {
+
+      // Check if file specified by the filePath exists 
+      fs.exists(file.path, function(exists){
+          if (exists) {     
+            // Content-type is very interesting part that guarantee that
+            // Web browser will handle response in an appropriate manner.
+            res.writeHead(200, {
+              'Content-Length': file.size,
+              "Content-Type": file.mimetype,
+              "Content-Disposition": "attachment; filename=" + file.oldname
+            });
+            fs.createReadStream(file.path).pipe(res);
+          } else {
+            response.send("ERROR File does not exist");
+          }
+        });
+  };
+};
+
 
 module.exports = fileuploadCtrl;

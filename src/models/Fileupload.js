@@ -10,6 +10,10 @@ const FileuploadSchema = new Schema(
       type: String,
       required: true
     },
+    // link: {
+    //   type: String,
+    //   required: true
+    // },
     size: {
       type: Number,
       required: true
@@ -33,13 +37,10 @@ const FileuploadSchema = new Schema(
     }
   },
   {
-    timestamps: true
-  },
-  { toObject: { virtuals: true },
-  toJSON: { virtuals: true }}
+    timestamps: true,
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true }
+}
 );
-FileuploadSchema.virtual("link").get(function() {
-  return ("/public/up" + this.name);
-  });
 
 module.exports = model("Fileupload", FileuploadSchema);
