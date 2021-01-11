@@ -94,7 +94,7 @@ fileuploadCtrl.getFile = async (req, res) => {
             });
             fs.createReadStream(file.path).pipe(res);
           } else {
-            response.send("ERROR File does not exist");
+            res.send("ERROR File does not exist");
           }
         });
   };

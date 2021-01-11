@@ -72,8 +72,15 @@
 		</div>
     <div class="form-group">
       <ul>
-    {{#file}}
-               <li><a target="_blank" rel="noopener noreferrer" href="/public/up/{{_id}}">{{oldname}}</a></li>
+    {{#file}}            
+      {{/if}}
+      {{#equals  mimetype 'image/png' 'image/png' }}
+            <li><img src="/public/up/{{_id}}"></li>
+        {{else}}
+            {{#equals form.target "edit"}}
+             <li><a href="/tag/{{_id}}">{{oldname}}</a></li>
+            {{/equals}} 
+      {{/equals}} 
     {{/file}}
 </ul>
   </div>
