@@ -34,6 +34,18 @@ app.engine(
     extname: ".hbs",
   })
 );
+
+exphbs.create({
+  helpers: {
+        equals: function(string1 ,string2 ,string3 , options) {
+              if (string1 === string2 || string1 === string3 ) {
+                  return options.fn(this);
+              } else {
+                  return options.inverse(this);
+              }
+          }
+}});
+
 app.set("view engine", ".hbs");
 
 // middlewares
