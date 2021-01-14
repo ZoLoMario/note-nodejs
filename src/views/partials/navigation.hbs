@@ -28,9 +28,12 @@
       <ul class="navbar-nav ml-auto">
         {{#if user}}
           <li class="nav-item">
+           
             <div class="search">
-            <form id="search" class="form-inline active-cyan-4">
-              <input class="form-control" type="text" placeholder="Tìm kiếm" style="width: 100%;">
+               <form id="search" class="form-inline active-cyan-4">
+              <input class="form-control form-control-sm" type="text" placeholder="Tìm kiếm" style="width: 100%;"
+                aria-label="Search">
+              <i class="fas fa-search" aria-hidden="true"></i>
             </form>
             <script>
            
