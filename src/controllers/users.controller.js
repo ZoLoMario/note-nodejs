@@ -2,7 +2,8 @@ const usersCtrl = {};
 
 // Models
 const User = require('../models/User');
-
+const Note = require("../models/Note");
+const Fileupload = require("../models/Fileupload");
 // Modules
 const passport = require("passport");
 
@@ -59,5 +60,17 @@ usersCtrl.logout = (req, res) => {
   req.flash("success_msg", "You are logged out now.");
   res.redirect("/users/signin");
 };
+
+usersCtrl.renderUserinfo = async (req, res) => {
+  const user = await User.findById(req.user.id).lean();
+  console.log(req.headers);
+  console.log(req.client._peername);
+  const notes = await Note.find({ user: req.user.id }).lean();
+  const Fileuploads = await Fileupload.find({ user: req.user.id }).lean();
+  user.note = notes.length;
+  user.fileupload = Fileuploads.length;
+  console.log(user);
+  res.render('users/userinfo', { user } );
+}
 
 module.exports = usersCtrl;
