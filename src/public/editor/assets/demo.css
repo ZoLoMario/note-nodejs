@@ -272,9 +272,20 @@ padding: 10px;
   .search input {
  /*   margin-top: 20px;*/
   }
+  #search{
+    display: flex;
+    flex-flow: row;
+    align-items: baseline;
+  }
   .search i.fas.fa-search {
+    width: 50%;
     color: white;
-    margin: 0 20px 0 10px
+    padding: 0 20px;
+    text-align: center;
+    margin:0 10px;
+    background: #388ae5;
+    border-radius: 4px;
+    line-height: 2;
 }
 
 /*Calender Style*/

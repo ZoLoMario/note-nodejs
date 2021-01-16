@@ -73,4 +73,32 @@ usersCtrl.renderUserinfo = async (req, res) => {
   res.render('users/userinfo', { user } );
 }
 
+usersCtrl.changeUserinfo = async (req, res) => {
+  console.log(req.headers);
+  console.log(req.client._peername);
+  console.log(req.body);
+
+  const { username, email, oldpass, newpass, renewpass } = req.body;
+  const user = await User.findById(req.user.id, async (err, userdoc) => {
+  userdoc.name = username;
+  userdoc.email = email;
+  console.log(userdoc);
+  userdoc.save();
+  if( oldpass == null || newpass == null || renewpass == null ){
+     res.send('Mật khẩu trống');
+  } else {
+        const match = await userdoc.matchPassword(oldpass);
+        if(match) {
+          userdoc.password = await userdoc.encryptPassword(newpass);
+          userdoc.save();
+          req.logout();
+          req.flash("success_msg", "Update thành công. You are logged out now.");
+          res.redirect("/users/signin");
+        } else {
+          res.send('Sai mật khẩu.');
+        }
+    }
+  console.log(userdoc);
+})};
+
 module.exports = usersCtrl;
