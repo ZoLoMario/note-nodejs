@@ -6,7 +6,8 @@ const {
   renderSigninForm,
   signin,
   logout,
-  renderUserinfo
+  renderUserinfo,
+  changeUserinfo
 } = require("../controllers/users.controller");
 
 // Routes
@@ -24,4 +25,6 @@ router.get("/users/logout", logout);
 //xử lí thông tin người dùng
 const { isAuthenticated } = require("../helpers/auth");
 router.get("/user/info", isAuthenticated, renderUserinfo);
+router.post("/user/info", isAuthenticated, changeUserinfo);
+
 module.exports = router;
