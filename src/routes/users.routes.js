@@ -5,7 +5,8 @@ const {
   singup,
   renderSigninForm,
   signin,
-  logout
+  logout,
+  renderUserinfo
 } = require("../controllers/users.controller");
 
 // Routes
@@ -19,4 +20,8 @@ router.post("/users/signin", signin);
 
 router.get("/users/logout", logout);
 
+
+//xử lí thông tin người dùng
+const { isAuthenticated } = require("../helpers/auth");
+router.get("/user/info", isAuthenticated, renderUserinfo);
 module.exports = router;
