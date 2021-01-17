@@ -40,11 +40,19 @@
 
     document.querySelector("#search > i").addEventListener('click', function () {
       var searchdata = $("#search > input").val();
-      console.log(searchdata);
-      $.post( "/search.php", {"search": searchdata })
-            .done(function( data ) {
-              alert( "thanh cong " + data );
-            });
+      //console.log(searchdata);
+      // $.post( "/search.php", {"search": searchdata })
+      //       .done(function( data ) {
+      //         $('html').html(data );
+      //       });
+      $.ajax({
+           url: "/search.php",
+           type: "POST",
+           data: {"search": searchdata },
+           success: function( data ) {
+              $('.card-columns').html(data );
+            }
+        });
       }
     );
    

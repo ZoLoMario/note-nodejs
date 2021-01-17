@@ -40,6 +40,10 @@ require("./helpers/handlebars").register(hbs.handlebars)
 app.engine("handlebars", hbs.engine);
 app.set("view engine", ".hbs");
 
+hbs.getPartials().then(function (partials) {
+    console.log(partials);
+});
+
 // middlewares
 app.use(morgan("dev"));
 app.use(methodOverride("_method"));

@@ -9,7 +9,8 @@ const NoteSchema = new Schema(
     },
     description: {
       type: String,
-      required: true
+      required: true,
+      text : true
     },
     tag: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
     tagAction: {
