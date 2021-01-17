@@ -9,7 +9,8 @@ const {
   renderEditForm,
   updateNote,
   deleteNote,
-  searchNote
+  searchNote,
+  exportPDF
 } = require("../controllers/notes.controller");
 
 // Helpers
@@ -25,6 +26,7 @@ router.get("/notes", isAuthenticated, renderNotes);
 
 // Edit Notes
 router.get("/notes/edit/:id", isAuthenticated, renderEditForm);
+router.get("/notes/export/:id", isAuthenticated, exportPDF);
 
 router.put("/notes/edit-note/:id", isAuthenticated, updateNote);
 
