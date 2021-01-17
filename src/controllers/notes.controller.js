@@ -1,6 +1,7 @@
 const notesCtrl = {};
-const exphbs = require("handlebars");
+const handlebars = require("handlebars");
 const path = require("path");
+const fs = require("fs");
 // Models
 const Note = require("../models/Note");
 const {
@@ -53,7 +54,7 @@ notesCtrl.renderNotes = async (req, res) => {
 };
 
 notesCtrl.renderEditForm = async (req, res) => {
-  const note = await Note.findById(req.params.id).lean().populate('tag');
+  const note = await Note.findById(req.params.id).lean().populate('tag').populate('file');
   if (note.user != req.user.id) {
     req.flash("error_msg", "Not Authorized");
     return res.redirect("/notes");
@@ -96,13 +97,31 @@ notesCtrl.searchNote = async(req, res) => {
        .populate('tag')
        .populate('file');
   // res.render("notes/all-notes",  { notes:notes, dynamic:'dynamicPartial', search: {search : search}});
-  const hbs = exphbs.create();
-  const AllNote = require(path.join(__dirname,"..","views", "notes", "all-notes.hbs"));
-  console.log(path.join(__dirname,"..","views", "notes", "all-notes.hbs"));
-  var temple = hbs.compile(AllNote);
-  var html = temple(notes)
+  fs.readFile(path.join(__dirname,"..","views", "notes", "search.hbs"), 'utf8', function(err, data) {
+        if (err) throw err;
+        //console.log(data);
+   
+  //console.log(path.join(__dirname,"..","views", "notes", "search.hbs"));
+  var temple = handlebars.compile(data);
+  //console.log(notes);
+  var html = temple({ notes:notes, dynamic:'dynamicPartial', search: {search : search}});
   // var html = hbs.render(path.join(__dirname,"..","views", "notes", "all-notes.hbs"),  { notes:notes});
   res.send(html);
+   });
+};
+
+notesCtrl.exportPDF = async (req,res) => {
+  const note = await Note.findById(req.params.id).lean().populate('tag').populate('file');
+  if (note.user != req.user.id) {
+    req.flash("error_msg", "Not Authorized");
+    return res.redirect("/notes");
+  }
+  fs.readFile(path.join(__dirname,"..","views", "notes", "htmlpdf.hbs"), 'utf8', function(err, data) {
+        if (err) throw err;
+  var temple = handlebars.compile(data);
+  var html = temple(notes);
+  res.send(html);
+   });
 };
 
 module.exports = notesCtrl;
