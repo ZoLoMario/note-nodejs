@@ -2,6 +2,7 @@ const notesCtrl = {};
 const handlebars = require("handlebars");
 const path = require("path");
 const fs = require("fs");
+const puppeteer = require('puppeteer');
 // Models
 const Note = require("../models/Note");
 const {
@@ -59,6 +60,7 @@ notesCtrl.renderEditForm = async (req, res) => {
     req.flash("error_msg", "Not Authorized");
     return res.redirect("/notes");
   }
+  // console.log(note);
   res.render("notes/edit-note", { note });
 };
 
@@ -112,16 +114,36 @@ notesCtrl.searchNote = async(req, res) => {
 
 notesCtrl.exportPDF = async (req,res) => {
   const note = await Note.findById(req.params.id).lean().populate('tag').populate('file');
+
+  const browser = await puppeteer.launch({
+    executablePath: '/usr/bin/chromium-browser',
+    headless:true,
+    args: ["--no-sandbox"]
+
+  });
+  const page = await browser.newPage()
+
+
   if (note.user != req.user.id) {
     req.flash("error_msg", "Not Authorized");
     return res.redirect("/notes");
   }
+  res.render("notes/edit-note", { note },async (err,temple)=>{
+    if(err) {console.log("lỗi");};
   fs.readFile(path.join(__dirname,"..","views", "notes", "htmlpdf.hbs"), 'utf8', function(err, data) {
         if (err) throw err;
-  var temple = handlebars.compile(data);
-  var html = temple(notes);
-  res.send(html);
-   });
+      });
+  res.writeHead(200, {
+              "Content-Type": "application/pdf",
+              "Content-Disposition": "attachment; filename=htmlpdf.pdf"
+            });
+  await page.setContent(temple);
+  var pdf = await page.pdf({format: 'A4'});
+  await browser.close();
+  res.end(Buffer.from(pdf, 'base64'));
+  console.log("PDF Generated");
+  // res.sendFile(path.join(__dirname,"..","..", "uploads", "htmlpdf.pdf"));
+  });
 };
 
 module.exports = notesCtrl;
