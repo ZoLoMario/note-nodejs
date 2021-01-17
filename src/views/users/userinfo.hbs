@@ -81,6 +81,9 @@
                 </div>
                 <hr class="my-4">
                 <p>Sống hết mình.</p>
+                <div>
+                  <a class="btn btn-primary" id="createSignda" href="#" role="button" style="width: 100%;">Tạo chữ kí số</a>
+                </div>
               </div>
             </div>
           </div>
@@ -172,6 +175,19 @@
                 { 
                    console.log(data);
                    window.location = "/users/signin";
+                },
+          error: function(request,msg,error) {
+              console.log("Xoa lỗi " + error );
+            }
+            });
+      });
+    $('#createSignda').on('click', function () {
+  $.ajax({
+          type : 'POST', //Sử dụng kiểu gửi dữ liệu POST
+          url : '/sign/create', //gửi dữ liệu sang trang data.php
+          success : function(data)  // Hàm thực thi khi nhận dữ liệu được từ server
+                { 
+                   console.log(data);
                 },
           error: function(request,msg,error) {
               console.log("Xoa lỗi " + error );
