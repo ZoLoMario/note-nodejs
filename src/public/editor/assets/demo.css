@@ -9,6 +9,16 @@
   margin: 0;
 }
 
+
+@media all and (max-width: 576px){
+  .card-total {
+          margin-top: 100px;
+  }
+}
+
+
+
+
 .ce-example {
   font-size: 16.2px;
 border-radius:8px;
@@ -264,8 +274,8 @@ padding: 10px;
  
   .search {
     margin-top: 10px;
-    padding: 10px;
-    background: saddlebrown;
+    padding: 5px;
+    background: #bac2d829;
     border-radius: 5px;
 
   }
@@ -282,7 +292,7 @@ padding: 10px;
     color: white;
     padding: 0 20px;
     text-align: center;
-    margin:0 10px;
+    margin-left: 10px;
     background: #388ae5;
     border-radius: 4px;
     line-height: 2;

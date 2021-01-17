@@ -1,5 +1,6 @@
 const notesCtrl = {};
-
+const exphbs = require("handlebars");
+const path = require("path");
 // Models
 const Note = require("../models/Note");
 const {
@@ -47,7 +48,8 @@ notesCtrl.renderNotes = async (req, res) => {
 	 .populate('tag')
    .populate('file')
    .limit(10);
-  res.render("notes/all-notes", { notes });
+  // res.render("notes/all-notes", { notes });
+  res.render("notes/all-notes", {notes});
 };
 
 notesCtrl.renderEditForm = async (req, res) => {
@@ -86,10 +88,21 @@ notesCtrl.deleteNote = async (req, res) => {
 };
 
 notesCtrl.searchNote = async(req, res) => {
-  const search = req.body.search;
+  const  search = req.body.search;
   console.log("thuc hien tim kiem " + search );
-  res.status(200);
-  res.send({"status":"200","content":"123"});
+  const notes = await Note.find({$text: {$search: search}})
+       .sort({  createdAt: "desc" })
+      .lean()
+       .populate('tag')
+       .populate('file');
+  // res.render("notes/all-notes",  { notes:notes, dynamic:'dynamicPartial', search: {search : search}});
+  const hbs = exphbs.create();
+  const AllNote = require(path.join(__dirname,"..","views", "notes", "all-notes.hbs"));
+  console.log(path.join(__dirname,"..","views", "notes", "all-notes.hbs"));
+  var temple = hbs.compile(AllNote);
+  var html = temple(notes)
+  // var html = hbs.render(path.join(__dirname,"..","views", "notes", "all-notes.hbs"),  { notes:notes});
+  res.send(html);
 };
 
 module.exports = notesCtrl;

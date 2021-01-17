@@ -13,7 +13,8 @@ var register = function (Handlebars) {
               } else {
                   return options.inverse(this);
               }
-          }
+          },
+          // whichPartial: (context, options) =>  'dynamicPartial'
     };
 
     if (Handlebars && typeof Handlebars.registerHelper === "function") {
