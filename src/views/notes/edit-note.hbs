@@ -26,6 +26,20 @@
 			</div>
 		</div>
 	</div>
+	 <div class="form-group">
+      {{#note.file}}
+      {{#if this.oldname}}  
+      {{#isNull  this.mimetype }}  
+           {{else}}
+              {{#equals  this.mimetype 'image/png' 'image/png' }}
+                   <div class="form-group"> <img class="imagefile" src="/public/up/{{_id}}"></div>
+                {{else}}
+                     <li><a href="/public/up/{{_id}}">{{this.oldname}}</a></li>
+              {{/equals}} 
+      {{/isNull}} 
+      {{/if}}
+    {{/note.file}}
+  </div>
 	<div class="form-group">
 		<div class="input-group custom-search">
 			<input id="tagadd" type="text" class="form-control custom-search-input" placeholder="Tag can them">
