@@ -7,7 +7,9 @@ const {
   signin,
   logout,
   renderUserinfo,
-  changeUserinfo
+  changeUserinfo,
+  importUata,
+  imUpload
 } = require("../controllers/users.controller");
 
 // Routes
@@ -27,4 +29,7 @@ const { isAuthenticated } = require("../helpers/auth");
 router.get("/user/info", isAuthenticated, renderUserinfo);
 router.post("/user/info", isAuthenticated, changeUserinfo);
 
+//xử lí data
+router.get("/data/import",isAuthenticated, importUata);
+router.post("/data/imupload",isAuthenticated, imUpload);
 module.exports = router;

@@ -101,4 +101,38 @@ usersCtrl.changeUserinfo = async (req, res) => {
   console.log(userdoc);
 })};
 
+
+
+//Import
+const multer = require("multer");
+let path = require("path");
+
+let diskStorage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    // Định nghĩa nơi file upload sẽ được lưu lại
+    callback(null, "uploads/import");
+  },
+  limits: { fileSize: 1000000 },
+  filename: async (req, file, callback) => {
+    const salt = await bcrypt.genSalt(10);
+    let math = ["application/zip"];
+    if (math.indexOf(file.mimetype) === -1) {
+      let errorMess = `The file <strong>${file.originalname}</strong> is invalid. Only allowed to upload image jpeg or png.`;
+      return callback(errorMess, null);
+    }
+    let filename = `${Date.now()}` + ".zip";
+    callback(null, filename);
+  }
+});
+
+usersCtrl.importUata = (req, res) => {
+  res.render('users/upload');
+};
+usersCtrl.imUpload = (req, res) => {
+  let multerUpload = multer({storage: diskStorage}).single('file');
+   multerUpload(req, res, async (error) => {
+      let data = fs.createReadStream(req.file.path);
+     });
+};
+
 module.exports = usersCtrl;
