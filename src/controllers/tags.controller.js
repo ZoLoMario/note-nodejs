@@ -35,6 +35,21 @@ tagsCtrl.createTag = async (req, res) => {
     }
   }
 };
+tagsCtrl.addTag = async (tagadd) => {
+	if (!tagadd) { console.log("Please Write a Tag.") };
+	 const nameTag = await Tag.findOne({ tag: tagadd });
+    if (nameTag) {
+	 	const sendTag = { status:'already', content: nameTag };
+      //console.log(sendTag);
+      return nameTag;
+    } else {
+		const newTag = new Tag();
+		newTag.tag = tagadd;
+		const newTags = await newTag.save();
+		//console.log('create');
+		return newTags;
+	}
+};
 
 tagsCtrl.updateNoteTag = (note) => {
 	if (note.tag === null ){

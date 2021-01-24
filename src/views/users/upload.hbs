@@ -61,8 +61,8 @@
 });
 </script>
 
-<form id="dataup" action="/imupload.php" method="POST">
-  <input type="file" id="cuFile" name="file" multiple>
+<form id="dataup" enctype="multipart/form-data" action="/data/imupload.php" method="POST">
+  <input type="file" id="cuFile" name="file">
   <p>Drag your files here or click in this area.</p>
   <button type="submit">Upload</button>
 </form>
