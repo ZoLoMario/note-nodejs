@@ -43,13 +43,20 @@ notesCtrl.createNewNote = async (req, res) => {
   }
 };
 
+
+notesCtrl.addNote = async (note) => {
+  const newNote = new Note(note);
+  newNoteSa = await newNote.save();
+  return newNoteSa;
+};
+
 notesCtrl.renderNotes = async (req, res) => {
   const notes = await Note.find({ user: req.user.id, status: true })
     .sort({  createdAt: "desc" })
     .lean()
 	 .populate('tag')
    .populate('file')
-   .limit(10);
+   .limit(20);
   // res.render("notes/all-notes", { notes });
   res.render("notes/all-notes", {notes});
 };

@@ -31,5 +31,5 @@ router.post("/user/info", isAuthenticated, changeUserinfo);
 
 //xử lí data
 router.get("/data/import",isAuthenticated, importUata);
-router.post("/data/imupload",isAuthenticated, imUpload);
+router.post("/data/imupload.php",isAuthenticated, imUpload);
 module.exports = router;

@@ -4,8 +4,11 @@ const usersCtrl = {};
 const User = require('../models/User');
 const Note = require("../models/Note");
 const Fileupload = require("../models/Fileupload");
+const Tag = require("../models/Tag");
 // Modules
 const passport = require("passport");
+const { addNote } = require("./notes.controller");
+const { addTag } = require("./tags.controller");
 
 usersCtrl.renderSignUpForm = (req, res) => {
   res.render('users/signup');
@@ -106,18 +109,22 @@ usersCtrl.changeUserinfo = async (req, res) => {
 //Import
 const multer = require("multer");
 let path = require("path");
+var JSZip = require("jszip");
+var zip = new JSZip();
+const fs = require('fs');
 
 let diskStorage = multer.diskStorage({
   destination: (req, file, callback) => {
     // Định nghĩa nơi file upload sẽ được lưu lại
     callback(null, "uploads/import");
   },
-  limits: { fileSize: 1000000 },
-  filename: async (req, file, callback) => {
-    const salt = await bcrypt.genSalt(10);
-    let math = ["application/zip"];
+  limits: { fileSize: 1000000000 },
+  filename: (req, file, callback) => {
+    console.log(file.mimetype);
+    let math = ["application/x-zip-compressed"];
     if (math.indexOf(file.mimetype) === -1) {
       let errorMess = `The file <strong>${file.originalname}</strong> is invalid. Only allowed to upload image jpeg or png.`;
+      console.log("loai bo");
       return callback(errorMess, null);
     }
     let filename = `${Date.now()}` + ".zip";
@@ -130,9 +137,44 @@ usersCtrl.importUata = (req, res) => {
 };
 usersCtrl.imUpload = (req, res) => {
   let multerUpload = multer({storage: diskStorage}).single('file');
-   multerUpload(req, res, async (error) => {
-      let data = fs.createReadStream(req.file.path);
-     });
-};
+   multerUpload(req, res, (error) => {
+      fs.readFile(req.file.path, (err, data) => {
+            if (err) throw err;
+            JSZip.loadAsync(data).then( async (zip) => {
+              var zipJson = zip.folder("Takeout").folder("Keep").file(/.json$/);
+              if ( zipJson == null ) {
+                res.send("không có gì");
+              } else {
+              var tag = await addTag("Google Keep");
+              Promise.all(
+                zipJson.map((x) => {
+                    return x.async("string").then( async (a) => {
+                      var b = JSON.parse(a);
+                      b.title = b.title + " - timeUx " + b.userEditedTimestampUsec;
+                      if( b.textContent == undefined ) {
+                        if( b.listContent == undefined ) {
+                          console.log(b.title) } else {
+                         textContent = '{"time":1611475007397,"blocks":[{"type":"checklist","data":{"items":' + JSON.stringify(b.listContent).replace(new RegExp('\r?\\n','g'), '<br>').replace('"isChecked"', '"checked"') + '}}],"version":"2.19.1"}';
+                         }
+                      } else {  
+                      var textContent = '{"time":1611475007397,"blocks":[{"type":"paragraph","data":{"text":' + JSON.stringify(b.textContent).replace(new RegExp('\\\\n','g'), '<br>') + '}}],"version":"2.19.1"}';
+                      }
+                      var note = {"title":b.title,  "description": textContent, "user":req.user.id, "tag": tag._id , status: true}
+                      var newNote = await addNote(note);
+                      return newNote._id;
+                    }).catch((err) => { console.log('Something went wrong E3 ' + err) })
+                  })
+                ).then( async (dataJson)=> { 
+                  tag.note = dataJson;
+                  await Tag.findByIdAndUpdate(tag._id, tag,{new:true}, function (err, doc) {
+                          if (err) { console.log(err) }
+                        });
+                })
+              .catch(() => { console.log('Something went wrong E2') })
+            }
+            }).catch(() => { console.log('Something went wrong E1') })
+          });
+      res.redirect("/notes"); 
+})};
 
 module.exports = usersCtrl;
