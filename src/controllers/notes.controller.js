@@ -153,4 +153,19 @@ notesCtrl.exportPDF = async (req,res) => {
   });
 };
 
+
+
+
+//su dung cho API
+notesCtrl.renderApinotes = async (useid) => {
+  const notes = await Note.find({ user: useid, status: true })
+    .sort({  createdAt: "desc" })
+    .lean()
+   .populate('tag')
+   .populate('file')
+   .limit(20);
+  return notes;
+};
+
+
 module.exports = notesCtrl;

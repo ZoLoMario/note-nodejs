@@ -9,7 +9,8 @@ const {
   renderUserinfo,
   changeUserinfo,
   importUata,
-  imUpload
+  imUpload,
+  signAppin
 } = require("../controllers/users.controller");
 
 // Routes
@@ -33,3 +34,7 @@ router.post("/user/info", isAuthenticated, changeUserinfo);
 router.get("/data/import",isAuthenticated, importUata);
 router.post("/data/imupload.php",isAuthenticated, imUpload);
 module.exports = router;
+
+
+//tạo nền tảng riêng xử lí cho mobile
+router.post("/api/users/signin", signAppin);

@@ -93,8 +93,7 @@
     //console.log(stringday);
     getDataDate(stringday);
   });
-  //var stringday = moment().format('MM/DD/YYYY');
-  var stringday = "10/23/2020"
+  var stringday = moment().format('MM/DD/YYYY');
   getDataDate(stringday);
   function getDataDate(date){
     $.post("/cal/month", {"date": date})

@@ -7,7 +7,7 @@ const Fileupload = require("../models/Fileupload");
 const Tag = require("../models/Tag");
 // Modules
 const passport = require("passport");
-const { addNote } = require("./notes.controller");
+const { addNote, renderApinotes } = require("./notes.controller");
 const { addTag } = require("./tags.controller");
 
 usersCtrl.renderSignUpForm = (req, res) => {
@@ -176,5 +176,23 @@ usersCtrl.imUpload = (req, res) => {
           });
       res.redirect("/notes"); 
 })};
+
+
+// su dung cho API
+usersCtrl.signAppin = function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    console.log(req.body);
+    if (err) { return next(err); }
+    if (!user) { return res.send({code:"12"}); }//khong ton tai nguoi dung
+    req.logIn(user, async (err) => {
+      if (err) { return next(err); }
+      console.log(user._id);
+      var notes = await renderApinotes(user._id);
+      return res.send({token:'FMfcgxwLsJwTzjhZplztwDjbBWtKqBKr','user':user,'notes':notes});
+    });
+  })(req, res, next);
+console.log("ok");
+
+};
 
 module.exports = usersCtrl;
