@@ -23,7 +23,7 @@ app.use(bodyParse.json());
 app.use(bodyParse.urlencoded({ extended: true }))
 
 // settings
-app.set("port", process.env.PORT || 4000);
+app.set("port", process.env.PORT || 4040);
 app.set("views", path.join(__dirname, "views"));
 app.engine(
   ".hbs",
