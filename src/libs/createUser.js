@@ -1,16 +1,16 @@
 const User = require("../models/User");
 
 const createAdminUser = async () => {
-  const userFound = await User.findOne({ email: "admin@localhost" });
+  const userFound = await User.findOne({ email: "wotech@wotech.vn" });
 
   if (userFound) return;
 
   const newUser = new User({
     username: "admin",
-    email: "admin@localhost",
+    email: "wotech@wotech.vn",
   });
 
-  newUser.password = await newUser.encryptPassword("adminpassword");
+  newUser.password = await newUser.encryptPassword("wotech");
 
   const admin = await newUser.save();
 

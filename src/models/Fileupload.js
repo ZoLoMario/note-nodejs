@@ -31,10 +31,7 @@ const FileuploadSchema = new Schema(
       required: true
     },
     note: [{ type: Schema.Types.ObjectId, ref: 'Note' , required: true }], 
-    user: {
-      type: String,
-      required: true
-    }
+    user: { type: Schema.Types.ObjectId, ref: 'User' }
   },
   {
     timestamps: true,
@@ -42,5 +39,6 @@ const FileuploadSchema = new Schema(
     toJSON: { virtuals: true }
 }
 );
-
-module.exports = model("Fileupload", FileuploadSchema);
+const config = require("../config");
+const FILEDOCNAME = `${config.DB_PREFIX}fileupload`;
+module.exports = model("Fileupload", FileuploadSchema,FILEDOCNAME);

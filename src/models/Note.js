@@ -22,14 +22,12 @@ const NoteSchema = new Schema(
       type: Boolean,
       require: false
     },
-    user: {
-      type: String,
-      required: true
-    }
+    user: { type: Schema.Types.ObjectId, ref: 'User' }
   },
   {
     timestamps: true
   }
 );
-
-module.exports = model("Note", NoteSchema);
+const config = require("../config");
+const NOTEDOCNAME = `${config.DB_PREFIX}note`;
+module.exports = model("Note", NoteSchema, NOTEDOCNAME);

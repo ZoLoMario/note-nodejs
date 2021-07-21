@@ -50,14 +50,15 @@ notesCtrl.addNote = async (note) => {
   return newNoteSa;
 };
 
+
+//Xuất các note đã có để sử dụng
 notesCtrl.renderNotes = async (req, res) => {
-  const notes = await Note.find({ user: req.user.id, status: true })
+  const notes = await Note.find({ user: { "$in" : [req.user.id]}})
     .sort({  createdAt: "desc" })
     .lean()
 	 .populate('tag')
    .populate('file')
    .limit(20);
-  // res.render("notes/all-notes", { notes });
   res.render("notes/all-notes", {notes});
 };
 

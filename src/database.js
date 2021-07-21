@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const config = require("./config");
-
-const MONGODB_URI = `mongodb://${config.MONGODB_HOST}/${config.MONGODB_DATABASE}`;
+const MONGODB_URI = `${config.MONGODB_HOST}/${config.MONGODB_DB}`;
 
 mongoose
   .connect(MONGODB_URI, {

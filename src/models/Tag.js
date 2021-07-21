@@ -17,5 +17,6 @@ const TagSchema = new Schema(
     timestamps: true
   }
 );
-
-module.exports = model("Tag", TagSchema);
+const config = require("../config");
+const TAGDOCNAME = `${config.DB_PREFIX}tag`;
+module.exports = model("Tag", TagSchema, TAGDOCNAME);
