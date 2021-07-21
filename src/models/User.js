@@ -18,5 +18,5 @@ UserSchema.methods.matchPassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 const config = require("../config");
-const USEDOCNAME = `${config.DB_PREFIX}use`;
+const USEDOCNAME = `${config.DB_PREFIX}user`;
 module.exports = model("User", UserSchema, USEDOCNAME);
