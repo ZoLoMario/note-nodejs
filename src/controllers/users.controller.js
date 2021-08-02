@@ -188,7 +188,7 @@ usersCtrl.signAppin = function(req, res, next) {
       if (err) { return next(err); }
       console.log(user._id);
       var notes = await renderApinotes(user._id);
-      return res.send({token:'FMfcgxwLsJwTzjhZplztwDjbBWtKqBKr','user':user,'notes':notes});
+      return res.send({status:'success',token:'FMfcgxwLsJwTzjhZplztwDjbBWtKqBKr','user':user,'notes':notes});
     });
   })(req, res, next);
 console.log("ok");

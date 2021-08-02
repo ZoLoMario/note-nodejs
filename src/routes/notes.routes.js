@@ -10,11 +10,14 @@ const {
   updateNote,
   deleteNote,
   searchNote,
-  exportPDF
+  exportPDF,
+  renderNotesAPI,
+  notesactionAPI,
+  deleteNoteAPI
 } = require("../controllers/notes.controller");
 
 // Helpers
-const { isAuthenticated } = require("../helpers/auth");
+const { isAuthenticated, isAuthToken } = require("../helpers/auth");
 
 // New Note
 router.get("/notes/add", isAuthenticated, renderNoteForm);
@@ -35,5 +38,10 @@ router.delete("/notes/delete/:id", isAuthenticated, deleteNote);
 
 // Search Notes
 router.post("/search.php", isAuthenticated, searchNote);
+
+//tạo nền tảng riêng xử lí cho mobile
+router.post("/api/notes", isAuthToken, renderNotesAPI);
+router.post("/api/notesaction", isAuthToken, notesactionAPI);
+router.post("/api/deletenote", isAuthToken, deleteNoteAPI);
 
 module.exports = router;

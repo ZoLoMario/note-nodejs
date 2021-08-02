@@ -58,13 +58,16 @@ tagsCtrl.updateNoteTag = (note) => {
 	note.tag.forEach(async (idtag) => {
 		await Tag.findById(idtag, function (err, doc) {
 			  if (err) { console.log(err) };
+			  if(doc === null || doc.note === null){
+				  console.log(' không có  tag can tim');
+			  } else {
 			  if (doc.note.includes(note._id) === true){
 			  	console.log(note._id + " đã nằm trong danh sách các note của tag có id " + idtag)
 			  } else {
 			  doc.note.push(note._id);
 			  doc.save();
-			}});
-			console.log("gan Note voi Tag update thành công");
+			  console.log("gan Note voi Tag update thành công");
+			}}});
 		});
 	}
 };
@@ -95,6 +98,10 @@ tagsCtrl.idtoTag = async (id) => {
   const tags = await Tag.findById({"_id":id})
   return tags ;
 };
+tagsCtrl.TagtoID = async (tag) => {
+	const tags = await Tag.find({"tag":tag})
+	return tags ;
+  };
 
 tagsCtrl.renderTagsID = async function (req, res) {
 	try {
@@ -126,4 +133,33 @@ tagsCtrl.deleteTag = async (req, res) => {
   res.redirect("/tags");
 };
 
+
+/// các hàm dùng cho API
+tagsCtrl.createTagAPI = async (tagadd ) => {
+	const errors = [];
+	if (!tagadd) {
+	  errors.push({ text: "Please Write a Tag." });
+	};
+	if (errors.length > 0) {
+	  return errors;
+	} else {
+		const nameTag = await Tag.findOne({ tag: tagadd });
+	  if (nameTag) {
+		const sendTag = {
+			status:'already',
+			content: nameTag
+		};
+		return sendTag;
+	  } else {
+		  const newTag = new Tag();
+		  newTag.tag = tagadd;
+		  const newTags = await newTag.save();
+		  const sendTag = {
+			status:'create',
+			content: newTags
+		  };
+		  return sendTag;
+	  }
+	}
+  };
 module.exports = tagsCtrl;
