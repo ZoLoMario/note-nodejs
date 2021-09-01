@@ -11,6 +11,7 @@ const {
   TagtoID
 } = require("./tags.controller");
 const moment = require('moment');
+const { Console } = require("console");
 
 notesCtrl.renderNoteForm = (req, res) => {
   res.render("notes/new-note");
@@ -210,22 +211,20 @@ notesCtrl.convertDataToText = (blocks) => {
 };
 
 notesCtrl.renderNotesAPI = async (req, res) => {
+  console.log(req.body.nexta);
   const notes = await Note.find({ user: { "$in" : [req.user.id]}})
     .sort({  createdAt: "desc" })
     .lean()
 	 .populate('tag')
-   .populate('file')
-   .limit(10);
-   console.log("có thực hiện");
-   var ar =  [];
-   notes.forEach((entry) => {
-     // neen kieerm tra laji undenided
-   //console.log(notesCtrl.convertDataToText(JSON.parse(entry.description)));
-   entry.description = notesCtrl.convertDataToText(JSON.parse(entry.description).blocks);
-   
-});
- //res.json(ar);
- res.json(notes);
+   .populate('file');
+   console.log(notes.length)
+  var notesa = notes.slice((parseInt(req.body.nexta))*10,((parseInt(req.body.nexta))*10)+10);
+  console.log(notesa.length)
+  notesa.forEach((entry) => {
+    //console.log(entry);
+    entry.description = notesCtrl.convertDataToText(JSON.parse(entry.description).blocks);
+  });
+ res.json(notesa);
 };
 
 notesCtrl.notesactionAPI = async (req, res) => {
@@ -300,8 +299,117 @@ notesCtrl.notesactionAPI = async (req, res) => {
 notesCtrl.deleteNoteAPI = async (req, res) => {
   await Note.findByIdAndDelete(req.body.id);
   console.log("đã xóa");
-  res.json({status:'success', text:'xong phan add'});
+  res.json({status:'success', text:'xong phan xoa'});
 };
 
+
+notesCtrl.sync = async (req, res) => {
+  console.log(req.body);
+  var ketquasync = [];
+  await new Promise(async (resolve) => {
+    req.body.stoteNote.map( async (item)=>{
+
+    if (item.action === 'add'){
+      console.log('thêm đồng bộ');
+      //console.log(item.after);
+      /// Chuyển phần  mở tả sang định dạng editorJS
+      const descriptiona = {};
+      descriptiona.time = notesCtrl.getTimeClient(); 
+      descriptiona.version = "2.18.0";
+      descriptiona.blocks = [{type: "paragraph",data: {text: item.after.description}}]
+      // Xử lí thêm vào
+
+      // Tạo đối tượng note mới
+      const newNoa = {};
+      newNoa.title = item.after.title;
+      newNoa.description = JSON.stringify(descriptiona);
+      newNoa.tagAction = item.after.tagAction;
+
+      // Xử lí tag
+      console.log('Đang chỉ xử lí hành động thêm tag lần đầu');
+      if(item.after.tagAction[0].tag == 'Di động'){
+      newNoa.tag = ["60fc3cc0998e62001517d531"];
+      } else {
+          if(item.after.tagAction[0].tag == "60fc3cd3998e62001517d532" || item.after.tagAction[0].tag == "60fc3ce1998e62001517d533" ){
+            newNoa.tag = [item.after.tagAction[0].tag];
+          } else {
+            var tagb = await TagtoID(moment().utcOffset('+05:30').format('MM.YYYY'));
+            if( tagb[0] === undefined ){
+              console.log('123213')
+              tagc = await createTagAPI(moment().utcOffset('+05:30').format('MM.YYYY'))
+              tagb = [tagc.content]
+            }
+            newNoa.tag = [tagb[0]._id]
+            console.log(newNoa)
+          }
+        }
+
+      // Thêm tag đặc biệt giúp định hình note
+      newNoa.tag.push("612b856a20eb2943d0bc7555"); 
+      const newNote = new Note(newNoa);
+      newNote.user = req.user.id;
+      newNoteSa = await newNote.save();
+      //console.log(newNoteSa);
+      updateNoteTag(newNoteSa);
+      // thêm vào mảng kết quả để gửi về
+      var ketqua = {status:'success', before: item, after: newNoteSa}
+      ketquasync.push(ketqua);
+    } else if ( item.action === 'delete' ){
+      console.log('Xoá đồng bộ');
+      if(!item.before._id){
+          var noteb = await Note.findById(item.before._id).lean().populate('tag').populate('file');
+          await Note.findByIdAndDelete(item.before._id);
+          console.log("đã xóa" + item.before._id);
+          var ketqua = {status:'success', before: item, after: noteb}
+          ketquasync.push(ketqua);
+        } else {
+          const notes = await Note.find({ title: item.before.title})
+          .sort({  createdAt: "desc" })
+          .lean()
+          .populate('tag')
+          .populate('file');
+          await new Promise(async (resolve) => {
+            notes.map(async(ele) => {
+            await Note.findByIdAndDelete(ele._id);
+            console.log("đã xóa" + item.before._id);
+          });})
+          var ketqua = {status:'success', before: item, after: notes}
+          ketquasync.push(ketqua);
+        }
+    } else {
+      console.log('Sửa đồng bộ');
+      if(!item.before._id){
+      /// Chuyển phần  mở tả sang định dạng editorJS
+      const descriptiona = {};
+      descriptiona.time = notesCtrl.getTimeClient(); 
+      descriptiona.version = "2.18.0";
+      descriptiona.blocks = [{type: "paragraph",data: {text: item.after.description}}]
+      // Xử lí thêm vào
+
+      // Tạo đối tượng note mới
+      const newNoa = {};
+      newNoa.title = item.after.title;
+      newNoa.description = JSON.stringify(descriptiona);
+      newNoa.tagAction = item.after.tagAction;
+      await Note.findByIdAndUpdate(item.before._id, newNoa,{new:true}, function (err, doc) {
+        if(doc){
+        if (err) { console.log(err) };
+        updateNoteTag(doc);
+        var ketqua = {status:'success', before: item, after: doc};
+        ketquasync.push(ketqua);
+      } else {
+        console.log('Không tìm thấy thằng có id để upadte ' + item.before._id);
+        console.log(item);
+      }
+      });
+        
+      } else {
+        console.log("Không có giải pháp sửa tạo offline sau đó sửa offline vì không có id")
+      }
+    }
+  })
+});
+  res.json({status:'success', ketquasync: ketquasync});
+}
 
 module.exports = notesCtrl;

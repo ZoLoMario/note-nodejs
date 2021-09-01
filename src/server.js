@@ -9,7 +9,7 @@ const morgan = require("morgan");
 const connectMongo = require("connect-mongo");
 const mongoose = require("mongoose");
 const multer = require("multer");
-
+const config = require("./config");
 const { createAdminUser } = require("./libs/createUser");
 
 // Initializations
@@ -23,7 +23,7 @@ app.use(bodyParse.json());
 app.use(bodyParse.urlencoded({ extended: true }))
 
 // settings
-app.set("port", process.env.PORT || 4040);
+app.set("port", config.PORT);
 app.set("views", path.join(__dirname, "views"));
 app.engine(
   ".hbs",

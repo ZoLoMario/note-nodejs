@@ -13,7 +13,8 @@ const {
   exportPDF,
   renderNotesAPI,
   notesactionAPI,
-  deleteNoteAPI
+  deleteNoteAPI,
+  sync
 } = require("../controllers/notes.controller");
 
 // Helpers
@@ -43,5 +44,6 @@ router.post("/search.php", isAuthenticated, searchNote);
 router.post("/api/notes", isAuthToken, renderNotesAPI);
 router.post("/api/notesaction", isAuthToken, notesactionAPI);
 router.post("/api/deletenote", isAuthToken, deleteNoteAPI);
+router.post("/api/sync", isAuthToken, sync);
 
 module.exports = router;
