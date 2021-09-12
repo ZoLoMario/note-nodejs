@@ -211,20 +211,26 @@ notesCtrl.convertDataToText = (blocks) => {
 };
 
 notesCtrl.renderNotesAPI = async (req, res) => {
-  console.log(req.body.nexta);
+  console.log("req.body.nexta");
+  console.log(req.body);
+  try {
   const notes = await Note.find({ user: { "$in" : [req.user.id]}})
     .sort({  createdAt: "desc" })
     .lean()
 	 .populate('tag')
-   .populate('file');
+   .populate('file'); 
    console.log(notes.length)
-  var notesa = notes.slice((parseInt(req.body.nexta))*10,((parseInt(req.body.nexta))*10)+10);
-  console.log(notesa.length)
-  notesa.forEach((entry) => {
-    //console.log(entry);
-    entry.description = notesCtrl.convertDataToText(JSON.parse(entry.description).blocks);
-  });
- res.json(notesa);
+   var notesa = notes.slice((parseInt(req.body.nexta))*10,((parseInt(req.body.nexta))*10)+10);
+   console.log(notesa.length)
+   notesa.forEach((entry) => {
+     //console.log(entry);
+     entry.description = notesCtrl.convertDataToText(JSON.parse(entry.description).blocks);
+   });
+  res.json(notesa);
+  } catch (e) {
+    console.log(e);
+   }
+  
 };
 
 notesCtrl.notesactionAPI = async (req, res) => {
@@ -307,6 +313,8 @@ notesCtrl.sync = async (req, res) => {
   console.log(req.body);
   var ketquasync = [];
   await new Promise(async (resolve) => {
+    try {
+    
     req.body.stoteNote.map( async (item)=>{
 
     if (item.action === 'add'){
@@ -408,7 +416,11 @@ notesCtrl.sync = async (req, res) => {
       }
     }
   })
-});
+} catch(err) {
+  console.log(err); // TypeError: failed to fetch
+}
+}
+);
   res.json({status:'success', ketquasync: ketquasync});
 }
 

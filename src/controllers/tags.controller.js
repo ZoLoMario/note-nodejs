@@ -52,6 +52,7 @@ tagsCtrl.addTag = async (tagadd) => {
 };
 
 tagsCtrl.updateNoteTag = (note) => {
+	
 	if (note.tag === null ){
 	console.log("note này rỗng");
 	} else {
@@ -105,7 +106,7 @@ tagsCtrl.TagtoID = async (tag) => {
 
 tagsCtrl.renderTagsID = async function (req, res) {
 	try {
-  const notes = await Note.find({tag: { "$in" : [req.params.id] }})
+  const notes = await Note.find({tag: { "$in" : [req.params.id] }, user: { "$in" : [req.user.id]}})
     .sort({ date: "desc" })
     .lean()
     .populate('tag');
@@ -119,7 +120,7 @@ tagsCtrl.renderTagsID = async function (req, res) {
 };
 
 tagsCtrl.renderTags = async (req, res) => {
-  const tags = await Tag.find({})
+  const tags = await Tag.find({ user: { "$in" : [req.user.id]}})
     .sort({ date: "desc" })
     .lean()
     .populate('note');

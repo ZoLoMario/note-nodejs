@@ -1,5 +1,5 @@
 const helpers = {};
-
+const User = require('../models/User');
 helpers.isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
@@ -8,12 +8,14 @@ helpers.isAuthenticated = (req, res, next) => {
   res.redirect('/users/signin');
 };
 
-helpers.isAuthToken = (req, res, next) => {
+helpers.isAuthToken = async (req, res, next) => {
   //console.log(req.body);
-  if (req.body.token == 'FMfcgxwLsJwTzjhZplztwDjbBWtKqBKr') {
-    //console.log(req.body);
+  const user = await User.findOne({ token: req.body.token }).lean();
+  if (user) {
+    console.log("useruseruser");
+    console.log(user);
     if(req.user == undefined ) { req.user = {}}
-    req.user.id = '5f78901904dd4c28306e46e3';
+    req.user.id = user.id;
     return next();
   }
   res.json({'error':'Không xác định được người dùng'});

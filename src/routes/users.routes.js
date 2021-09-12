@@ -10,7 +10,8 @@ const {
   changeUserinfo,
   importUata,
   imUpload,
-  signAppin
+  signAppin,
+  registerAppin
 } = require("../controllers/users.controller");
 
 // Routes
@@ -36,5 +37,5 @@ router.post("/data/imupload.php",isAuthenticated, imUpload);
 
 //tạo nền tảng riêng xử lí cho mobile
 router.post("/api/users/signin", signAppin);
-
+router.post("/api/user/register", registerAppin);
 module.exports = router;

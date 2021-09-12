@@ -5,6 +5,7 @@ const User = require('../models/User');
 const Note = require("../models/Note");
 const Fileupload = require("../models/Fileupload");
 const Tag = require("../models/Tag");
+const Hep = require("../helpers/hep");
 // Modules
 const passport = require("passport");
 const { addNote, renderApinotes } = require("./notes.controller");
@@ -177,22 +178,55 @@ usersCtrl.imUpload = (req, res) => {
       res.redirect("/notes"); 
 })};
 
-
 // su dung cho API
 usersCtrl.signAppin = function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
-    console.log(req.body);
     if (err) { return next(err); }
-    if (!user) { return res.send({code:"12"}); }//khong ton tai nguoi dung
+    if (!user) { return res.send({code:"12"}); }//giá trị gửi đến là r
     req.logIn(user, async (err) => {
       if (err) { return next(err); }
+      user.token = Hep.makeid(33);
+      var usera = await User.findByIdAndUpdate(req.user.id, user ,{new:true}, function (err, doc) {
+        if (err) { console.log(err) };
+      });
+      console.log("usera");
+      console.log(usera);
+      console.log("user._id");
       console.log(user._id);
-      var notes = await renderApinotes(user._id);
-      return res.send({status:'success',token:'FMfcgxwLsJwTzjhZplztwDjbBWtKqBKr','user':user,'notes':notes});
+      //var notes = await renderApinotes(user._id);
+      //console.log("notes.length");
+      //console.log(notes.length);
+      return res.send({status:'success',token:usera.token,'user':user});
     });
   })(req, res, next);
-console.log("ok");
-
 };
+usersCtrl.registerAppin = async (req, res)=> {
+  console.log(req.body);
+
+  let errors = [];
+  const { name, email, password, confirm_password, age } = req.body;
+  if (password != confirm_password) {
+    errors.push({ text: "Mật khẩu không khớp." });
+  }
+  if (password.length < 4) {
+    errors.push({ text: "Mật khẩu ít nhất phải có 4 kí tự." });
+  }
+  if (errors.length > 0) {
+    res.json({status:'errors',msg:JSON.stringify(errors)});
+  } else {
+    // Look for email coincidence
+    const emailUser = await User.findOne({ email: email });
+    if (emailUser) {
+      errors.push("Thư điện tử đã tồn tại.");
+      res.json({status:'errors',msg:errors});
+    } else {
+      // Saving a New User
+      const newUser = new User({ name, email, password });
+      newUser.password = await newUser.encryptPassword(password);
+      await newUser.save();
+      res.json({status:'success',msg: "Đăng kí thành công"});
+    }
+  }
+}
 
 module.exports = usersCtrl;
