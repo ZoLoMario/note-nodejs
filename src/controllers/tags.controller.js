@@ -120,7 +120,7 @@ tagsCtrl.renderTagsID = async function (req, res) {
 };
 //{ user: { "$in" : [req.user.id]}}
 tagsCtrl.renderTags = async (req, res) => {
-  const tags = await Tag.find()
+  const tags = await Tag.find({ user: { "$in" : [req.user.id]}})
     .sort({ date: "desc" })
     .lean()
     .populate('note');
